@@ -1,0 +1,10 @@
+{
+  "enabledCssSnippets": [
+    "caption",
+    "myfont",
+    "justify"
+  ],
+  "textFontFamily": "Times New Roman",
+  "monospaceFontFamily": "UbuntuMono Nerd Font Mono",
+  "cssTheme": "Everforest"
+}
