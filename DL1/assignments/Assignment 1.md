@@ -128,5 +128,16 @@ $$
 $$
 #### 5. c) During training, batch normalization normalizes inputs using the mean and variance of the current mini-batch. Explain why it would be problematic to normalize inputs the same way during inference (test time), and how batch normalization addresses this problem.
 
+Usually at test time, the model can often be fed with test data of differing sizes, or even just one sample at a time, rather than the mini-batch size used during training. Therefore, if the model was trained with a mini-batch size of 32, meaning the training statistics of mean and variance will depend on this size, variable batch-sizes will not be able to be used for testing to maintain consistent estimation of the statistics. Additionally, at test time we seek deterministic output from the model, and using the current mini-batch statistics for normalization during testing would mean the output is dependent of the batch, leading to inconsistent predictions.
+Batch normalization addresses this problem by maintaining moving averages of the mean and variance for each batch-normalize layer during training. This helps the model estimate the statistics over the entire dataset. Then at test time, the batch-normalize layers then use these statistics for normalization.
+
+#### 5. d) Experimental analysis showed that a high percentage of neurons are dead in networks with ReLU activation functions (you can refer to tutorial 3 for more information). Explain the concept of a dead neuron, when it occurs when using ReLU, and how it harms training.
+
+A **dead neuron** is a neuron in a neural network that consistently outputs zero, effectively becoming inactive or "dead" during training, which impedes the network's learning ability as these dead neurons do not contribute to the modeling capability of the network. As ReLU is defined as $ReLU(x) = max(0, x)$, if the input $x$ to the function is less than or equal to zero, the output of ReLU is zero. Dead neurons can occur in this case when the updates to the network parameters causes the input to consistently be in the range of $x \leq 0$, from which the neuron might never recover and the neuron will be considered "dead".
+This is harmful to network training because the dead neuron does not contribute to the modeling or learning capability of the network, and if a significant number of neurons becomes inactive, the model may underfit or fail to generalize at test time.
+
+#### 5. d) How does batch normalization prevent neurons from dying?
+
+Batch normalization prevents neuron from dying by controlling the activation range of the input to each layer and reducing the internal covariate shift. By keeping the activations close to the mean of the mini-batch, and minimizing the shift of the distributions of layer inputs as the parameters of the previous layers change, batch normalization prevents ReLU activations from consistently receiving negative values as inputs, thereby preventing neurons from dying.
 
 
