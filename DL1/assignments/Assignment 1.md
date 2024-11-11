@@ -100,27 +100,33 @@ $$
 This suggests that the behavior near a saddle point where the eigenvalues can be both positive and negative is harmful since each component of the parameter vector evolve independently. For positive eigenvalues, $y_{i}^{(k)}$ converges in a gradient descent given appropriate $\eta$. For negative eigenvalues,  $|(1 - \eta \lambda_{i})| > 1$, thus $y_{i}^{(k)}$ increases and leads to divergence. This means that the saddle point is harmful to gradient descent convergence and leads to oscillations or divergence.
 
 
-#### 5. a) Adding batch normalization layers causes changes to the back propagation steps, because we also want to optimize the learnable βi and γi parameters. Assume that we have already backpropagated up to the output of the batch norm node, and therefore we have each ∂L ∂yi , where yi = γixi + βi. Write the derivatives of L loss with respect to the two parameters βi and γi in terms of ∂L ∂yi .
-
-
-
-
-
-
+#### 5. a) Adding batch normalization layers causes changes to the back propagation steps, because we also want to optimize the learnable $\beta_{i}$ and $\gamma_{i}$ parameters. Assume that we have already backpropagated up to the output of the batch norm node, and therefore we have each $\frac{\partial L}{\partial y_{i}}$, where $y_{i} = \gamma_{i}x_{i} + \beta_{i}$. Write the derivatives of $L$ loss with respect to the two parameters $\beta_{i}$ and $\gamma_{i}$ in terms of $\frac{\partial L}{\partial y_{i}}$.
 $$
 \begin{equation}
 \begin{aligned}
-\mathcal{L}^{-1}\left\{f(d)\right\} &= \mathcal{L}^{-1}\left\{f_1(\delta).f_2(\delta)\right\} \\
-& = \exp(mt) \star \left\{\frac{l}{2\sqrt{\pi t^3}} exp(-l^2/{4t})\right\} \\
-& = F_1 * F_2
+\frac{\partial L}{\partial\beta_{i}} &= \frac{\partial L}{\partial y_{i}} \frac{\partial y_{i}}{\partial \beta_{i}}\\
+\Rightarrow \frac{\partial L}{\partial\beta_{i}} &= \frac{\partial L}{\partial y_{i}} \left\{\frac{\partial}{\partial \beta_{i}}  \gamma_{i}x_{i} + \beta_{i}\right\} \\
+\Rightarrow \frac{\partial L}{\partial\beta_{i}} &= \frac{\partial L}{\partial y_{i}} \left\{1 \right\} \\
+\Rightarrow \frac{\partial L}{\partial\beta_{i}} &= \frac{\partial L}{\partial y_{i}} \\
 \end{aligned}
 \end{equation}
 $$
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial L}{\partial\gamma_{i}} &= \frac{\partial L}{\partial y_{i}} \frac{\partial y_{i}}{\partial \gamma_{i}}\\
+\Rightarrow \frac{\partial L}{\partial\gamma_{i}} &= \frac{\partial L}{\partial y_{i}} \left\{\frac{\partial}{\partial \gamma_{i}}  \gamma_{i}x_{i} + \beta_{i}\right\} \\
+\Rightarrow \frac{\partial L}{\partial\gamma_{i}} &= \frac{\partial L}{\partial y_{i}} \left\{ x_{i} \right\}
+\end{aligned}
+\end{equation}
+$$
+#### 5. b) Consider applying batch normalization to a fully connected layer with an input size of 20 and an output size of 40. How many training parameters does this layer have, including batch normalization parameters?
 
+The fully connected layer has $[20 \times 40]$ number of weights and $40$ bias parameters for each of the output. Batch normalization introduces the additional $\beta_{i}$ and $\gamma_{i}$ parameters for each of the output. The total number of parameters that this layer has can thus be calculated as,
 $$
-\begin{align}
-\mathcal{L}^{-1}\left\{f(d)\right\} &= \mathcal{L}^{-1}\left\{f_1(\delta).f_2(\delta)\right\} \\
-& = \exp(mt) \star \left\{\frac{l}{2\sqrt{\pi t^3}} \exp(-l^2/{4t})\right\} \\
-& = F_1 * F_2
-\end{align}
+([20\times 40] + 40) + 40 + 40 = 920
 $$
+#### 5. c) During training, batch normalization normalizes inputs using the mean and variance of the current mini-batch. Explain why it would be problematic to normalize inputs the same way during inference (test time), and how batch normalization addresses this problem.
+
+
+
