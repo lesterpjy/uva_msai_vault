@@ -1,3 +1,137 @@
+#### 1. a)
+$$
+\begin{equation}
+\begin{aligned}
+ \frac{\partial L}{\partial \mathbf{W}} &= \left( \frac{\partial L}{\partial \mathbf{Y}} \right)^{\top} \frac{\partial \mathbf{Y}}{\partial \mathbf{W}}
+\end{aligned}
+\end{equation}
+$$
+where $\frac{\partial L}{\partial W} \in \mathbb{R}^{N \times M}$ and $\frac{\partial L}{\partial Y} \in \mathbb{R}^{S \times N}$, so $\frac{\partial Y}{\partial W} \in \mathbb{R}^{S \times M}$   
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial L}{\partial W_{ij}} &= \sum_{a}^{S} \sum_{b}^{N} \frac{\partial L}{\partial Y_{ab}} \frac{\partial Y_{ab}}{\partial W_{ij}}
+\end{aligned}
+\end{equation}
+$$
+and
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial Y_{ab}}{\partial W_{ij}} 
+&= \frac{\partial}{\partial W_{ij}} \left( \sum_{k} X_{ak} W_{kb}^{\top} + B_{ab} \right) \\
+&= \sum_{k} X_{ak} \frac{\partial W_{bk}}{\partial W_{ij}} \\
+&= \sum_{k} X_{ak} \delta_{ib} \delta_{jk} \\
+&= X_{aj}\delta_{ib}
+\end{aligned}
+\end{equation}
+$$
+Substituting in the partial derivative,
+$$
+\begin{equation}
+\begin{aligned}
+\sum_{a}^{S} \sum_{b}^{N} \frac{\partial L}{\partial Y_{ab}} \left( X_{aj} \delta_{ib}\right) &= \sum_{a}^S \frac{\partial L}{\partial Y_{ai}} X_{aj} \\ 
+\Rightarrow 
+\frac{\partial L}{\partial W_{ij}} &= \left( \left[ \frac{\partial L}{\partial Y}\right]_{:,i}\right)^{\top} X_{:,j} \\
+\Rightarrow
+\frac{\partial L}{\partial W} &= \left(\frac{\partial L}{\partial Y}\right)^{\top} X
+\end{aligned}
+\end{equation}
+$$
+
+#### 1. b)
+$$
+\frac{\partial L}{ \partial b_{i}} = \sum_{a}^S \sum_{b}^{N} \frac{\partial L}{\partial Y_{ab}} \frac{\partial Y_{ab}}{\partial b_{i}}
+$$
+and
+$$
+\frac{\partial Y_{ab}}{\partial b_{i}} = \frac{\partial}{\partial b_{i}} \left( \sum_{k} X_{{ak}} W_{kb}^{\top} + B_{ab} \right) = \delta_{bi}
+$$
+Substituting in the partial derivative,
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial L}{ \partial b_{i}} = \sum_{a}^{S} \sum_{b}^{N} \frac{\partial L}{\partial Y_{ab}} \delta_{bi} &= \sum_{a}^S \frac{\partial L}{\partial Y_{ai}} \\
+\Rightarrow \frac{\partial}{\partial \mathbf{b}} = \sum_{a}^S \frac{\partial L}{\partial Y_{a,:}} = \mathbb{1} \frac{\partial L}{\partial Y}
+\end{aligned}
+\end{equation}
+$$
+where $\mathbb{1} \in \mathbb{R}^{1\times S}$ and $\frac{\partial L}{\partial Y} \in \mathbb{R}^{S \times N}$.
+
+#### 1. c)
+$$
+\begin{equation}
+\begin{aligned}
+ \frac{\partial L}{\partial X} &= \frac{\partial L}{\partial Y} \frac{\partial Y}{\partial X}
+\end{aligned}
+\end{equation}
+$$
+where $\frac{\partial L}{\partial X} \in \mathbb{R}^{S \times M}$ and $\frac{\partial L}{\partial Y} \in \mathbb{R}^{S \times N}$, so $\frac{\partial Y}{\partial X} \in \mathbb{R}^{N \times M}$ 
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial L}{\partial X_{ij}} &= \sum_{a}^{S} \sum_{b}^{N} \frac{\partial L}{\partial Y_{ab}} \frac{\partial Y_{ab}}{\partial X_{ij}}
+\end{aligned}
+\end{equation}
+$$
+and
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial Y_{ab}}{\partial X_{ij}} &= \frac{\partial}{\partial X_{ij}} \left( \sum_{k} X_{ak} W_{kb}^{\top} + B_{ab} \right) \\
+&= \sum_{k} \frac{\partial X_{ak}}{\partial X_{ij}} W_{bk} = \sum_{k} \delta_{ia} \delta_{jk} W_{bk} = W_{bj} \delta_{ia}
+\end{aligned}
+\end{equation} 
+$$
+Substituting in the partial derivative,
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial L}{\partial X_{ij}} &= \sum_{a}^{S} \sum_{b}^{N} \frac{\partial L}{\partial Y_{ab}} W_{bj} \delta_{ia} = \sum_{b}^N \frac{\partial L}{\partial Y_{ib}} W_{bj} \\
+\Rightarrow
+\frac{\partial L}{\partial X_{ij}} &= \left( \left[ \frac{\partial L}{\partial Y} \right]_{i,:}\right) W_{:,j} \\
+\Rightarrow
+\frac{\partial L}{\partial X} &= \frac{\partial L}{\partial Y} W
+\end{aligned}
+\end{equation}
+$$
+
+#### 1. d)
+Given $Y = h(X)$ and $Y_{ij} = h(X_{ij})$, 
+$$
+\frac{\partial L}{\partial X} = \frac{\partial L}{\partial Y} \frac{\partial Y}{X} \Rightarrow \frac{\partial L}{\partial X_{ij}} = \sum_{a}^S \sum_{b}^N \frac{\partial L}{\partial Y_{ab}} \frac{\partial Y_{ab}}{\partial X_{ij}}
+$$
+First evaluating $\frac{\partial Y_{ab}}{\partial X_{ij}}$:
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial Y_{ab}}{\partial X_{ij}} &= \frac{\partial}{\partial X_{ij}}\left( h(X_{ab}) \right) = h'(X_{ab}) \frac{\partial X_{ab}}{\partial X_{ij}} = h'(X_{ab})\delta_{ia}\delta_{jb}
+\end{aligned}
+\end{equation}
+$$
+Substituting in the partial derivative,
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial L}{\partial X_{ij}} &= \sum_{a}^S \sum_{b}^N \frac{\partial L}{\partial Y_{ab}}h'(X_{ab})\delta_{ia}\delta_{jb} = \frac{\partial L}{\partial Y_{ij}}h'(X_{ij}) \\
+\Rightarrow \frac{\partial L}{\partial X} &= \frac{\partial L}{\partial Y} \circ h'(X)
+\end{aligned}
+\end{equation}
+$$
+#### 1. e)
+$$
+\begin{equation}
+\begin{aligned}
+\frac{\partial L}{\partial Z} &= Y \circ \left( \frac{\partial L}{\partial Y} - \left( \frac{\partial L}{\partial Y} \circ Y\right) \mathbb{1}\mathbb{1}^{\top}\right) \\
+&= Y \circ \left( \left( - \frac{1}{S} \frac{T}{Y}\right) - \left( - \frac{1}{S} \frac{T}{Y} \circ Y\right) \mathbb{1}\mathbb{1}^{\top}\right) \\
+&= \left( - \frac{1}{S} T\right)  + \left(\frac{1}{S} T\circ Y\right) \mathbb{1}\mathbb{1}^{\top} \\
+&= \frac{1}{S} \left( Y \circ T \ \mathbb{1}\mathbb{1}^{\top} -T\right)\\
+&= \frac{1}{S} (Y \circ \mathbb{1} - T) \\
+&= \frac{1}{S} (Y - T)
+\end{aligned}
+\end{equation}
+$$
+Therefore, $\alpha = \frac{1}{S}$ and $M = (Y-T)$
 
 #### 4. a) Show that the eigenvalues for the Hessian matrix in a strictly local minimum are all positive.
 
@@ -133,7 +267,7 @@ Batch normalization addresses this problem by maintaining moving averages of the
 
 #### 5. d) Experimental analysis showed that a high percentage of neurons are dead in networks with ReLU activation functions (you can refer to tutorial 3 for more information). Explain the concept of a dead neuron, when it occurs when using ReLU, and how it harms training.
 
-A **dead neuron** is a neuron in a neural network that consistently outputs zero, effectively becoming inactive or "dead" during training, which impedes the network's learning ability as these dead neurons do not contribute to the modeling capability of the network. As ReLU is defined as $ReLU(x) = max(0, x)$, if the input $x$ to the function is less than or equal to zero, the output of ReLU is zero. Dead neurons can occur in this case when the updates to the network parameters causes the input to consistently be in the range of $x \leq 0$, from which the neuron might never recover and the neuron will be considered "dead".
+A dead neuron is a neuron in a neural network that consistently outputs zero, effectively becoming inactive or "dead" during training. This implies that no gradient is provided and the parameter of the neuron cannot be trained in the previous layer to obtain non-zero output. As ReLU is defined as $ReLU(x) = max(0, x)$, if the input $x$ to the function is less than or equal to zero, the output of ReLU is zero. Dead neurons can occur in this case when the updates to the network parameters causes the input to consistently be in the range of $x \leq 0$, from which the neuron might never recover and the neuron will be considered "dead".
 This is harmful to network training because the dead neuron does not contribute to the modeling or learning capability of the network, and if a significant number of neurons becomes inactive, the model may underfit or fail to generalize at test time.
 
 #### 5. d) How does batch normalization prevent neurons from dying?
