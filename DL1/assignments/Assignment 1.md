@@ -6,7 +6,7 @@ $$
 \end{aligned}
 \end{equation}
 $$
-where $\frac{\partial L}{\partial W} \in \mathbb{R}^{N \times M}$ and $\frac{\partial L}{\partial Y} \in \mathbb{R}^{S \times N}$, so $\frac{\partial Y}{\partial W} \in \mathbb{R}^{S \times M}$   
+where $\frac{\partial L}{\partial \mathbf{W}} \in \mathbb{R}^{N \times M}$ and $\frac{\partial L}{\partial \mathbf{Y}} \in \mathbb{R}^{S \times N}$, so $\frac{\partial \mathbf{Y}}{\partial \mathbf{W}} \in \mathbb{R}^{S \times M}$   
 $$
 \begin{equation}
 \begin{aligned}
@@ -32,9 +32,9 @@ $$
 \begin{aligned}
 \sum_{a}^{S} \sum_{b}^{N} \frac{\partial L}{\partial Y_{ab}} \left( X_{aj} \delta_{ib}\right) &= \sum_{a}^S \frac{\partial L}{\partial Y_{ai}} X_{aj} \\ 
 \Rightarrow 
-\frac{\partial L}{\partial W_{ij}} &= \left( \left[ \frac{\partial L}{\partial Y}\right]_{:,i}\right)^{\top} X_{:,j} \\
+\frac{\partial L}{\partial W_{ij}} &= \left( \left[ \frac{\partial L}{\partial \mathbf{Y}}\right]_{:,i}\right)^{\top} \mathbf{X}_{:,j} \\
 \Rightarrow
-\frac{\partial L}{\partial W} &= \left(\frac{\partial L}{\partial Y}\right)^{\top} X
+\frac{\partial L}{\partial \mathbf{W}} &= \left(\frac{\partial L}{\partial \mathbf{Y}}\right)^{\top} \mathbf{X}
 \end{aligned}
 \end{equation}
 $$
@@ -52,21 +52,21 @@ $$
 \begin{equation}
 \begin{aligned}
 \frac{\partial L}{ \partial b_{i}} = \sum_{a}^{S} \sum_{b}^{N} \frac{\partial L}{\partial Y_{ab}} \delta_{bi} &= \sum_{a}^S \frac{\partial L}{\partial Y_{ai}} \\
-\Rightarrow \frac{\partial}{\partial \mathbf{b}} = \sum_{a}^S \frac{\partial L}{\partial Y_{a,:}} = \mathbb{1} \frac{\partial L}{\partial Y}
+\Rightarrow \frac{\partial}{\partial \mathbf{b}} = \sum_{a}^S \frac{\partial L}{\partial \mathbf{Y}_{a,:}} = \mathbb{1} \frac{\partial L}{\partial \mathbf{Y}}
 \end{aligned}
 \end{equation}
 $$
-where $\mathbb{1} \in \mathbb{R}^{1\times S}$ and $\frac{\partial L}{\partial Y} \in \mathbb{R}^{S \times N}$.
+where $\mathbb{1} \in \mathbb{R}^{1\times S}$ and $\frac{\partial L}{\partial \mathbf{Y}} \in \mathbb{R}^{S \times N}$.
 
 #### 1. c)
 $$
 \begin{equation}
 \begin{aligned}
- \frac{\partial L}{\partial X} &= \frac{\partial L}{\partial Y} \frac{\partial Y}{\partial X}
+ \frac{\partial L}{\partial \mathbf{X}} &= \frac{\partial L}{\partial \mathbf{Y}} \frac{\partial \mathbf{Y}}{\partial \mathbf{X}}
 \end{aligned}
 \end{equation}
 $$
-where $\frac{\partial L}{\partial X} \in \mathbb{R}^{S \times M}$ and $\frac{\partial L}{\partial Y} \in \mathbb{R}^{S \times N}$, so $\frac{\partial Y}{\partial X} \in \mathbb{R}^{N \times M}$ 
+where $\frac{\partial L}{\partial \mathbf{X}} \in \mathbb{R}^{S \times M}$ and $\frac{\partial L}{\partial \mathbf{Y}} \in \mathbb{R}^{S \times N}$, so $\frac{\partial \mathbf{Y}}{\partial \mathbf{X}} \in \mathbb{R}^{N \times M}$ 
 $$
 \begin{equation}
 \begin{aligned}
@@ -89,17 +89,17 @@ $$
 \begin{aligned}
 \frac{\partial L}{\partial X_{ij}} &= \sum_{a}^{S} \sum_{b}^{N} \frac{\partial L}{\partial Y_{ab}} W_{bj} \delta_{ia} = \sum_{b}^N \frac{\partial L}{\partial Y_{ib}} W_{bj} \\
 \Rightarrow
-\frac{\partial L}{\partial X_{ij}} &= \left( \left[ \frac{\partial L}{\partial Y} \right]_{i,:}\right) W_{:,j} \\
+\frac{\partial L}{\partial X_{ij}} &= \left( \left[ \frac{\partial L}{\partial \mathbf{Y}} \right]_{i,:}\right) \mathbf{W}_{:,j} \\
 \Rightarrow
-\frac{\partial L}{\partial X} &= \frac{\partial L}{\partial Y} W
+\frac{\partial L}{\partial \mathbf{X}} &= \frac{\partial L}{\partial \mathbf{Y}} \mathbf{W}
 \end{aligned}
 \end{equation}
 $$
 
 #### 1. d)
-Given $Y = h(X)$ and $Y_{ij} = h(X_{ij})$, 
+Given $\mathbf{Y} = h(\mathbf{X})$ and $Y_{ij} = h(X_{ij})$, 
 $$
-\frac{\partial L}{\partial X} = \frac{\partial L}{\partial Y} \frac{\partial Y}{X} \Rightarrow \frac{\partial L}{\partial X_{ij}} = \sum_{a}^S \sum_{b}^N \frac{\partial L}{\partial Y_{ab}} \frac{\partial Y_{ab}}{\partial X_{ij}}
+\frac{\partial L}{\partial \mathbf{X}} = \frac{\partial L}{\partial \mathbf{Y}} \frac{\partial \mathbf{Y}}{\mathbf{X}} \Rightarrow \frac{\partial L}{\partial X_{ij}} = \sum_{a}^S \sum_{b}^N \frac{\partial L}{\partial Y_{ab}} \frac{\partial Y_{ab}}{\partial X_{ij}}
 $$
 First evaluating $\frac{\partial Y_{ab}}{\partial X_{ij}}$:
 $$
@@ -114,7 +114,7 @@ $$
 \begin{equation}
 \begin{aligned}
 \frac{\partial L}{\partial X_{ij}} &= \sum_{a}^S \sum_{b}^N \frac{\partial L}{\partial Y_{ab}}h'(X_{ab})\delta_{ia}\delta_{jb} = \frac{\partial L}{\partial Y_{ij}}h'(X_{ij}) \\
-\Rightarrow \frac{\partial L}{\partial X} &= \frac{\partial L}{\partial Y} \circ h'(X)
+\Rightarrow \frac{\partial L}{\partial \mathbf{X}} &= \frac{\partial L}{\partial \mathbf{Y}} \circ h'(\mathbf{X})
 \end{aligned}
 \end{equation}
 $$
@@ -122,16 +122,16 @@ $$
 $$
 \begin{equation}
 \begin{aligned}
-\frac{\partial L}{\partial Z} &= Y \circ \left( \frac{\partial L}{\partial Y} - \left( \frac{\partial L}{\partial Y} \circ Y\right) \mathbb{1}\mathbb{1}^{\top}\right) \\
-&= Y \circ \left( \left( - \frac{1}{S} \frac{T}{Y}\right) - \left( - \frac{1}{S} \frac{T}{Y} \circ Y\right) \mathbb{1}\mathbb{1}^{\top}\right) \\
-&= \left( - \frac{1}{S} T\right)  + \left(\frac{1}{S} T\circ Y\right) \mathbb{1}\mathbb{1}^{\top} \\
-&= \frac{1}{S} \left( Y \circ T \ \mathbb{1}\mathbb{1}^{\top} -T\right)\\
-&= \frac{1}{S} (Y \circ \mathbb{1} - T) \\
-&= \frac{1}{S} (Y - T)
+\frac{\partial L}{\partial \mathbf{Z}} &= \mathbf{Y} \circ \left( \frac{\partial L}{\partial \mathbf{Y}} - \left( \frac{\partial L}{\partial \mathbf{Y}} \circ \mathbf{Y}\right) \mathbb{1}\mathbb{1}^{\top}\right) \\
+&= \mathbf{Y} \circ \left( \left( - \frac{1}{S} \frac{\mathbf{T}}{\mathbf{Y}}\right) - \left( - \frac{1}{S} \frac{\mathbf{T}}{\mathbf{Y}} \circ \mathbf{Y}\right) \mathbb{1}\mathbb{1}^{\top}\right) \\
+&= \left( - \frac{1}{S} \mathbf{T}\right)  + \left(\frac{1}{S} \mathbf{T}\circ \mathbf{Y}\right) \mathbb{1}\mathbb{1}^{\top} \\
+&= \frac{1}{S} \left( \mathbf{Y} \circ \mathbf{T} \ \mathbb{1}\mathbb{1}^{\top} -\mathbf{T}\right)\\
+&= \frac{1}{S} (\mathbf{Y} \circ \mathbb{1} - \mathbf{T}) \\
+&= \frac{1}{S} (\mathbf{Y} - \mathbf{T})
 \end{aligned}
 \end{equation}
 $$
-Therefore, $\alpha = \frac{1}{S}$ and $M = (Y-T)$
+Therefore, $\alpha = \frac{1}{S}$ and $\mathbf{M} = (\mathbf{Y}-\mathbf{T})$
 
 #### 4. a) Show that the eigenvalues for the Hessian matrix in a strictly local minimum are all positive.
 
@@ -147,13 +147,13 @@ for sufficiently small $h$ where the higher order terms $o(||h||^2)$ is negligib
 
 In a strictly local minimum with critical point $x_{p}$ the function should satisfy:
 $$
-f(x_{p} + h) - f(x_{p}) > 0
+f(x_{p} + h) - f(x_{p}) \geq 0
 $$
-for $h \neq 0$. Substituting the term obtained with Taylor expansion above, we have,
+for sufficiently small $h$. Substituting the term obtained with Taylor expansion above, we have,
 $$
-\frac{1}{2}h^\top H(x_{p})h > 0 \ \ \ \text{for all} \ h \neq 0 
+\frac{1}{2}h^\top H(x_{p})h \geq 0 \Rightarrow h^\top H(x_{p})h \geq 0
 $$
-This inequality implies that the symmetric real Hessian matrix $H$ is positive definite for all non-zero $h$. The matrix $H$ is also positive definite if and only if all of its eigenvalues are positive. We now prove that positive definiteness implies that the eigenvalues are strictly positive.
+This inequality implies that the symmetric real Hessian matrix $H$ is positive semi-definite for all sufficiently small $h$. The matrix $H$ is also positive semi-definite if and only if all of its eigenvalues are positive or zero. We now prove that positive semi-definiteness implies that the eigenvalues are positive or zero.
 Since $H$ is symmetric, we can diagonalize it as
 $$
 H = Q\Lambda Q^\top
@@ -166,7 +166,7 @@ $$
 $$
 \Rightarrow h^\top H h  = \\\sum_{i=1}^n \lambda_{i}y_{i}^2 \ \ \text{where} \ \ y = (Q^\top h)
 $$
-Since $h^\top H h > 0$, for all $h \neq 0$, all eigenvalues $\lambda_{i}$ must be strictly positive.
+Since $h^\top H h \geq 0$, for all sufficiently small $h$, all eigenvalues $\lambda_{i}$ must be positive or zero.
 
 #### 4. b) If some of the eigenvalues of the Hessian matrix at point p are positive and some are negative, this point would be a saddle point; intuitively explain why the number of saddle points is exponentially larger than the number of local minima for higher dimensions?
 
@@ -274,4 +274,6 @@ This is harmful to network training because the dead neuron does not contribute 
 
 Batch normalization prevents neuron from dying by controlling the activation range of the input to each layer and reducing the internal covariate shift. By keeping the activations close to the mean of the mini-batch, and minimizing the shift of the distributions of layer inputs as the parameters of the previous layers change, batch normalization prevents ReLU activations from consistently receiving negative values as inputs, thereby preventing neurons from dying.
 
+#### 5. f) Previously, you trained your PyTorch MLP using the default values of parameters (one layer, 128 hidden units, 10 epochs, no batch normalization, learning rate 0.1, seed 42). Now, retrain the model with the same parameters, but this time include batch normalization after the hidden layer. Compare the resulting accuracies with those obtained in the original setting, and motivate why these observations make sense.
 
+With batch normalization, we see a boost of the best test accuracy from 0.4891 to 0.5012, and in the validation loss curve there is an improvement in the stability over the 10 epochs. There is also a visible reduction in overfitting when comparing the training and validation loss before and after the addition of batch normalization, with the validation loss without batch normalization in the final epoch rising to ~1.55, while the validation loss with batch normalization only rise to ~1.45. These improvements in accuracy, stability, and overfitting are signs of batch normalization's effect on reducing internal covariate shift, thus improving stability, and reducing the number of dead neurons, thus increasing the capability of the model.

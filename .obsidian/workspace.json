@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "a7fc4c098309583e",
+            "id": "ab08d7cc14d6e85b",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -19,20 +19,6 @@
               },
               "icon": "lucide-file",
               "title": "Assignment 1"
-            }
-          },
-          {
-            "id": "ab08d7cc14d6e85b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "NLP1/Lecture 5.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Lecture 5"
             }
           }
         ]
@@ -91,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "cf0adb7f45f94bc2",
@@ -177,17 +162,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a7fc4c098309583e",
+  "active": "ab08d7cc14d6e85b",
   "lastOpenFiles": [
+    "NLP1/assignments/P&P 1.md",
+    "DL1/assignments/Assignment 1.md",
+    "NLP1/Language Models.md",
+    "NLP1/assignments",
+    "NLP1/Probabilistic Graphical Models.md",
     "NLP1/Lecture 5.md",
     "NLP1/Categorical Distributions.md",
-    "DL1/assignments/Assignment 1.md",
-    "NLP1/Probabilistic Graphical Models.md",
     "NLP1/NGram LM.md",
     "NLP1/Lecture 2.md",
     "NLP1/Lecture 3.md",
     "DL1/Lecture 1.md",
-    "NLP1/Language Models.md",
     "Untitled.canvas",
     "DL1/assignments",
     "NLP1/Lecture 1.md",
