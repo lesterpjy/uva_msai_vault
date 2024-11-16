@@ -35,8 +35,7 @@
               "title": "P&P 2"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -178,10 +177,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3c20a0e8ea274cff",
+  "active": "1c212c713fe844e2",
   "lastOpenFiles": [
-    "DL1/assignments/Assignment 2.md",
     "NLP1/assignments/P&P 2.md",
+    "DL1/assignments/Assignment 2.md",
     "DL1/assignments/Assignment 1.md",
     "NLP1/PCFG parsing.md",
     "NLP1/Naive Bayes.md",

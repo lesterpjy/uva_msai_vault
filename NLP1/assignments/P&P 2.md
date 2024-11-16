@@ -34,5 +34,23 @@ Another design choice may be based on the choice of the similarity metric. To ca
 
 #### 6. Explain what is PP- attachment ambiguity using an example, and explain why it might be challenging for a syntactic parser. Outline how techniques from distributional semantics can be used in conjunction with a syntactic parser to help disambiguate prepositional phrase attachment ambiguities. Explain how such a system could be designed and how you would then use it to assign the correct parsing to a new sentence.
 
+Prepositional Phrase (PP)-attachment ambiguity refers to the ambiguity that arise from a prepositional phrase in a sentence that could syntactically modify multiple part of the sentence. For example in the sentence, "She painted the vase with a brush", the PP could modify either "the vase" to suggest that the vase has a brush (which is syntactically valid), or modify "painted" to suggest that the act of painting was performed with the brush. This is a challenge to a syntactic parser as parsers typically rely on grammatical rules to resolve ambiguities, but in such ambiguities both interpretations can be syntactically valid and the true interpretation may depend on semantics or contexts. In the provided example, we can clearly deduce semantically that the PP attaches to "painted", but a syntactic parser that relies only on grammar rules would not be able to.
+
+Distributional semantics relies on the distributional hypothesis of word meanings that says the context surrounding a given word provides information about its meaning, and thus distributional semantics construct representations of words in a high dimensional semantic space based on the usage of the word in a large corpora. These high dimensional representation of words, or embeddings, thus provide a method for evaluating the compatibility of the PP with the different attachments by measuring the similarity of the embeddings in the semantic space.
+
+A system that could help disambiguate the PP attachment could: 
+1. Use a dependency parser like the Stanford parser to generate possible parse trees of the sentences. 
+2. Encode the sentence to embeddings using a distributional semantic model. 
+3. Compute similarity score between the PP and candidates. In our example this would be the similarity score between "the vase"-"with a brush" and "painted"-"with a brush".
+4. The syntactic probabilities can then be combined with the semantic similarity scores to determine the more probable attachment. In our example the system should output the parse with "with a brush" attached to "painted".
+
+#### 7. The original skip-gram model learns dense word representations, i.e. _word embeddings_, by predicting a distribution of possible contexts for a given word. It thus treats the task as multiclass classification and uses the _softmax_ function in its training objective. What problem arises with this model when it is being trained on a large text corpus and why?
+
+
+
+
+
+
+
 
 
