@@ -5,19 +5,19 @@ Parent node for NLP1
 - [[Naive Bayes]]
 - [[Model Evaluation#Classification task]]
 
-[[Lecture 2]]
+[[NLP1/Lecture 2]]
 - [[Language Models]]
 - [[NGram LM]]
 - [[Model Evaluation#Perplexity]]
 
 
-[[Lecture 3]]
+[[NLP1/Lecture 3]]
 
-[[Lecture 4]]
+[[NLP1/Lecture 4]]
 
-[[Lecture 5]]
+[[NLP1/Lecture 5]]
 
-[[Lecture 6]]
+[[NLP1/Lecture 6]]
 
 [[Lecture 7]]
 

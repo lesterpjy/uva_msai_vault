@@ -89,10 +89,100 @@ For Net1, the variables that affect the type of convolutions used in the network
 
 ### c. ii) Why do the test accuracies of conv_type=‘valid’, ‘sconv’ and ‘fconv’ (i.e., acc_valid, acc_sconv and acc_fconv) follow the order – acc_valid < acc_sconv < acc_fconv?
 
-The model architecture of Net1 is composed of 4 convolution layers, an adaptive max pooling layer, and then linear layer that maps the flattened channel values to a dimension of 2 for the 2 target classes. The order of the test accuracies for the different conv types with different padding size relates to the image size, and the size of the output after the 4 convolution layers. We can calculate the size of the outputs to an convolution layer with the following formula,
+The model architecture of Net1 is composed of 4 convolution layers, an adaptive max pooling layer, and then linear layer that maps the maxpooled channel values to a dimension of 2 for the 2 target classes. The order of the test accuracies for the different conv types with different padding size relates to the image size, and the size of the output after the 4 convolution layers. We can calculate the size of the outputs to an convolution layer with the following formula,
 $$
 \text{output size} = \frac{\text{input size} + 2 * \text{padding size} - \text{kernel size}}{\text{stride size}} + 1
 $$
-For conv_type = 'valid', this means that with the input image size of (32, 32) per channel, the output size after the 4 convolution is only (2, 2) per channel. This means that spatial information is largely lost after the convolutions. As established in (b.ii), the pattern that distinguishes the classes arise from the a combination of spatial and channel information: red rectangles on the left for label 0 and green rectangles on the left for label 1. With spatial information lost, conv_type of 'valid' results in a very poor performance.
+For conv_type = 'valid', this means that with the input image size of (32, 32) per channel, the output size after the 4 convolution is only (2, 2) per channel. This means that spatial information is largely lost after the convolutions, and the max pool layer select only the strongest signal from the (2, 2) for each channel. As established in (b.ii), the pattern that distinguishes the classes arise from the a combination of spatial and channel information: red rectangles on the left for label 0 and green rectangles on the left for label 1. With spatial information nearly all lost, conv_type of 'valid' results in a very poor performance. It can be observed that as the padding size increase to 1 for sconv and 2 for fconv, more spatial information are preserved in the final output. (4, 4) for sconv and (6, 6) for fconv. With fconv we then observe that enough spatial information are preserved such that a higher test accuracy of 88.8 can be achieved.
 
+### c. iii) Why is the test accuracy of conv_type=‘reflect’ less than ‘fconv’?
+
+With conv type of reflect, the padding type used for all 4 convolution layers of the network is 'reflect', which pads the image with pixel values "reflected" from the edges from the image. For example with a pad size of 1 using reflect padding, 
+$$
+\begin{array}{ccc}
+1 &2 &3\\
+4 &5 &6 \\
+7 &8 &9
+\end{array} \ \ \ \ \Rightarrow \ \ \ 
+\begin{array}{ccccc}
+5 &4 &5 &6 &5 \\
+2 &1 &2 &3 &2 \\
+5 &4 &5 &6 &5 \\
+8 &7 &8 &9 &8 \\
+5 &4 &5 &6 &5
+\end{array}
+$$
+We can observe that the model trained with reflect achieves a perfect accuracy on the validation data where label 0 have rectangles red, green (in that order) in the upper region of the image and label 0 have rectangles green, red (in that order) in the lower region of the image. Intuitively, by reflecting the pixels for a pad size of 2, the signals of the small rectangles on their respective sides are reflected to the opposite sides. However, this reflection forms a pattern in the signals that the model overfits on during training. This is observed by its very poor generalization when the same red-green order of label 0 is translated to the lower portion of the image. It led to a complete misclassification and a test set accuracy of 0.
+
+### c. iv) Why is the test accuracy of conv_type=‘replicate’ more than ‘fconv’? 
+
+With replicate the edge pixels are replicated on the padding pixels, unlike reflect, replicate does not change the ordering of the signals, but rather magnify them. This means that the signals of red-left green-right in the label 0 of the training set translates well to the similar signals of the label 0 data in the test set, despite the translation of the signals to the lower portion of the image. Compared to fconv that only pads with 0, which does not help improve the signals after convolutions, replicate leads to a better performance.
+
+
+### d. i) Run the given code with net_type=‘Net2’, and vary different conv_type from ‘valid’, ‘replicate’, ‘reflect’, ‘circular’, ‘sconv’ and ‘fconv’, and report the validation and test scores in the form of a table.
+
+*******************************************
+ Type of convolution :  valid
+ Type of network :  Net2
+*******************************************
+Results for validation dataset {0: 100.0, 1: 100.0, 2: 100.0, 3: 100.0, 4: 100.0, 5: 100.0, 6: 100.0, 7: 100.0, 8: 100.0, 9: 100.0}
+mean: 100.0000 std: 0.0000 for validation
+Results for test dataset {0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0, 6: 0.0, 7: 0.0, 8: 0.0, 9: 0.0}
+mean: 0.0000 std: 0.0000 for test
+
+*******************************************
+ Type of convolution :  replicate
+ Type of network :  Net2
+*******************************************
+Results for validation dataset {0: 100.0, 1: 100.0, 2: 100.0, 3: 100.0, 4: 100.0, 5: 100.0, 6: 100.0, 7: 100.0, 8: 100.0, 9: 100.0}
+mean: 100.0000 std: 0.0000 for validation
+Results for test dataset {0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0, 6: 0.0, 7: 0.0, 8: 0.0, 9: 0.0}
+mean: 0.0000 std: 0.0000 for test
+
+*******************************************
+ Type of convolution :  reflect
+ Type of network :  Net2
+*******************************************
+Results for validation dataset {0: 100.0, 1: 100.0, 2: 100.0, 3: 100.0, 4: 100.0, 5: 100.0, 6: 100.0, 7: 100.0, 8: 100.0, 9: 100.0}
+mean: 100.0000 std: 0.0000 for validation
+Results for test dataset {0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0, 6: 0.0, 7: 0.0, 8: 0.0, 9: 0.0}
+mean: 0.0000 std: 0.0000 for test
+
+*******************************************
+ Type of convolution :  circular
+ Type of network :  Net2
+*******************************************
+Results for validation dataset {0: 100.0, 1: 100.0, 2: 100.0, 3: 100.0, 4: 100.0, 5: 100.0, 6: 100.0, 7: 100.0, 8: 100.0, 9: 100.0}
+mean: 100.0000 std: 0.0000 for validation
+Results for test dataset {0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0, 6: 0.0, 7: 0.0, 8: 0.0, 9: 0.0}
+mean: 0.0000 std: 0.0000 for test
+
+*******************************************
+ Type of convolution :  sconv
+ Type of network :  Net2
+*******************************************
+Results for validation dataset {0: 100.0, 1: 100.0, 2: 100.0, 3: 100.0, 4: 100.0, 5: 100.0, 6: 100.0, 7: 100.0, 8: 100.0, 9: 100.0}
+mean: 100.0000 std: 0.0000 for validation
+Results for test dataset {0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0, 6: 0.0, 7: 0.0, 8: 0.0, 9: 0.0}
+mean: 0.0000 std: 0.0000 for test
+
+*******************************************
+ Type of convolution :  fconv
+ Type of network :  Net2
+*******************************************
+Results for validation dataset {0: 100.0, 1: 100.0, 2: 100.0, 3: 100.0, 4: 100.0, 5: 100.0, 6: 100.0, 7: 100.0, 8: 100.0, 9: 100.0}
+mean: 100.0000 std: 0.0000 for validation
+Results for test dataset {0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0, 6: 0.0, 7: 0.0, 8: 0.0, 9: 0.0}
+mean: 0.0000 std: 0.0000 for test
+
+| convolution type | validation accuracy (mean) | validation accuracy (std) | test accuracy (mean) | test accuracy (std) |
+| ---------------- | -------------------------- | ------------------------- | -------------------- | ------------------- |
+| valid            | 100.0000                   | 0.0000                    | 0.0000               | 0.0000              |
+| replicate        | 100.0000                   | 0.0000                    | 0.0000               | 0.0000              |
+| reflect          | 100.0000                   | 0.0000                    | 0.0000               | 0.0000              |
+| circular         | 100.0000                   | 0.0000                    | 0.0000               | 0.0000              |
+| sconv            | 100.0000                   | 0.0000                    | 0.0000               | 0.0000              |
+| fconv            | 100.0000                   | 0.0000                    | 0.0000               | 0.0000              |
+
+### d. ii) Do the test accuracies for each of the conv_types in net_type=‘Net2’ increase or decrease w.r.t their corresponding conv_type counterparts in ‘Net1’?
 

@@ -46,6 +46,47 @@ A system that could help disambiguate the PP attachment could:
 
 #### 7. The original skip-gram model learns dense word representations, i.e. _word embeddings_, by predicting a distribution of possible contexts for a given word. It thus treats the task as multiclass classification and uses the _softmax_ function in its training objective. What problem arises with this model when it is being trained on a large text corpus and why?
 
+By treating the task of learning the word embeddings as a multiclass classification task with the softmax function in its training objective, the objective of the skip-gram model is
+$$
+\text{argmax} \ \prod_{(w_{j}, w_{k})\in D} p(w_{k}|w_{j}) \Rightarrow \text{argmax} \ \prod_{(w_{j}, w_{k})\in D} \frac{e^{c_{k}\cdot v_{j}}}{\sum_{i\in V} e^{c_{i}\cdot v_{j}}}
+$$
+where for the word $w_{j}$ indexed at $j$ in the vocabulary, the model predicts word $w_{k}$ indexed at $k$ in the vocabulary. To compute the probability $p(w_{k}|w_{j})$, the objective is then chosen as the softmax of the similarity between the target word embedding vector $v_{j}$ and the context vector $c_{i}$. The problem with this objective is that the skip-gram model must have as many input and output dimensions as the vocabulary size. For a large text corpus, this vocabulary size can be very large and thus cause the computation of the softmax denominator that sums over the vocabularies to be very expansive. 
+
+#### 8. How does skip-gram with negative sampling address the above problem? Briefly describe the intuition behind skip-gram with negative sampling, giving the formula for its training objective.
+
+Skip-gram with negative sampling addresses the above problem by approximating the denominator of the softmax instead of explicitly calculating the summation over all vocabularies. For each target word and words in context seen as positive pair samples in the corpus during training of the skip-gram model, k samples are created from the target word and words from the vocabulary to represent negative samples. This allows for a reformulation of the problem from a multi-class problem that returns a probability distribution over the whole vocabulary into a binary classification problem that predicts if a given pair $(w_{j},w_{k})$ is a pair from the context or a negative pair. With this in mind, the similarities modeled with dot products are converted into probabilities with the sigmoid function, and the training objective of the model becomes,
+$$
+\begin{equation}
+\begin{aligned}
+\text{argmax} \ \prod_{(w_{j}, w_{k})\in D_{+}} p(+|w_{k},w_{j}) \prod_{(w_{j}, w_{k})\in D_{-}} p(-|w_{k},w_{j}) \\
+\Rightarrow \text{argmax} \ \sum_{(w_{j}, w_{k})\in D_{+}} \log \frac{1}{1+e^{-c_{k}\cdot v_{j}}}+\sum_{(w_{j}, w_{k})\in D_{-}} \log \frac{1}{1+e^{c_{k}\cdot v_{j}}}
+\end{aligned}
+\end{equation}
+$$
+where $D_{+}$ and $D_{-}$ now represents the positive and negative sample pairs. This simplification makes skip-gram with negative sampling computationally feasible for large corpora while retaining the ability to learn meaningful word embeddings.
+
+
+Skip-gram word embeddings have two properties:
+
+**First property:** They capture similarity in word meaning. The following examples show words most similar to _greenish_ and _poured_, according to the skip-gram model. 
+
+![](https://d7e0acfd15964dc2a2412dbfcdebc202.objectstore.eu/ans/redactor%2F586821%2F568710079%2FScreenshot%202020-11-16%20at%2012.26.01%20PM.png?temp_url_sig=cc7add6bd35561128649baa54b05b857e6519ab7&temp_url_expires=1733266799)
+#### 9. What aspects of word meaning do skip-gram word embeddings capture, as demonstrated by these examples? Describe two different aspects.
+
+In the above examples, it is clear that the word embeddings capture semantic similarity and contextual similarity. The embeddings capture semantic similarity as demonstrated by the word group "pours", "spilled", "splashed", and "drained", all of which share close meanings related to actions of handling liquids. Word groups like "greenish", "bluish", and "reddish" are color related words that can be used in similar descriptive context or even replace one another, indicating the word embeddings' ability to capture contextual similarities.
+
+**Second property:** Skip-gram word embeddings also capture analogy, as demonstrated below. The underlined words are automatically selected by the model; other words are provided as input.
+
+![](https://d7e0acfd15964dc2a2412dbfcdebc202.objectstore.eu/ans/redactor%2F586821%2F899408597%2FScreenshot%202020-11-16%20at%2012.25.45%20PM.png?temp_url_sig=f45332e3b2e71deaecbc278cb688e6f7b6525759&temp_url_expires=1733266799)
+
+The following examples show some of the system errors in the analogy task:
+
+![](https://d7e0acfd15964dc2a2412dbfcdebc202.objectstore.eu/ans/redactor%2F586821%2F301354840%2FScreenshot%202020-11-16%20at%2012.25.54%20PM.png?temp_url_sig=8a1563c5b6e6d8e063bfd473744446e6d84ee6a4&temp_url_expires=1733266799)
+#### 10. Explain briefly why these errors arise.
+
+These errors in the analogy task occurs as a result of the limitations of skip-gram model's ability in capturing finer-grained semantic relationships in the word embeddings. As words and their context in corpuses are used for extracting word embeddings in the skip-gram model, words that often co-occur in same contexts (that may have more complicated relationships, such as opposites or comparatives) can be modeled closer in the embedding space. The above examples demonstrates exactly this phenomenon, where opposites like "small-larger" and "hot-colder" are closer in the embedding space due to shared context, despite their semantic relationships are different from that of "quick-quicker". This is demonstrates the limitations of these word embeddings in capturing non-linear relationships in the embedding space. Unlike examples like "$man - woman \approx king - queen$", nuanced relationships that may be non-linear such as comparatives or opposites are harder for the word embeddings to capture.
+
+
 
 
 
