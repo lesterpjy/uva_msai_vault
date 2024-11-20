@@ -224,7 +224,20 @@ Transformers are capable of capturing long range dependencies as the attention m
 
 Without scaling by $\sqrt{ d_{k} }$ in the equation $\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{QK}^\top}{\sqrt{ d_{k} }}\right) \mathbf{V}$, the variance of the dot product in the nominator grows with dimensionality of the query and key vectors $d_{k}$, which leads to larger values as $d_{k}$ increases. This scaling prevents too large values from entering the softmax, which can lead to peaked softmax outputs that destabilize the training through vanishing gradients or can prevent a more balanced attention weights that attends to a range of tokens (due to the peaked output). 
 
-We can show that scaling by $\sqrt{ d_{k} }$ is effective by first assuming that components of the vectors $Q_{i}$ and $K_{j}$ are independent and identically distributed random variables. This means $\mathbb{E}[Q_{il}] = \mathbb{E}[K_{jl}] = 0$ and $Var(Q_{il}) = Var(K_{jl}) = \sigma^2$ for all $l$ in $[1:d_{k}]$. Suppose the 
+We can show that scaling by $\sqrt{ d_{k} }$ is effective by first assuming that components of the vectors $Q_{i}$ and $K_{j}$ are independent and identically distributed random variables. This means $\mathbb{E}[Q_{il}] = \mathbb{E}[K_{jl}] = 0$ and $Var(Q_{il}) = Var(K_{jl}) = \sigma^2$ for all $l$ in $[1:d_{k}]$. The dot product between $Q_{i}$ and $K_{j}$ is,
+$$
+S = Q_{i} \cdot K_{j} = \sum_{l=1}^{d_{k}}Q_{il}K_{jl}
+$$
+Since the sum of the random variables has a variance equal to the sum of their variance when the variables are independent,
+$$
+Var(S) = \sum_{l=1}^{d_{k}}Var(Q_{il}K_{jl})
+$$
+The variance of the product of the two independent random variables can be calculated with,
+$$
+Var(Q_{il}K_{jl}) = \underbrace{\mathbb{E}[Q_{il}^2K_{jl}^2]}_{=\mathbb{E}[Q_{il}^2]\mathbb{E}[K_{jl}^2]} - (\underbrace{\mathbb{E}[Q_{il}K_{jl}]}_{=\mathbb{E}[Q_{il}]\mathbb{E}[K_{jl}]=0})^2
+$$
+And since that the two variables have both have a mean of zero, the expectation of their square is their variance,
+
 
 ### d) Explain the advantages of using multiple attention heads compared to a single attention mechanism with the same total computational cost.
 
