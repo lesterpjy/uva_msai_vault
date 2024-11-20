@@ -1,4 +1,4 @@
- 
+## Lexical semantics and word embeddings
 ### Semantics
 
 Compositional semantics

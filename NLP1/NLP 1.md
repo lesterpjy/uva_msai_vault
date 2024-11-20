@@ -19,7 +19,7 @@ Parent node for NLP1
 
 [[NLP1/Lecture 6]]
 
-[[Lecture 7]]
+[[NLP1/Lecture 7]]
 
 [[Lecture 8]]
 

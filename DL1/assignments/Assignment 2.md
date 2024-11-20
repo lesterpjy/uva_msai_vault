@@ -186,3 +186,45 @@ mean: 0.0000 std: 0.0000 for test
 
 ### d. ii) Do the test accuracies for each of the conv_types in net_type=‘Net2’ increase or decrease w.r.t their corresponding conv_type counterparts in ‘Net1’?
 
+ The test accuracies for all of the different conv_types decrease in Net2 when compared to Net1. In fact, all test accuracies for Net2 are 0, and their respective validation accuracies  are 100.
+
+### d. iii)  State the reason behind this change in test accuracies
+
+In Net2 after the convolution layers, instead of applying adaptive max pooling which extracts the strongest signal per channel, a flattening operation flattens the tensor to a single dimension. For example, with "conv_types=fconv", the dimensions after the convolution layers is $[64, 6, 6]$, as previously discussed in (c. ii), but the flattening operation flattens the tensor to give a dimension of $[2304]$. By doing this, Net2 has destroyed the spatial information extracted by the convolutions, which as mentioned in the previous sub-questions, is crucial for generalizing on the test dataset. More specifically, instead of extracting the signals regardless of location on the image like a max pooling layer would, the flattening operation restructures the data to a single dimension. Because the signals occur at different regions of the image for the train and test sets, the trained model cannot generalize to the test data where the signals of the red and green rectangles occur in a different section of the flattened data.
+
+## Question 1.2
+
+### a)  Plot the accuracy of the model during inference respect to the angle of rotation of test images and include the figure in your answers. What can you conclude about rotational invariance of CNNs from the plot? Explain why are there larger accuracy at certain degrees.
+
+> [!figure] ![[rotation_acc.png| 400]] 
+> *Figure 1*: Accuracy of model during inference respect to angle of rotation of test images. Model not trained on rotated images.
+
+This experiment shows that the trained CNN model could only classify objects in the image (with high accuracy) that are in their original orientation, either not rotated or rotated 360 degrees. This implies that CNNs are not rotationally invariant, because the performance of the trained classifier varied for images rotated for different angles. When the images are rotated to a different angle, the trained model could no longer classify the objects in the image. Since the model is trained on non-rotated images, it could only classify objects that are not rotated, hence the higher accuracies closer to 0 or 360 degrees of rotation.
+### b) Train a new model like the previous one but adding rotational augmentation to its datasets, and plot its accuracy during inference with respect to the angle of rotation of the test images. Include the figure in your answers. Describe the differences observed compared to the plot in Question 1.2(a) and explain the reasons for these differences.
+
+> [!figure] ![[rotation_acc_trained.png| 400]] 
+> *Figure 2*: Accuracy of model during inference respect to angle of rotation of test images. Model trained with random rotation transformation of up to 360 degrees.
+
+By retraining the model with rotation augmented images, the CNN model is capable of performing better on rotated images at test time. We see an improved test time accuracy for most angles between 0 and 360. This shows that by providing the CNN model with images that are rotated during training, the model has learned to classify rotated objects, in addition to their non-rotated versions. However, we also observe that the accuracies at the extreme angles decreased, from 0.7 down to 0.48. This shows that by introducing rotation to the training images, although the model can generalize better to rotated images at test time, the model has also decreased in performance since the classification task became harder when the images are rotated.
+## Question 2.1
+### a) Discuss the computational challenges that arise in Transformer models when handling long input sequences. Your response should: (a) Briefly describe why long sequences are challenging for Transformers. (b) Suggest a method to address this challenge.
+
+Transformers rely on the attention mechanism in encoding the pairwise interactions between all tokens of the input sequence. Capturing this pairwise interaction in the input sequence leads to an exponential computational complexity $O(n^2)$. More specifically, the matrix multiplication for calculating the Query-Key similarity ($QK^\top$) that measures how much each token should attend to others tokens produces a $n \times n$ matrix, and for each element in the matrix, the dot product involves $d_{k}$ multiplications and additions. The total number of operations for computing $QK^{\top}$ which has shapes $n\times d_{k}$ and $d_{k}\times n$ respectively, is thus $O(n^2d_{k})$. As $n$ grows to a larger sequence length, the computation grows quadratically, which becomes computationally intensive to calculate.
+
+A method for addressing the quadratic growing computation complexity of the attention mechanism is the use of sparse attention. Methods like local attention limits the attention of a token to only a fixed window size of $w$ where $w \ll n$, each token attends to only $w$ surrounding tokens, and the computational complexity reduces to $O(nw)$. 
+### b) Discuss the receptive field of Transformer and Convolutional Neural Networks (CNNs), and their capability to capture long-range dependencies.
+
+Receptive field refers to the region of the input data that a particular neuron or feature in the network is sensitive to, which means the receptive field determines that amount of contextual information from the input a neuron can utilize. 
+
+Convolutional Neural Network have a local receptive field that is determined by the size of the convolutional kernels as each neuron of a convolutional layer is connected to a local region of its input through the kernels. This means that CNNs struggle with capturing long range dependancies, since usual kernel of convolutions are restricted to a small size of $3\times {3}$ or $5\times 5$. Although the receptive field of CNNs grows with the number of layers, each layer of the network only adds a small fixed amount to the total receptive field due to the usually small kernel size and small stride size.
+
+Transformers are capable of capturing long range dependencies as the attention mechanism models a global receptive field where each token attends to every other tokens in the input sequence. In other words, each feature of the network is sensitive to, and depends on, all other regions of the input sequence. This allows transformers to utilize all contextual information in the input sequence.
+
+### c) Explain why the scaling factor $\sqrt{d_{k}}$ is used in the self-attention mechanism (refer to Eq. (4)). Describe its effect on the computation of attention scores.
+
+Without scaling by $\sqrt{ d_{k} }$ in the equation $\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{QK}^\top}{\sqrt{ d_{k} }}\right) \mathbf{V}$, the variance of the dot product in the nominator grows with dimensionality of the query and key vectors $d_{k}$, which leads to larger values as $d_{k}$ increases. This scaling prevents too large values from entering the softmax, which can lead to peaked softmax outputs that destabilize the training through vanishing gradients or can prevent a more balanced attention weights that attends to a range of tokens (due to the peaked output). 
+
+We can show that scaling by $\sqrt{ d_{k} }$ is effective by first assuming that components of the vectors $Q_{i}$ and $K_{j}$ are independent and identically distributed random variables. This means $\mathbb{E}[Q_{il}] = \mathbb{E}[K_{jl}] = 0$ and $Var(Q_{il}) = Var(K_{jl}) = \sigma^2$ for all $l$ in $[1:d_{k}]$. Suppose the 
+
+### d) Explain the advantages of using multiple attention heads compared to a single attention mechanism with the same total computational cost.
+

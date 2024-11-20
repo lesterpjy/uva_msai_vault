@@ -4,25 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "b8da75a39e50ad77",
+        "id": "e8e75dc2fbdd6b2a",
         "type": "tabs",
         "children": [
           {
-            "id": "1080d7c8a2404872",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "DL1/Lecture 3.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Lecture 3"
-            }
-          },
-          {
-            "id": "6b796a3fa83da018",
+            "id": "bd05036eb3b6fb2e",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -36,21 +22,34 @@
             }
           },
           {
-            "id": "b4b131adc8a5d144",
+            "id": "e2c8ad1cd956a6c6",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "NLP1/assignments/P&P 2.md",
+                "file": "Sinusoidal Positional Encoding.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "P&P 2"
+              "title": "Sinusoidal Positional Encoding"
+            }
+          },
+          {
+            "id": "5772b5a049793046",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "DL1/Lecture 3.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Lecture 3"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -192,31 +191,40 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b4b131adc8a5d144",
+  "active": "bd05036eb3b6fb2e",
   "lastOpenFiles": [
-    "DL1/assignments/Assignment 2.md",
-    "NLP1/assignments/P&P 2.md",
+    "DL1/assignments/images/rotation_acc_trained.png",
+    "DL1/assignments/images/rotation_acc.png",
+    "DL1/assignments/images/Screenshot 2024-11-20 at 15.09.49.png",
+    "DL1/assignments/images/Screenshot 2024-11-20 at 15.09.36.png",
+    "DL1/images/Screenshot 2024-11-20 at 15.09.49.png",
+    "DL1/images/Screenshot 2024-11-20 at 15.09.36.png",
     "DL1/Lecture 3.md",
     "DL1/Lecture 2.md",
+    "DL1/Lecture 7.md",
+    "Sinusoidal Positional Encoding.md",
+    "NLP1/Lecture 7.md",
+    "NLP1/Lecture 5.md",
+    "Untitled",
+    "DL1/assignments/Assignment 2.md",
+    "DL1/assignments/rotation_acc_trained.png",
+    "DL1/assignments/rotation_acc.png",
+    "NLP1/NGram LM.md",
+    "DL1/assignments/images",
+    "DL1/assignments/untitled folder",
+    "NLP1/Lecture 4.md",
+    "NLP1/Lecture 3.md",
+    "NLP1/assignments/P&P 2.md",
+    "NLP1/assignments/P&P 2.pdf",
     "DL1/images/autodiff.png",
     "DL1/images/jacobian.png",
     "DL1/images/training_ffn.png",
-    "DL1/images/how2choose.png",
-    "DL1/images/elu.png",
-    "DL1/images/leakyrelu.png",
-    "DL1/images/relu.png",
     "DL1/assignments/Assignment 1.md",
     "NLP1/assignments/P&P 1.md",
     "Assignments.md",
     "NLP1/Naive Bayes.md",
-    "NLP1/NGram LM.md",
-    "NLP1/Lecture 4.md",
-    "NLP1/Lecture 3.md",
     "NLP1/Lecture 2.md",
-    "DL1/images/tanh.png",
     "NLP1/Lecture 1.md",
-    "DL1/images/sigmoid.png",
-    "DL1/images/ffn.png",
     "DL1/images",
     "DL1/untitled folder",
     "DL1/DL 1.md",
@@ -228,15 +236,9 @@
     "Model Evaluation.md",
     "NLP1/Language Models.md",
     "NLP1/assignments",
-    "NLP1/Probabilistic Graphical Models.md",
-    "NLP1/Lecture 5.md",
-    "NLP1/Categorical Distributions.md",
     "Untitled.canvas",
     "DL1/assignments",
-    "NLP1/Perplexity.md",
     "NLP1/images/dos.jpg.sb-c70dde45-GoXSiT",
-    "NLP1/images",
-    "DL1",
-    "NLP1"
+    "NLP1/images"
   ]
 }
