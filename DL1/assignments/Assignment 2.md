@@ -226,18 +226,38 @@ Without scaling by $\sqrt{ d_{k} }$ in the equation $\text{Attention}(\mathbf{Q}
 
 We can show that scaling by $\sqrt{ d_{k} }$ is effective by first assuming that components of the vectors $Q_{i}$ and $K_{j}$ are independent and identically distributed random variables. This means $\mathbb{E}[Q_{il}] = \mathbb{E}[K_{jl}] = 0$ and $Var(Q_{il}) = Var(K_{jl}) = \sigma^2$ for all $l$ in $[1:d_{k}]$. The dot product between $Q_{i}$ and $K_{j}$ is,
 $$
-S = Q_{i} \cdot K_{j} = \sum_{l=1}^{d_{k}}Q_{il}K_{jl}
+Q_{i} \cdot K_{j} = \sum_{l=1}^{d_{k}}Q_{il}K_{jl}
 $$
 Since the sum of the random variables has a variance equal to the sum of their variance when the variables are independent,
 $$
-Var(S) = \sum_{l=1}^{d_{k}}Var(Q_{il}K_{jl})
+Var(Q_{i} \cdot K_{j}) = \sum_{l=1}^{d_{k}}Var(Q_{il}K_{jl})
 $$
 The variance of the product of the two independent random variables can be calculated with,
 $$
 Var(Q_{il}K_{jl}) = \underbrace{\mathbb{E}[Q_{il}^2K_{jl}^2]}_{=\mathbb{E}[Q_{il}^2]\mathbb{E}[K_{jl}^2]} - (\underbrace{\mathbb{E}[Q_{il}K_{jl}]}_{=\mathbb{E}[Q_{il}]\mathbb{E}[K_{jl}]=0})^2
 $$
 And since that the two variables have both have a mean of zero, the expectation of their square is their variance,
-
+$$
+\begin{equation}
+\begin{aligned}
+Var(Q_{il}) &= \mathbb{E}[Q_{il}^2] - (\mathbb{E}[Q_{il}])^2 = \sigma^2 \\
+\Rightarrow \mathbb{E}[Q_{il}^2] &= \sigma^2
+\end{aligned}
+\end{equation}
+$$
+Therefore the sum of variance over $l$ is,
+$$
+Var(Q_{i} \cdot K_{j}) = \sum_{l=1}^{d_{k}}Var(Q_{il}K_{jl}) = \sum_{l=1}^{d_{k}} \sigma^4 = d_{k}\sigma^4
+$$
+Variance of the dot product in the nominator is then normalized with division by $\sqrt{ d_{k} }$ :
+$$
+Var\left(\frac{Q_{i}\cdot K_{j}}{\sqrt{ d_{k} }}\right)=\frac{Var(Q_{i}\cdot K_{j})}{d_{k}} = \frac{d_{k}\sigma^4}{d_{k}} = \sigma^4
+$$
 
 ### d) Explain the advantages of using multiple attention heads compared to a single attention mechanism with the same total computational cost.
+
+The advantage of dividing the total attention of the model amongst multiple heads, where $d_{\text{model}}$ is the total hidden dimension of the model and each head thus have a hidden dimension of $d_{\text{model}}/h$ for $h$ number of heads, is that the total computational cost can be kept the same while allowing different attention head to learn different feature representations and dependencies in the input sequence. In a single attention head, the expressiveness of the attention is limited by a linear combination of the value matrix $V$, with attention weights determined by the softmax output ($\text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{ d_{k} }}\right)$). This implies that the rank of the attention output matrix is determined by the minimum of the ranks of the softmax output or $V$. If the softmax output is low rank, ie, that the attention focus on certain tokens, the attention output will be low rank and the expressiveness of the single attention head is limited. By using multiple attention heads, each with a lower dimension of $d_{\text{model}}/h$ for h different heads, the total rank in the output matrix when the multiple heads are combined can be higher, and more complex dependencies in the input sequence can be learned.
+
+
+
 
