@@ -264,3 +264,19 @@ The advantage of dividing the total attention of the model amongst multiple head
 
 The choice of a wide but not deep MLP block in the Transformer block is meant to maintain computational efficiency while allowing the MLP to model complex feature representations of the individual tokens from attention output. In theory, the Universal Approximation Theorem should allow a single hidden layer to approximate any continuous function given the layer is sufficiently wide. The choice of a wide but shallow MLP block means that it should be able to extract the desired rich features while avoiding the common issues with deeper networks, such as vanishing gradients, training instability, etc. Additionally, Transformer models often contain multiple decoder blocks stacked ontop of one another, allowing them to capture hierarchical representations while keeping the individual block computationally efficient, as wider MLPs are more amenable to parallelization compared to deeper sequential layers.
 
+## Question 2.4
+
+### a) What happens if we do not make use of any positional embeddings?
+
+Without positional embedding, the token embeddings that enter the transformer block do not carry any information about the token's position or its relationship to other tokens based on order. Because the self-attention mechanism computes the attention scores using the dot product of queries and keys derived from the token embeddings, without positional information, the mechanism cannot capture any positional information. This will lead to the phrases "John sat on the couch" and "Couch on the sat John" being indistinguishable to the model, ie, similar to a bag-of-words treatment. With loss ability to model syntactic structure and contextual information, the transformer model without positional embeddings would perform very poorly on any task that requires sequential, ordered information.
+### b) Discuss the limitations of absolute position embeddings in large language models (LLMs) and the advantages of using relative position embeddings in Transformer models.
+
+Limitations of absolute position embeddings
+1. Fixed length leads to poor generalization: since absolution position embeddings are typically implemented as a fixed-sized embedding matrix, a model trained with absolution position embeddings are inflexible to varied input length, and may overfit to the positions seen during training. Positions unseen during training or are undertrained during training will lead to degraded performance at test time.
+2. Lack of inductive bias for sequential data: sequential data like natural language often have inherent information encoded in the relative positions of the tokens. With absolution position embeddings, the model do not capture how tokens relate to one another positionally. The model might learn to encode the absolute positions of tokens in a sequence, but not the relative positions of the tokens to each other.
+
+Advantages of relative position embeddings
+1. Improved generalization to varied sequence length: as relative positional embeddings encode the distance between tokens rather than absolute positions of the tokens, relative positional embeddings allow the model to generalize to sequences of varying length.
+2. Modeling of relative relationships: encoding relative distance between tokens allow the method to help the model learn important dependency information like semantics and syntax in natural languages. 
+3. Memory efficiency: instead of storing a fixed sized embedding matrix that may take up significant memory for long sequences, relative positions can be calculated on-the-fly, reducing memory consumption.
+
