@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DL1/assignments/Assignment 2.md",
+                "file": "DL1/Lecture 8.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Assignment 2"
+              "title": "Lecture 8"
             }
           },
           {
@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Sinusoidal Positional Encoding.md",
+                "file": "DL1/assignments/Assignment 2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Sinusoidal Positional Encoding"
+              "title": "Assignment 2"
             }
           },
           {
@@ -49,7 +49,8 @@
               "title": "Lecture 3"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -191,34 +192,35 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "bd05036eb3b6fb2e",
+  "active": "e2c8ad1cd956a6c6",
   "lastOpenFiles": [
+    "NLP1/Lecture 6.md",
+    "DL1/Lecture 8.md",
+    "DL1/Lecture 3.md",
+    "NLP1/Lecture 3.md",
+    "NLP1/Lecture 4.md",
+    "DL1/assignments/Assignment 2.md",
+    "Sinusoidal Positional Encoding.md",
     "DL1/assignments/images/rotation_acc_trained.png",
     "DL1/assignments/images/rotation_acc.png",
     "DL1/assignments/images/Screenshot 2024-11-20 at 15.09.49.png",
     "DL1/assignments/images/Screenshot 2024-11-20 at 15.09.36.png",
     "DL1/images/Screenshot 2024-11-20 at 15.09.49.png",
     "DL1/images/Screenshot 2024-11-20 at 15.09.36.png",
-    "DL1/Lecture 3.md",
     "DL1/Lecture 2.md",
     "DL1/Lecture 7.md",
-    "Sinusoidal Positional Encoding.md",
     "NLP1/Lecture 7.md",
     "NLP1/Lecture 5.md",
     "Untitled",
-    "DL1/assignments/Assignment 2.md",
     "DL1/assignments/rotation_acc_trained.png",
     "DL1/assignments/rotation_acc.png",
     "NLP1/NGram LM.md",
     "DL1/assignments/images",
     "DL1/assignments/untitled folder",
-    "NLP1/Lecture 4.md",
-    "NLP1/Lecture 3.md",
     "NLP1/assignments/P&P 2.md",
     "NLP1/assignments/P&P 2.pdf",
     "DL1/images/autodiff.png",
     "DL1/images/jacobian.png",
-    "DL1/images/training_ffn.png",
     "DL1/assignments/Assignment 1.md",
     "NLP1/assignments/P&P 1.md",
     "Assignments.md",
@@ -234,7 +236,6 @@
     "NLP1/NLP 1.md",
     "NLP1/PCFG parsing.md",
     "Model Evaluation.md",
-    "NLP1/Language Models.md",
     "NLP1/assignments",
     "Untitled.canvas",
     "DL1/assignments",

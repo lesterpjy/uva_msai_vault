@@ -280,3 +280,17 @@ Advantages of relative position embeddings
 2. Modeling of relative relationships: encoding relative distance between tokens allow the method to help the model learn important dependency information like semantics and syntax in natural languages. 
 3. Memory efficiency: instead of storing a fixed sized embedding matrix that may take up significant memory for long sequences, relative positions can be calculated on-the-fly, reducing memory consumption.
 
+## Question 2.8
+
+### b) Devise specific prompts that test the accumulated knowledge of the model using generate.py. You are free to tweak various generation parameters not related to training, such as temperature, p threshold, and the prompt.
+
+
+
+## Question 2.9
+
+### b) Discuss the benefits of using FlashAttention and what they stem from.
+
+The attention mechanism is not bottlenecked by computation, but rather by read and writes of the large NxN matrices in softmax step.
+
+
+
