@@ -509,6 +509,106 @@ The square of the adjacency matrix $A^2$ represents the number of paths with len
 
 ### c) The Laplacian matrix captures the relationship between connected nodes, thus influencing how feature values propagate through the network. For the second graph (Fig. 6, right), write down the Laplacian matrix. Then, without performing calculations, reason which node (or nodes) changes the most in feature values when the Laplacian is applied to an input matrix X (F = LX), and explain why.
 
+Laplacian matrix is calculated with $L = D - A$ where D is the degree matrix and $A$ is the adjacency matrix. The graph on the right has the degree matrix,
+$$
+\begin{bmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 3 & 0 & 0 & 0 & 0 \\
+    0 & 0 & 2 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 3 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 3 & 0 \\
+    0 & 0 & 0 & 0 & 0 & 2 \\
+\end{bmatrix}
+$$
+The Laplacian matrix is thus,
+$$ 
+\begin{bmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 3 & 0 & 0 & 0 & 0 \\
+    0 & 0 & 2 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 3 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 3 & 0 \\
+    0 & 0 & 0 & 0 & 0 & 2 \\
+\end{bmatrix} -
+\begin{bmatrix}
+    0 & 1 & 0 & 0 & 0 & 0 \\
+    1 & 0 & 1 & 0 & 1 & 0 \\
+    0 & 1 & 0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 0 & 1 & 1 \\
+    0 & 1 & 0 & 1 & 0 & 1 \\
+    0 & 0 & 0 & 1 & 1 & 0 \\
+\end{bmatrix}=
+\begin{bmatrix}
+    1 & -1 & 0 & 0 & 0 & 0 \\
+    -1 & 3 & -1 & 0 & -1 & 0 \\
+    0 & -1 & 2 & -1 & 0 & 0 \\
+    0 & 0 & -1 & 3 & -1 & -1 \\
+    0 & -1 & 0 & -1 & 3 & -1 \\
+    0 & 0 & 0 & -1 & -1 & 2 \\
+\end{bmatrix}
+$$
+\[[1, -1, 0, 0, 0, 0], [-1, 3, -1, 0, -1, 0], [0, -1, 2, -1, 0, 0], [0, 0, -1, 3, -1, -1], [0, -1, 0, -1, 3, -1], [0, 0, 0, -1, -1, 2]\]
 
+The nodes that change the most are the nodes that have a
+1. high degree, which have larger diagonal entries in $L$ that contributes more to the change in their feature value.
+2. larger number of connections to different nodes (indicated in the off-diagonal -1 terms), since a node connected to more nodes with different feature values should change more.
+Based on these factors, nodes 2, 3 and 5 should change most with the highest degree (3) and most connections. Conversely, node 1 should change the least.
+
+## Question 3.2
+
+For an undirected graph with 𝑁 nodes, each node 𝑣 is associated with a $d$-dimensional
+embedding $h_{v}$. Let us consider the following graph convolution that propagates the
+embeddings for all nodes from layer $l$ to the next layer $l+1$:
+
+$$
+h_{v}^{(l+1)} = \sigma\left( W^{(l)} \sum_{u\in N(v)} \frac{h_{u}^{(l)}}{|N(v)|} + B^{(l)}h_{v}^{(l)} \right)
+$$
+
+The nonlinearity, e.g., ReLU, is denoted by $\sigma$. The matrices $B^{(l)}, W^{(l)} \in \mathbb{R}^{d^{(l+1)}\times d^{(l)}}$, are
+parameterizing the self-connection and the combination of neighboring node activations
+respectively. The neighborhood of a node $v$ is denoted by $N(v)$ and consists of all nodes
+connected to $v$ with an edge. Hence, $|N(v)|$ stands for the number of neighboring nodes.
+
+How does the presence of the bias term $B^{(l)}h_{v}^{(l)}$ influence the final embedding of node $v$ compared to a scenario without this term?
+### a) How does the presence of the bias term $B^{(l)}h_{v}^{(l)}$ influence the final embedding of node $v$ compared to a scenario without this term?
+
+Eq. (6) is independent of $h_{v}^{(l)}$, and only depends the embeddings of neighboring nodes $h_{u}^{(l)}$, if the bias term $B^{(l)}h_{v}^{(l)}$ is removed. Therefore this bias term is necessary for the update to incorporate its own previous embedding into the computation of the next layer of embedding. The bias terms allows the node to retain more of its own information and prevents oversmoothing of the different nodes' representations.
+### b)
+In message-passing neural networks (Gilmer et al. 2017), after every layer, the information contained in the embeddings of a node is propagated to the neighbor nodes in so-called messages. These are summed up to update the node embedding:
+
+$$
+\begin{equation}
+\begin{aligned}
+m_{v}^{l+1} &= \sum_{u\in N(v)} \text{message}(h_{v}^l, h_{u}^l, e_{{uv}}) \\
+h_{v}^{l+1} &= \text{update}(h_{v}^l, m_{v}^{l+1})
+\end{aligned}
+\end{equation}
+$$
+
+Here, ’message’ and ’update’ are nonlinear functions that can be parametrized by artificial neural networks. How does the graph convolution presented in the ReLU update equation relate to the message-passing approach described here?
+
+The graph convolution described by Eq. (6) is a specific instantiation of the MPNN described by Eq. (7), where the $\text{message}(h_{v}^l, h_{u}^l, e_{{uv}})$ is a simplification that depends only on normalized neighboring nodes $u$ embeddings:
+$$
+\text{message}(h_{u}^l) = \frac{h_{u}^{(l)}}{|N(v)|}
+$$
+Note that the message is independent of the edge features and the node's own embedding. The update step of the graph convolution then sums over the messages and becomes,
+$$
+h_{v}^{(l+1)} = \sigma\left( W^{(l)}m_{v}^{l+1}  + B^{(l)}h_{v}^{(l)} \right)
+$$
+This means the 'update' nonlinear function in MPNN terms is a ReLU function parameterized by learnable weight matrices $W^{(l)}$ and $B^{(l)}$.
+
+The degree matrix $D$ of a graph with $N$ nodes is an $N \times N$ diagonal matrix. For each
+node $v$, it counts the nodes in its neighborhood $N(v)$ (nodes connected to node $v$ with
+an edge):
+
+$$
+\begin{equation}
+D_{vu} := \left\{ \begin{array}{rcl}
+|N(v)| \ \ &\text{if} \ v = u \\
+0  \ \ &\text{else}.
+\end{array}
+\right.
+\end{equation}
+$$
 
 
