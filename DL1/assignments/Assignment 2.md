@@ -597,10 +597,12 @@ h_{v}^{(l+1)} = \sigma\left( W^{(l)}m_{v}^{l+1}  + B^{(l)}h_{v}^{(l)} \right)
 $$
 This means the 'update' nonlinear function in MPNN terms is a ReLU function parameterized by learnable weight matrices $W^{(l)}$ and $B^{(l)}$.
 
+
+## Question 3.3
+
 The degree matrix $D$ of a graph with $N$ nodes is an $N \times N$ diagonal matrix. For each
 node $v$, it counts the nodes in its neighborhood $N(v)$ (nodes connected to node $v$ with
 an edge):
-
 $$
 \begin{equation}
 D_{vu} := \left\{ \begin{array}{rcl}
@@ -610,5 +612,48 @@ D_{vu} := \left\{ \begin{array}{rcl}
 \right.
 \end{equation}
 $$
+### a)  
+Rewrite the graph convolution (Eq. 6) to matrix form $H^{(l+1)} = f(H^{(l)})$ with embedding matrix $H^{(l)} = [h_{1}^{(l)},\dots,h_{|V|^{(l)}}]^T$. Use the adjacency matrix $A$ (Eq. 5) and the degree matrix $D$ (Eq. 8).
 
+$$
+h_{v}^{(l+1)} = \sigma\left( W^{(l)} \sum_{u\in N(v)} \frac{h_{u}^{(l)}}{|N(v)|} + B^{(l)}h_{v}^{(l)} \right)
+$$
+
+The embedding matrix $H^{(l)} = [h_{1}^{(l)},\dots,h_{|V|^{(l)}}]^T$ has dimensions $N\times d^{(l)}$. The normalizing term in the message $\frac{1}{|N(v)|}$ can be calculated as the matrix product of the inverse of the diagonal matrix $D^{-1}$ with the adjacency matrix $A$. This gives a row-normalized adjacency matrix. Aggregation over the neighboring embeddings $h_{u}^{(l)}$ for $u$ in $N(v)$ is then given by the matrix product between $D^{-1}A \in \mathbb{R}^{N\times N}$ and $H^{(l)} \in \mathbb{R}^{N\times d^{(l)}}$.
+
+The weight matrices $W^{(l)}$ and $B^{(l)}$ both of dimensions $d^{(l)}\times d^{(l+1)}$ can then be applied to project the first and second term to the dimension of $H^{(l+1)} \in \mathbb{R}^{N\times d^{(l+1)}}$:
+$$
+D^{-1}AH^{(l)}W^{(l)} + H^{(l)}B^{(l)}
+$$
+Applying sigmoid element-wise then give us the next layer embedding for each node:
+$$
+H^{(l+1)} = \sigma\left(D^{-1}AH^{(l)}W^{(l)} + H^{(l)}B^{(l)}\right)
+$$
+
+### b) Is the rewriting of the update formula from index to matrix form (as in (a)) applicable when using the median aggregation function? Please explain your answer.
+
+For a node $v$, the median aggregation function computes the element-wise median of the embeddings of the node's neighbors. The update equation 6 thus becomes,
+$$
+h_{v}^{(l+1)} = \sigma\left( W^{(l)} \text{median}_{u\in N(v)} \left(h_{u}^{(l)}\right) + B^{(l)}h_{v}^{(l)} \right)
+$$
+Computing the median of an element in the embedding of the node $v$ in the embedding matrix $H^{(l)}$ requires accessing and comparing embeddings in different rows, which is not achievable through matrix multiplication. Specifically, the median function is a nonlinear and non-associative operation that cannot be expressed through matrix multiplications.
+## Question 3.4
+
+### a) How does aggregation occur in GATs compared to Graph Convolutional Networks (GCNs)?
+
+- GCNs aggregate neighbor information using fixed weights derived from the graph's adjacency matrix, treating all neighbors equally after in the normalization, as illustrated in the summation term of Eq. (6).
+- GATs uses a learnable attention mechanism to assign different importance to each neighbor, allowing for a learnable and feature-dependent aggregation of the different embeddings from the neighbors. Specifically, aggregation in GATs is weighted by a learned attention score $\alpha_{uv}$: $h_{v}^{(l+1)} = \sigma\left( \sum_{u\in N(v)} \alpha_{uv} W^{(l)}h_{u}^{(l)}\right)$. 
+
+### b) Consider a scenario where certain nodes in the graph are noisy or irrelevant. How would the attention mechanism in GATs handle this compared to GCNs? Explain how this might affect the overall quality of the node representations learned by each model.
+
+With a fixed weighting scheme in the GCNs, which weights the neighboring embeddings through the normalized adjacency matrix, noisy and irrelevant nodes in the neighbors can impact the aggregated embeddings. This will adversely affect the quality of the learned representations in GCNs. GATs on the other hand will be able to selectively reduce the influence of unimportant or noisy nodes in the neighbors during aggregation when the attention mechanism learns to assign lower attention weights to these embeddings, thus allowing it to learn higher quality representations.
+
+### c) How can a standard transformer model applied to a natural language sentence be interpreted as a GNN? In this context, what would represent the nodes and edges, and how would the graph structure be defined?
+
+This can be achieved by interpreting the tokens in natural language as nodes in a fully-connected graph, where the edges of the graph are weighted by the self-attention mechanism of the transformer. The attention mechanism in the transformer is then analogous to message passing, ie, the aggregation of weighted neighboring embeddings in this GNN, where every node (token) is connected to every other node (token).
+
+### d) Provide two advantages of using GATs over Transformers for tasks involving graph-structured data. 
+
+1. For graph structures that is not fully connected, GATs are more computationally efficient as it performs attention only over each node's immediate neighbors. This means the quadratic computational complexity of transformers can be avoided for sparser graphs when applying GATs, where the computational complexity is proportional to the number of edges in the graph.
+2. Modeling graph-structured data with transformers may lead to a dilution of the structural information as the attention mechanism in transformer will allow each node attend to every other node. GATs incorporates the graph structural information by forcing nodes to attend to only neighboring nodes. This allows GATs to correctly model the relationship in the graph and learn higher quality node representations.
 
