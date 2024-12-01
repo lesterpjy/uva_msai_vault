@@ -284,13 +284,231 @@ Advantages of relative position embeddings
 
 ### b) Devise specific prompts that test the accumulated knowledge of the model using generate.py. You are free to tweak various generation parameters not related to training, such as temperature, p threshold, and the prompt.
 
+Running with prompt: 'Yesterday, I went to the store and bought some', temperature: 1.0, top_p: 0.8
+\--------------------------------------------------------------------------------
+Yesterday, I went to the store and bought something of that
+it was lying in it. ‘Do I find a circle on the ground, and set 
+\--------------------------------------------------------------------------------
+Yesterday, I went to the store and bought some to the yellow buttons: I dare
+not go myself.’ So the mouse had made the fire
+\--------------------------------------------------------------------------------
+Yesterday, I went to the store and bought something her father to the table.
 
+The sausage had only to watch the pot to take
+\--------------------------------------------------------------------------------
+Yesterday, I went to the store and bought something of that
+poor Heinel was lost, and said, ‘Good heavens! what a lovely ch
+\--------------------------------------------------------------------------------
+Yesterday, I went to the store and bought something he
+came to the golden ball, and hurrous creature he went to an innocent
+
+
+Running with prompt: 'She locked the door before leaving the house because she didnt want anyone to', temperature: 0.8, top_p: 0.6
+\--------------------------------------------------------------------------------
+She locked the door before leaving the house because she didnt want anyone to go about as the
+.
+He saw nothing was derived at the lid back, and the mother
+\--------------------------------------------------------------------------------
+She locked the door before leaving the house because she didnt want anyone to the please, and sat down
+on each side of him, and looked saver the and on ea
+\--------------------------------------------------------------------------------
+She locked the door before leaving the house because she didnt want anyone to go. The king
+was the fire was again said: ‘In the shorn stood the children a
+\--------------------------------------------------------------------------------
+She locked the door before leaving the house because she didnt want anyone to go.
+
+
+
+
+THE GOLDEN BIRD
+
+A certain king had a beautiful garden, and in the g
+\--------------------------------------------------------------------------------
+She locked the door before leaving the house because she didnt want anyone to go out to drink, the
+parson ran out into the world and look about you a litt
+
+
+Running with prompt: 'Once upon a time, in a land where the sun never set, there was a magical forest filled with', temperature: 1.0, top_p: 0.9
+\--------------------------------------------------------------------------------
+Once upon a time, in a land where the sun never set, there was a magical forest filled with the lion, and said:
+‘You are my beloved breaded by great fear, and said:
+
+ ‘
+\--------------------------------------------------------------------------------
+Once upon a time, in a land where the sun never set, there was a magical forest filled with the sack reman up to deserve at once set free? Why then does this enchantmen
+\--------------------------------------------------------------------------------
+Once upon a time, in a land where the sun never set, there was a magical forest filled with the forest. And the king the thieves were frightened, and ran off a little
+w
+\--------------------------------------------------------------------------------
+Once upon a time, in a land where the sun never set, there was a magical forest filled with rage.
+
+Away they ran Catherine, and away ran the deving was her fast by her
+
+\--------------------------------------------------------------------------------
+Once upon a time, in a land where the sun never set, there was a magical forest filled with the for following morning. As she was
+the most beautiful maiden the sun shon
+
+
+Running with prompt: 'The king observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and', temperature: 0.7, top_p: 0.9
+\--------------------------------------------------------------------------------
+The king observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and fierceame
+once reigned with his wife and half a little nailed down the stair
+\--------------------------------------------------------------------------------
+The king observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and ventures was dead, but went with it in
+the corner of the market, where every
+\--------------------------------------------------------------------------------
+The king observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and fierers
+with the rest of gold, and enemy the bear was much too hone, the you
+\--------------------------------------------------------------------------------
+The king observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and remained a little house of bread
+which new confinted him, and he begged earn
+\--------------------------------------------------------------------------------
+The king observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and find a
+man to whol, and the mother had two children grew upon the ground. ‘T
+
+
+Running with prompt: 'The scientist observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and', temperature: 0.7, top_p: 0.9
+\--------------------------------------------------------------------------------
+The scientist observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and
+patied and happily a hair fell down into the well. He took it quickly
+out, b
+\--------------------------------------------------------------------------------
+The scientist observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and venupon.
+
+The little man crawn to the steak and to go home at all, but they 
+\--------------------------------------------------------------------------------
+The scientist observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and fiercreast of his father’s and mother’s son said, ‘I have been to be a sture
+\--------------------------------------------------------------------------------
+The scientist observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and noisesider that
+the girl passed the Water of Life, and had brought it with t
+\--------------------------------------------------------------------------------
+The scientist observed the phenomenon with a sense of quixotic wonder, noting that it both anomalous and flew off her
+horses, and all began to be so hot and parched that his tongue
+
+
+Running with prompt: 'The chicken is ready to eat. We set the table and', temperature: 0.7, top_p: 0.6
+\--------------------------------------------------------------------------------
+The chicken is ready to eat. We set the table and carried them outside, and all the time she did nothing but
+weep. Then she la
+\--------------------------------------------------------------------------------
+The chicken is ready to eat. We set the table and carried them outside, and all the time she did nothing but
+weep. Then she la
+\--------------------------------------------------------------------------------
+The chicken is ready to eat. We set the table and be carried off
+two wicked with the butter as I day not long after the spindl
+\--------------------------------------------------------------------------------
+The chicken is ready to eat. We set the table and cannot survice upon
+them. Then they gave him the cloak, and he wished himsel
+\--------------------------------------------------------------------------------
+The chicken is ready to eat. We set the table and go shell, and what he
+asked: but Snowdrop was left at home, and when he took
+
+
+Running with prompt: 'Sarah gave her sister a gift because she wanted to make her happy. She was thrilled with the', temperature: 0.9, top_p: 0.6
+\--------------------------------------------------------------------------------
+Sarah gave her sister a gift because she wanted to make her happy. She was thrilled with the good was
+therefore honourably received, and a spring as beautiful as her mot
+\--------------------------------------------------------------------------------
+Sarah gave her sister a gift because she wanted to make her happy. She was thrilled with the good into the forest,
+and it lay there in deep stillness and solitude, and n
+\--------------------------------------------------------------------------------
+Sarah gave her sister a gift because she wanted to make her happy. She was thrilled with the goose.
+
+So on he jogged, and all seemed now to go right with him: he had met
+\--------------------------------------------------------------------------------
+Sarah gave her sister a gift because she wanted to make her happy. She was thrilled with the window to see if you wait?’ Then he beneath a man
+looked for him, and the be
+\--------------------------------------------------------------------------------
+Sarah gave her sister a gift because she wanted to make her happy. She was thrilled with the good wind and
+weather. Once in summer when he was working was led
+to earn hi
+
+
+Running with prompt: 'The kings council convened every year to discuss the welfare of the kingdom. Ten years later, the traditions remained, and the council still', temperature: 0.9, top_p: 0.6
+\--------------------------------------------------------------------------------
+The kings council convened every year to discuss the welfare of the kingdom. Ten years later, the traditions remained, and the council still late the boy sat
+upon his back, and rode his horse against her stall, and br
+\--------------------------------------------------------------------------------
+The kings council convened every year to discuss the welfare of the kingdom. Ten years later, the traditions remained, and the council still less not
+coming but a ring and gave him the bow and fiddle,
+and when she saw
+\--------------------------------------------------------------------------------
+The kings council convened every year to discuss the welfare of the kingdom. Ten years later, the traditions remained, and the council still more
+for him as he could possibly use at the royal table. So he summoned all
+\--------------------------------------------------------------------------------
+The kings council convened every year to discuss the welfare of the kingdom. Ten years later, the traditions remained, and the council still journey
+tomorrow of the washing-bowl, and the seventh into the clock-case. B
+\--------------------------------------------------------------------------------
+The kings council convened every year to discuss the welfare of the kingdom. Ten years later, the traditions remained, and the council still would not be able to find the way thither.
+
+Rose-red led her betrothed heart
 
 ## Question 2.9
 
 ### b) Discuss the benefits of using FlashAttention and what they stem from.
 
 The attention mechanism is not bottlenecked by computation, but rather by read and writes of the large NxN matrices in softmax step.
+
+
+## Question 3.1
+
+For the sub-questions a, b and c provide your answers as a matrix in the
+notation of a 2D python list. For example: [[1,2,3], [4,5,6], [7,8,9]]
+### a) Write down the adjacency matrices for the graphs shown in Fig. 6 Please respect the indicated node ordering
+
+Left graph in adjacency matrix:
+\[[0, 1, 1, 0, 1], [1, 0, 1, 0, 0], [1, 1, 0, 1, 0], [0, 0, 1, 0, 0], [1, 0, 0, 0, 0]\]
+$$
+\begin{bmatrix}
+    0 & 1 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 0 & 0 \\
+    1 & 1& 0 & 1 & 0 \\
+    0 & 0 & 1 & 0 & 0 \\
+    1 & 0 & 0 & 0 & 0 \\
+\end{bmatrix}
+$$
+Right graph in adjacency matrix:
+\[[0, 1, 0, 0, 0, 0], [1, 0, 1, 0, 1, 0], [0, 1, 0, 1, 0, 0], [0, 0, 1, 0, 1, 1], [0, 1, 0, 1, 0, 1], [0, 0, 0, 1, 1, 0]\]
+$$
+\begin{bmatrix}
+    0 & 1 & 0 & 0 & 0 & 0 \\
+    1 & 0 & 1 & 0 & 1 & 0 \\
+    0 & 1 & 0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 0 & 1 & 1 \\
+    0 & 1 & 0 & 1 & 0 & 1 \\
+    0 & 0 & 0 & 1 & 1 & 0 \\
+\end{bmatrix}
+$$
+### b) For the first graph (Fig. 6, left), also write down the square of the adjacency matrix $A^2$. How can you interpret the entries of the squared adjacency matrix $A^2$? How can you interpret the entries of the adjacency matrix to the power of 𝑛, $(A^n)_{uv}$?
+
+\[[3, 1, 1, 1, 0], [1, 2, 1, 1, 1], [1, 1, 3, 0, 1], [1, 1, 0, 1, 0], [0, 1, 1, 0, 1]\]
+$$
+A^2 = \begin{bmatrix}
+    0 & 1 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 1 & 0 \\
+    0 & 0 & 1 & 0 & 0 \\
+    1 & 0 & 0 & 0 & 0 \\
+\end{bmatrix} \cdot
+\begin{bmatrix}
+    0 & 1 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 1 & 0 \\
+    0 & 0 & 1 & 0 & 0 \\
+    1 & 0 & 0 & 0 & 0 \\
+\end{bmatrix} =
+\begin{bmatrix}
+    3 & 1 & 1 & 1 & 0 \\
+    1 & 2 & 1 & 1 & 1 \\
+    1 & 1 & 3 & 0 & 1 \\
+    1 & 1 & 0 & 1 & 0 \\
+    0 & 1 & 1 & 0 & 1 \\
+\end{bmatrix}
+$$
+The square of the adjacency matrix $A^2$ represents the number of paths with length 2 that connects $u$ and $v$ for $(A^2)_{uv}$. That is, $(A^2)_{11}$ shows that there are 3 paths with length of 2 that starts at node 1 and ends at node 1.  $(A^2)_{31}$ shows that there are 1 path with length of 2 that starts at node 3 and ends at node 1 (the path that goes through node 2). This can be generalized for adjacency matrix of power $n$, where $(A^n)_{uv}$ represents the number of $n$-length paths between $u$ and $v$.
+
+### c) The Laplacian matrix captures the relationship between connected nodes, thus influencing how feature values propagate through the network. For the second graph (Fig. 6, right), write down the Laplacian matrix. Then, without performing calculations, reason which node (or nodes) changes the most in feature values when the Laplacian is applied to an input matrix X (F = LX), and explain why.
+
 
 
 
