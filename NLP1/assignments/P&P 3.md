@@ -49,3 +49,70 @@ This can be achieved with the lexical function model assuming synonyms like "sma
 
 ### 1i) Disambiguate the meaning of the adjective, for instance, the meaning of _warm_ in warm tea vs. warm person.
 The lexical function $f_{\text{warm}}$ can be applied to the noun vectors of tea and person to encode context specific meanings of the adjective "warm". Then the resulting vector representations for the adjective-noun pairs can then be compared with vectors of potential meanings of the phrases. For instance, computing similarities of representations between the adjective-noun pairs with the representations of words like "temperature" and "affection" would then reveal that the phrase "warm tea" is more associated with the temperature sense of the adjective "warm" and "warm person" is more associated with the "affection" sense of the adjective "warm". This method allows lexical function models to disambiguate the meanings of adjective depending on the noun the adjective modifies.
+
+
+The two sentences in each sentence pair below are linked by a particular rhetorical relation. Which rhetorical relation does each sentence pair exhibit? Focus on the relation of the second sentence with respect to the first. Answer the following questions (j)-(l) by naming the correct relation and giving a 1 sentence explanation. No marks will be awarded for incorrectly identified relations without an explanation. For incorrectly identified relations with _plausible_ explanations, partial marks might be awarded.
+### 1j) _The use of diesel in transport has come under increasing scrutiny in recent years. According to WHO, around three million deaths every year are linked to exposure to outdoor air pollution._
+The second sentence provides a statistical support from WHO that explains why diesel use is under increasing scrutiny, serving as an **explanation** for why the claim was made in the first sentence.
+### 1k) _Nitrogen oxides can help form ground-level ozone. This can exacerbate breathing difficulties._
+The second sentence describes the **result** (**cause and effect**) of nitrogen oxides forming ground-level ozone, showing that it leads to exacerbated breathing difficulties.
+### 1l) _Paris has already taken a series of steps to cut the impact of diesel cars and trucks. Vehicles registered before 1997 have already been banned from entering the city._
+The second sentence provides a specific example of the steps that Paris took, which forms a **justification** for the statement that Paris has already taken a series of steps.
+
+
+Specify which salient rule is used to resolve the highlighted anaphora in the given discourse. Name the relevant rule and give a short 1-2 sentence explanation of how it applies to the anaphora.
+
+### 1m) _Lee bought his first car in 2005 and his second car, last year. He now drives **it** to work._
+The pronoun "it" refers to "his second car", which is the more recent suitable antecedent in the discourse. This suggests the **recency** rule can be applied to resolve the anaphora.
+
+### 1n) _Lara scolded Maria for breaking the glass; **she** still couldn't contain her anger._
+The pronoun "she" refers to "Lara", which is the subject of the previous sentence. The **grammatical role** rule states that pronouns prefer antecedents that are subjects rather than objects, and thus "she" resolves to the subject of the previous sentence, "Lara". 
+
+### 1o) _Elizabeth first danced with Mr Darcy. Anna danced with **him** next._
+The **parallelism** rule states that entities which share the same role as the pronoun in the same sort of sentence are preferred. In this case, "him" refers to "Mr Darcy" in the previous sentence.
+
+
+Consider the following discourse:
+_Arya went to Hilda's car showroom to check out a Fiat Linea._
+_She decided to buy it, after hours of inspection._
+
+### 1p) Create the feature vector for each possible (pronoun, antecedent) pair for anaphora resolution in the discourse with _Cataphoric, Number agreement, Gender agreement_, Same verb, Sentence distance, _Grammatical role_, _Parallel_, and _Linguistic form_ features as described in the lecture. Focus on the following pairs: **(she, Arya); (she, Hilda); (it, car showroom); (it, Fiat Linea)**.
+Cataphoric: if pronoun appears before antecedent
+Number agreement: if pronoun compatible with antecedent
+Gender agreement: if gender agreement
+Same verb: if the pronoun and the candidate antecedent are arguments of the same verb
+Sentence distance: discrete of {0, 1, 2, ...}
+Grammatical role: the role of the potential antecedent, discrete of {subject, object, other}
+Parallel: if the potential antecedent and the pronoun share the same grammatical role.
+Linguistic form: {proper, definite, indefinite, pronoun} of antecedent
+
+**(she, Arya)**
+```
+[False, True, True, False, 1, subject, True, proper]
+```
+**(she, Hilda)**
+```
+[False, True, True, False, 1, object, False, proper]
+```
+ **(it, car showroom)**
+```
+[False, True, True, False, 1, other, False, definite]
+```
+ **(it, Fiat Linea)**
+ ```
+[False, True, True, False, 1, object, True, proper]
+```
+### 1q) Describe how this feature vector can be used to resolve the anaphora assuming a supervised approach. Make sure you describe how you collect data for your approach and explain clearly how to implement your approach.
+The supervised approach can be implemented with:
+1. For each pronoun in a large corpus, extract pronoun-antecedent pairs by identifying all potential antecedents within a certain window of text.
+2. Label each pronoun-antecedent pair as True for correct antecedent and False for incorrect ones.
+3. For each labeled pair, extract feature vector.
+4. Use labeled feature vector to train a probabilistic classifier. The model should learn to estimate the probability that a given pronoun-antecedent pair is correct based on the input features.
+5. At test time, the pronoun-antecedent pairs of an unseen text can be extracted, and converted into feature vectors.
+6. The trained model can then predict the probability that each candidate pair is correct. The candidate pair with the highest predicted probability can be selected as the antecedent of the pronoun.
+
+### 1r) Mention two problems with this simple classification approach and briefly (1-2 sentences per problem) explain why they arise.
+1. This simple classification approach based on the feature vectors may overlook the most salient entities that are repeatedly referred to in the discourse, as it evaluates each pronoun-antecedent pair independently without considering the frequency of mentions. This means the model cannot leverage the "repeated mention" effect where entities mentioned multiple times are more likely to be the antecedents of pronouns.
+2. Earlier anaphoric links in the text may often provide crucial context for resolving subsequent pronouns. Since the model treats each pair in isolation, it is unable to capture continuity throughout the discourse, which leads to potential inconsistencies in anaphora resolution.
+
+
