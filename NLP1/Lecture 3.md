@@ -64,3 +64,62 @@ Notice that the sequence is padded with:
 - EOS tag (for the final transition)
 - EOS token (for the final emission)
 
+**Generative Story**
+![[hmm_generative_story.png | 500]]
+This specifies a factorization of $P_{XY}$ in terms of elementary factors of the kind $P_{C|C_{\text{prev}}}$ and $P_{W|C}$
+
+**Tabular Parameterization**
+Given a previous tag $r$, the transition distribution over the (next) tag is Categorical:
+$$
+\begin{equation}
+\begin{aligned}
+C|C_{\text{prev}} &= r \sim \text{Categorical}(\lambda_{1:K}^{(r)}) \\
+\text{hence, } & P_{C|C_{\text{prev}}}(c|r) = \lambda_{c}^{(r)}
+\end{aligned}
+\end{equation}
+$$
+Given a tag $c$, the emission distribution over words is also Categorical,
+$$
+\begin{equation}
+\begin{aligned}
+W|C &= c \sim \text{Categorical}(\theta_{1:V}^{(c)}) \\
+\text{hence, } & P_{W|C}(w|c) = \theta_{w}^{(c)}
+\end{aligned}
+\end{equation}
+$$
+The probability mass function for the joint probability in HMM can be derived as,
+$$
+P_{XY}(w_{1:l},c_{1:l}) = \prod_{i=1}^l \ \lambda_{c_{i}}^{(c_{i}-1)} \times \theta_{w_{i}}^{(c_{i})}
+$$
+These parameter can be estimated via MLE given a dataset annotated with POS.
+- Generating tag $c$ right after generating tag $r$
+$$
+\begin{equation}
+\begin{aligned}
+\lambda_{c}^{(c)} \overset{MLE}{=} \frac{\text{count}_{C_{\text{prev}}C}(r,c)}{\sum_{k=1}^K \text{count}_{C_{\text{prev}}C}(r,k)} = \frac{\text{count}_{C_{\text{prev}}C}(r,c)}{\text{count}_{C_{\text{prev}}}(r)}
+\end{aligned}
+\end{equation}
+$$
+- Generating word $w$ from tag $c$ is
+$$
+\theta_{w}^{(c)} \overset{MLE}{=} \frac{\text{count}_{CW}(c,w)}{\sum_{o=1}^{V}\text{count}_{CW}(c,o)} = \frac{\text{count}_{CW}(c,w)}{\text{count}_{C}(c)}
+$$
+
+Less data sparsity issue compared to NGram LM:
+- NGram LM: $V^{N-1}$ possible outcomes
+- HMM: $K$ possible outcomes for the possible POS tags, sparsity arise from unseen transitions or emissions.
+Contextual information is only available through the POS tag of the previous position.
+
+HMM makes a strong conditional independence assumption:
+- older history affect analysis (read that vs. read the)
+- LIKE as a verb or as a preposition, requires look ahead
+- Semantics of the verb affect analysis
+
+Possible improvements:
+- Trigram transitions
+- bigram emissions
+- others like having $W_{i}$ depend on also $C_{i-1}$
+But as tabular representation becomes sparser, they lead to other problems.
+
+## Evaluation
+
