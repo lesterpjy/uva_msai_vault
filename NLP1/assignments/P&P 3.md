@@ -86,6 +86,9 @@ Grammatical role: the role of the potential antecedent, discrete of {subject, ob
 Parallel: if the potential antecedent and the pronoun share the same grammatical role.
 Linguistic form: {proper, definite, indefinite, pronoun} of antecedent
 
+----
+---
+
 **(she, Arya)**
 ```
 [False, True, True, False, 1, subject, True, proper]
@@ -100,7 +103,7 @@ Linguistic form: {proper, definite, indefinite, pronoun} of antecedent
 ```
  **(it, Fiat Linea)**
  ```
-[False, True, True, False, 1, object, True, proper]
+[False, True, True, False, 1, object, True, indefinite]
 ```
 ### 1q) Describe how this feature vector can be used to resolve the anaphora assuming a supervised approach. Make sure you describe how you collect data for your approach and explain clearly how to implement your approach.
 The supervised approach can be implemented with:
