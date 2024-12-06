@@ -46,11 +46,29 @@ Explain shortly why the names reconstruction and regularization are appropriate 
 - $D_{KL}(q_{\phi}(\mathbf{z}_{n}|\mathbf{x}_{n})||p_{\theta}(\mathbf{z}_{n}))$ regularizes the latent space by enforcing the variational distribution $q_{\phi}(\mathbf{z}_{n}|\mathbf{x}_{n})$ to be close to the prior $p_{\theta}(\mathbf{z}_{n})$. By aligning the learned posterior with the prior, this loss term ensures that the latent space does not overfit, and can be sampled from for generative purposes.
 
 ### Question 1.6
-The above derivation of closed form expression for the regularization term requires Gaussian prior and variational distributions. Assume that we want to model the prior $p(\mathbf{z})$ with a more complex distribution — it is likely the closed form expression would not exist. Keeping in mind that $D_{KL}(q(\mathbf{z}|\mathbf{x})|p(\mathbf{z})) = \mathbb{E}_{z\sim q(\mathbf{z}|\mathbf{x})}\left[\log \frac{q(\mathbf{z}|\mathbf{x})}{p(\mathbf{x})} \right]$, propose an alternative way of estimating the regularization term for a given sample $\mathbf{x}_{n}$.
+The above derivation of closed form expression for the regularization term requires Gaussian prior and variational distributions. Assume that we want to model the prior $p(\mathbf{z})$ with a more complex distribution — it is likely the closed form expression would not exist. Keeping in mind that $D_{KL}(q(\mathbf{z}|\mathbf{x})|p(\mathbf{z})) = \mathbb{E}_{z\sim q(\mathbf{z}|\mathbf{x})}\left[\log \frac{q(\mathbf{z}|\mathbf{x})}{p(\mathbf{z})} \right]$, propose an alternative way of estimating the regularization term for a given sample $\mathbf{x}_{n}$.
 
-
+If the closed form solution does not exist for the regularization term, it is possible to estimate its values using Monte-Carlo sampling in a similar manner to the reconstruction term. The KL divergence can first be rewritten as,
+$$
+\begin{equation}
+\begin{aligned}
+D_{KL}(q(\mathbf{z}_{n}|\mathbf{x}_{n})|p(\mathbf{z}_{n})) &= \mathbb{E}_{z\sim q(\mathbf{z}_{n}|\mathbf{x}_{n})}\left[\log \frac{q(\mathbf{z}_{n}|\mathbf{x}_{n})}{p(\mathbf{z}_{n})} \right] \\
+&= \mathbb{E}_{z\sim q(\mathbf{z}_{n}|\mathbf{x}_{n})}\left[\log q(\mathbf{z}_{n}|\mathbf{x}_{n})-\log p(\mathbf{z}_{n}) \right] \\
+&\approx \frac{1}{L}\sum_{l=1}^L \left[\log q(\mathbf{z}_{n}^{(l)}|\mathbf{x}_{n})-\log p(\mathbf{z}_{n}^{(l)})\right], \ \ \ \ \mathbf{z}_{n}^{(l)}\sim q(\mathbf{z}_{n}|\mathbf{x}_{n})
+\end{aligned}
+\end{equation}
+$$
+Similar to the reconstruction term, we can sample $L$ samples of $\mathbf{z}_{n}^{(l)}$ from the variational posterior, and evaluate the KL divergence with the Monte Carlo estimate shown above.
 
 ### Question 1.7
+Passing the derivative through samples can be done using the reparameterization trick — the process of sampling $z$ directly from $\mathcal{N}(\mu(x),\Sigma(x))$ is commonly replaced by calculating $z = \Sigma(x)\epsilon+\mu(x)$, where $\epsilon\sim\mathcal{N}(0,1)$. In a few sentences, explain why the act of direct way of sampling usually prevents us from computing $\nabla_{\phi}\mathcal{L}$, and how the reparameterization trick solves this problem.
+
+The process of sampling from $z$ directly from a the distribution $\mathcal{N}(\mu(x),\Sigma(x))$ prevents us from computing $\nabla_{\phi}\mathcal{L}$ because the non-deterministic operation of random drawing from $\mathcal{N}(\mu(x),\Sigma(x))$ is non-differentiable with respect to parameters $\phi$ of the variational distribution. The reparameterization trick solves this issue by isolating the stochasticity in the random variable $\epsilon$. $z$ now becomes a deterministic transformation of the random variable $\epsilon$, making $z$ differentiable with respect to $\phi$, through $\mu$ and $\Sigma$.
+
+
+
+
+
 
 
 
