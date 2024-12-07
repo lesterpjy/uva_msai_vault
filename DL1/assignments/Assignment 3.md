@@ -64,14 +64,133 @@ Similar to the reconstruction term, we can sample $L$ samples of $\mathbf{z}_{n}
 Passing the derivative through samples can be done using the reparameterization trick — the process of sampling $z$ directly from $\mathcal{N}(\mu(x),\Sigma(x))$ is commonly replaced by calculating $z = \Sigma(x)\epsilon+\mu(x)$, where $\epsilon\sim\mathcal{N}(0,1)$. In a few sentences, explain why the act of direct way of sampling usually prevents us from computing $\nabla_{\phi}\mathcal{L}$, and how the reparameterization trick solves this problem.
 
 The process of sampling from $z$ directly from a the distribution $\mathcal{N}(\mu(x),\Sigma(x))$ prevents us from computing $\nabla_{\phi}\mathcal{L}$ because the non-deterministic operation of random drawing from $\mathcal{N}(\mu(x),\Sigma(x))$ is non-differentiable with respect to parameters $\phi$ of the variational distribution. The reparameterization trick solves this issue by isolating the stochasticity in the random variable $\epsilon$. $z$ now becomes a deterministic transformation of the random variable $\epsilon$, making $z$ differentiable with respect to $\phi$, through $\mu$ and $\Sigma$.
+### Question 1.8
 
 
 
+### Question 1.9
+
+> [!figure] 
+> ![[epoch_0_samples_zdim20.png]] 
+> ![[epoch_10_samples_zdim20.png]] 
+> ![[epoch_80_samples_zdim20.png]]
+> *Figure 1: 64 samples from the VAE model trained on MNIST at 0 (top), 10 (middle), 80 (bottom) epochs.
+
+Some samples images generated from the VAE after 80 epochs appear to look like combinations of numbers or some are strokes that resembles numerics, but not actually numbers. This demonstrates the generative properties of the model, as number-like images are generated from the latent space.
+### Question 1.10
+
+> [!figure] 
+> ![[vae_manifold.png | 400]] 
+> Figure 2: Visualized manifold of VAE with a 2-dimensional latent space.
+
+
+### Question 2.1
+
+Configuration: 
+```
+General arguments for training
+--------------------------------------------------
+batch_size: 64
+valid_ratio: 0.75
+augmentations: [True, False]
+pretrained: [True, False]
+num_epochs: 30
+train_strats: ['standard', 'FGSM', 'PGD']
+visualise: False
+epsilon_fgsm: 0.1
+alpha_fgsm: 0.5
+epsilon_pgd: 0.01
+alpha_pgd: 2
+num_iter_pgd: 10
+```
+
+| Experiment set | Pre-trained | Attack Strategy | Defense Strategy | Data Augmentations | Test Accuracy | Acc. Decrease (%) |
+| -------------- | ----------- | --------------- | ---------------- | ------------------ | ------------- | ----------------- |
+| Set 1          | True        | -               | -                | -                  | 0.92          | -                 |
+|                | True        | FGSM            | -                | -                  | 0.4188        | 54.48             |
+|                | True        | -               | FGSM             | -                  | 0.90          | 2.17              |
+|                | True        | FGSM            | FGSM             | -                  | 0.588         | 34.67             |
+|                | True        | -               | -                | True               | 0.93          | -                 |
+|                | True        | FGSM            | -                | True               | 0.4244        | 54.37             |
+|                | True        | -               | FGSM             | True               | 0.88          | 5.38              |
+|                | True        | FGSM            | FGSM             | True               | 0.5504        | 37.45             |
+|                | -           | -               | -                | -                  | 0.67          |                   |
+|                | -           | FGSM            | -                | -                  | 0.1384        |                   |
+|                | -           | -               | FGSM             | -                  | 0.62          |                   |
+|                | -           | FGSM            | FGSM             | -                  | 0.2288        |                   |
+|                | -           | -               | -                | True               | 0.68          |                   |
+|                | -           | FGSM            | -                | True               | 0.1304        |                   |
+|                | -           | -               | FGSM             | True               | 0.58          |                   |
+|                | -           | FGSM            | FGSM             | True               | 0.1848        |                   |
+| Set 2          | True        | -               | -                | -                  | 0.92          | -                 |
+|                | True        | FGSM            | -                | -                  | 0.402         | 56.30             |
+|                | True        | -               | FGSM             | -                  | 0.89          | 3.26              |
+|                | True        | FGSM            | FGSM             | -                  | 0.556         | 37.53             |
+|                | True        | -               | -                | True               | 0.92          | -                 |
+|                | True        | FGSM            | -                | True               | 0.4156        | 54.83             |
+|                | True        | -               | FGSM             | True               | 0.89          | 3.26              |
+|                | True        | FGSM            | FGSM             | True               | 0.5588        | 37.21             |
 
 
 
+Why would adding a random perturbation with size ϵ not have a similar effect as a FGSM perturbation of the same size?
+
+A random perturbation of size $\epsilon$ is not guaranteed to move the input data in the opposite direction of the largest gradient descent. By following the sign of the gradient, FGSM ensures that even a small perturbation is highly effective at push the input example across the model's decision boundary, leading to misclassification.
 
 
+Say we split the training data into two sets A and B, and train models A and B on those datasets, respectively. Then, we have two models trained for the same task but using different subsets of the same dataset. Now for an instance x in the test set, a perturbation built using the gradients from model A, will likely have a similar effect on model B, even though the models don’t share weights or the exact training data. What is likely to be the cause of this phenomenon?
+
+This phenomenon can be attributed to adversarial transferability, which arise because different models that are trained on different subset of the same dataset tend to learn similarly oriented decision boundaries and latent representations for the same task. The two models are both optimizing for the same classification objective and learning from data that are drawn from the same underlying distribution. As a result the perturbation derived from model A will likely work on model B as well.
 
 
+What is the effect on using data augmentation compared to using no data augmentation, how would you explain this effect?
 
+Using data augmentation during training should lead to a model that is more robust to FGSM attacks. Theoretically, training with data augmentation should cause the model to rely on more generalizable patterns, and the learned boundaries in the loss landscape should be smoother and less vulnerable to small changes to the input. Practically, in the result above we observe that the accuracy differs across different training runs, in experiment set 1, augmentation led to a small decrease, while in experiment set 2, it led to a small increase. This suggest that while data augmentation generally improves robustness, each training run might resulting in variations in the final accuracy and the exact level of robustness to FGSM attacks, due to the more complex high-dimensional loss landscape of our deep network model.
+
+
+### Question 2.2
+
+Describe the tradeoff between defending against the attack or not, why does this tradeoff occur?
+
+The result shows that with pretraining and without augmentation, defense with FGSM loss works the best, as the accuracy on adversarial test data decreased by only 34.67% and the a small trade-off of 2.17% on the unperturbed data. Results without pretraining is significantly worse, and results for pretraining with data augmentation is only slightly worse.
+
+There is a tradeoff on the accuracy of the clean, unperturbed data when adversarial defense is incorporated in training. This behavior is explicitly observed in the results table of Q2.1, where we see the accuracy decreased by 2.17% without data augmentation, and by 5.38% with data augmentation. The competing objective in the adversarial loss means that the model is forced to optimize on both the clean data loss with $\alpha J(\mathbf{\theta},x,y)$ and on the perturbed data loss with $(1-\alpha)J(\mathbf{\theta}, x+\epsilon \text{sign}(\nabla_{x}J(\mathbf{\theta},x,y)))$. The $\alpha$ parameter in the loss function can be used to control this trade off between the competing objectives.
+### Question 2.3
+
+
+| Experiment set | Pre-trained | Attack Strategy | Defense Strategy | Data Augmentations | Test Accuracy | Acc. Decrease (%) |
+| -------------- | ----------- | --------------- | ---------------- | ------------------ | ------------- | ----------------- |
+| Set 1          | True        | -               | -                | -                  | 0.92          | -                 |
+|                | True        | PGD             | -                | -                  | 0.4424        | 51.91             |
+|                | True        | -               | PGD              | -                  | 0.88          | 4.35              |
+|                | True        | PGD             | PGD              | -                  | 0.5032        | 42.82             |
+|                | True        | -               | -                | True               | 0.93          | -                 |
+|                | True        | PGD             | -                | True               | 0.4424        | 52.43             |
+|                | True        | -               | PGD              | True               | 0.80          | 13.98             |
+|                | True        | PGD             | PGD              | True               | 0.466         | 41.75             |
+|                | -           | -               | -                | -                  | 0.67          |                   |
+|                | -           | PGD             | -                | -                  | 0.1264        |                   |
+|                | -           | -               | PGD              | -                  | 0.57          |                   |
+|                | -           | PGD             | PGD              | -                  | 0.1352        |                   |
+|                | -           | -               | -                | True               | 0.68          |                   |
+|                | -           | PGD             | -                | True               | 0.1812        |                   |
+|                | -           | -               | PGD              | True               | 0.60          |                   |
+|                | -           | PGD             | PGD              | True               | 0.20          |                   |
+| Set 1          | True        | -               | -                | -                  | 0.92          |                   |
+|                | True        | PGD             | -                | -                  | 0.42          |                   |
+|                | True        | -               | PGD              | -                  | 0.87          |                   |
+|                | True        | PGD             | PGD              | -                  | 0.5028        |                   |
+|                | True        | -               | -                | True               | 0.92          |                   |
+|                | True        | PGD             | -                | True               | 0.432         |                   |
+|                | True        | -               | PGD              | True               | 0.82          |                   |
+|                | True        | PGD             | PGD              | True               | 0.4844        |                   |
+
+In this implementation, how do "using an adversarial loss" and "adding adversarial examples to the batch" compare? Are they equivalent or different? Provide reasoning for your answer, including under what conditions they might align or diverge.
+
+The two approaches should produce equivalent or comparable models if the loss weight parameter $\alpha$ on the adversarial loss is set to $0.5$. Since in the adding adversarial examples case, we are adding equal number of duplicates of the input data into the training batch, the importance weighting of the examples seen by the model is equivalent for perturbed and unperturbed inputs. If the parameter $\alpha$ deviates significantly from 0.5, the adversarial loss is penalizing perturbation or non-perturbation more significantly than the other, leading to deviation from the "adding adversarial example to batch" approach.
+
+Describe a tradeoff between using FGSM and PGD. For each method, identify one advantage it has over the other.
+
+A tradeoff between the two approaches is the computational cost and the strength of the adversarial attack:
+- FGSM requires only a single step to generate adversarial example, which makes the approach computationally efficient and easy to implement.
+- PGD takes multiple steps of gradient-based perturbations, which is computationally more involved, but produces stronger attacks that are more reliable in measuring a model's robustness to adversarial attacks.
