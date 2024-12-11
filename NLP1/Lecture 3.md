@@ -122,4 +122,78 @@ Possible improvements:
 But as tabular representation becomes sparser, they lead to other problems.
 
 ## Evaluation
+**Tagging Performance**
+Predict POS tag sequence with mode-seeking search:
+$$
+\hat{c}_{1:l} = \underset{c_{1:l}\in \mathcal{C}^l}{\text{argmax}} \ \ P_{Y|X}(c_{1:l}|w_{1:l})
+$$
+Compare predicted $\hat{c}_{1:l}$ to human-annotated $c_{1:l}^*$ at all positions, calculate accuracy or per-POS $F_{1}$ for each position.
+![[evaluation_enumeration.png | 400]]
+But there are $K^l$ tag sequence candidates, and enumeration is intractable.
+
+**LM Performance**
+Use HMM to marginalize over the candidate space, and assign probability to observed text
+$$
+P_{X}(w_{1:l}) = \sum_{c_{1:l}\in \mathcal{C^l}} P_{XY}(w_{1:l}, c_{1:l})
+$$
+Also intractable as we have to sum over all probabilities.
+
+Enumeration is intractable, but it’s unnecessary.
+Because of the conditional independences in the HMM, changing the POS tag of position $i$ can only affect:
+- one emission probability ($C_{i} \rightarrow w_{i}$)
+- two transition probabilities ($C_{i-1}\rightarrow C_{i}$ and $C_{i} \rightarrow C_{i+1}$)
+This allows us to solve search and marginalization incrementally with the **Viterbi** or **Foward** algorithms in $\mathcal{O}(L \times K^2)$ time.
+
+
+## Sequence Labeling
+- POS tagging
+- Named-Entity Recognition (Chunking as labeling)
+Key Technical Limitation of HMM
+- Limited use of linguistic context
+- Unseen words
+
+## Local Log-Linear Models
+In HMM, conditional is obtained by inferring it from a joint distribution, which is designed with parameterization and factorization.
+$$
+\hat{c}_{1:l} = \underset{c_{1:l}\in \mathcal{C}^l}{\text{argmax}} \ \ P_{Y|X}(c_{1:l}|w_{1:l})
+$$
+We model the conditional directly by regarding the text as the tag predictor (no longer able to assign probability to text):
+
+Make the $0$-order Markov assumption $C_{i} \perp C_{j\neq i} | X=x,I=i$
+![[log-linear.png| 400]]
+
+In the 0-order conditional model, the cpd of any one tag depends on the entire text $w_{1:l}$, for each position $i\in[l]$
+![[conditioning_context.png | 400]]
+
+Conditioning context is a high dimensional, variable length outcome $\rightarrow$ cannot use cpd tabular treatment (store conditional probs for every context) $\rightarrow$ learn to predict conditional prob from a D-dimensional representation of the conditioning context.
+
+Feature function:
+![[log_linear_feature_func.png | 400]]
+
+We then map any given conditioning cotext $(w_{i:l},i)$ to a $K$-dimensional probability vector by:
+![[logistic_cpds.png | 400]]
+
+The pmf then becomes:
+![[log_linear_pmf.png | 400]]
+
+We can assess the log-likelihood of the model parameter $\theta$ given the observed data $\mathcal{D}$
+![[log_likelihood_log_linear.png | 400]]
+We want to optimize the parameters
+$$
+\theta^{MLE} = \underset{\theta}{argmax} \ \ \mathcal{L_{\mathcal{D}}}(\theta)
+$$
+But no closed form, so we can optimize it iteratively via gradient based optimization.
+
+We could also make 1-order Markov assumptions, and that requires changing our feature function to incorporate tag information:
+![[1st_order_markov_log_linear.png | 400]]
+
+Log-linear models can achieve a lot!
+• We can use more context, word internal features, etc.
+• They are more statistically efficient than tabular cpds: the size of the model does not depend on how many condition-outcome pairs are possible.
+• They have been applied to POS tagging, NER, semantic role labeling (SRL), etc.
+But they are tricky to design
+• Good feature functions require enough intuitions about what’s likely useful for a task.
+• Interesting feature spaces are typically very large.
+
+
 
