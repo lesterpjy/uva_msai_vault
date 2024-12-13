@@ -8,35 +8,34 @@
         "type": "tabs",
         "children": [
           {
-            "id": "ffd682141af68e3d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "NLP1/Lecture 3.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Lecture 3"
-            }
-          },
-          {
             "id": "5772b5a049793046",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DL1/Lecture 6.md",
+                "file": "DL1/Lecture 7.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Lecture 6"
+              "title": "Lecture 7"
+            }
+          },
+          {
+            "id": "61ec2572b28c2855",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "NLP1/Lecture 11.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Lecture 11"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -181,20 +180,33 @@
   },
   "active": "5772b5a049793046",
   "lastOpenFiles": [
-    "DL1/images/pixel_level_classification_deconv.png",
-    "DL1/images/mask_rcnn.png",
-    "DL1/images/focal_loss.png",
-    "DL1/images/region_proposal_network.png",
-    "DL1/images/fast_rcnn.png",
-    "DL1/images/roi_pooling.png",
-    "DL1/images/rcnn.png",
-    "DL1/images/resnet_variations.png",
-    "DL1/images/residual_block.png",
-    "DL1/images/depth_degradation.png",
-    "DL1/images/inception.png",
+    "DL1/Lecture 6.md",
+    "NLP1/Lecture 11.md",
+    "DL1/Lecture 7.md",
+    "DL1/Lecture 8.md",
+    "NLP1/Lecture 10.md",
+    "NLP1/images/ppo.png",
+    "NLP1/Lecture 9.md",
+    "NLP1/images/activation_patching.png",
+    "NLP1/images/interpretibility_hier.png.sb-96e71068-uygolL",
+    "NLP1/images/interpretibility_hier.png",
+    "NLP1/Lecture 8.md",
+    "NLP1/images/rlhf.png",
+    "NLP1/images/bert.png",
+    "NLP1/images/bert_input.png",
+    "NLP1/images/elmo.png",
+    "NLP1/Lecture 7.md",
+    "NLP1/Lecture 12.md",
+    "Lecture 12",
+    "NLP1/images/coreference_resolution_features.png",
+    "NLP1/Lecture 5.md",
+    "NLP1/Lecture 6.md",
+    "NLP1/images/lstm.png",
+    "NLP1/images/word2vec_embeddings.png",
+    "NLP1/Lecture 4.md",
+    "NLP1/Lecture 3.md",
     "DL1/Lecture 5.md",
     "DL1/assignments/Assignment 2.md",
-    "NLP1/Lecture 3.md",
     "DL1/Lecture 4.md",
     "DL1/Lecture 3.md",
     "DL1/assignments/Assignment 1.md",
@@ -206,27 +218,14 @@
     "NLP1/PCFG parsing.md",
     "NLP1/NLP 1.md",
     "NLP1/Naive Bayes.md",
-    "NLP1/NGram LM.md",
-    "NLP1/Lecture 2.md",
-    "NLP1/Lecture 1.md",
-    "NLP1/assignments/P&P 3.md",
     "NLP1/assignments/P&P 3.pdf",
-    "Untitled",
     "DL1/assignments/Assignment 2.pdf",
-    "NLP1/assignments/P&P 2.md",
-    "NLP1/assignments/P&P 1.md",
-    "DL1/Lecture 8.md",
-    "0, 1, 1, 0, 1], [1, 0, 1, 0, 0], [1, 1, 0, 1, 0], [0, 0, 1, 0, 0], [1, 0, 0, 0, 0.md",
-    "Assignments.md",
-    "Sinusoidal Positional Encoding.md",
-    "Model Evaluation.md",
     "DL1/assignments/images",
     "DL1/assignments/untitled folder",
     "NLP1/assignments/P&P 2.pdf",
     "DL1/images",
     "DL1/untitled folder",
     "NLP1/assignments",
-    "Untitled.canvas",
-    "DL1/assignments"
+    "Untitled.canvas"
   ]
 }
