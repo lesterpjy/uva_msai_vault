@@ -33,7 +33,7 @@ Mechanism to assign probability $P_{XY}(w_{1:l},c_{1:l})$ to any outcome.
 - Parameterize the factors with tabular Categorical cpds
 Use MLE to estimate the free parameters of our parameterization
 
-NLP Tasks:
+**NLP Tasks**
 **Predict POS tag sequence** for a given text. For example, via mode-seeking search:
 $$
 \underset{c_{1:l}\in C^l}{\text{argmax}}\ P_{Y|X}(c_{1:l}|w_{1:l})
@@ -44,7 +44,8 @@ P_{X}(w_{1:l})=\sum_{c_{1:l}\in C^l} P_{XY}(c_{1:l}|w_{1:l})
 $$
 The outcome assigned largest probability mass is know as the _mode_ of the probability distribution.
 
-Challenge for factorization: $P_{XY}$ is a distribution over a countably infinite space of sequence pairs.
+**Challenge for factorization**
+$P_{XY}$ is a distribution over a countably infinite space of sequence pairs.
 Solution: Re-express the probability of sequence pair using the probability of the "steps" needed to generate it $\rightarrow$ countably finite sample space.
 
 ### Illustration

@@ -4,7 +4,6 @@
 **Structure of latent representations**
 ![[latent_manifold.png]]
 
-
 ### Classification Architectures
 #### VGGNet
 - All filter sizes are $3\times 3$, as this is the smallest filter size, and is more parameter efficient to build up large filters (receptive field increases over layers).

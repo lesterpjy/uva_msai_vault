@@ -66,7 +66,10 @@ Passing the derivative through samples can be done using the reparameterization 
 The process of sampling from $z$ directly from a the distribution $\mathcal{N}(\mu(x),\Sigma(x))$ prevents us from computing $\nabla_{\phi}\mathcal{L}$ because the non-deterministic operation of random drawing from $\mathcal{N}(\mu(x),\Sigma(x))$ is non-differentiable with respect to parameters $\phi$ of the variational distribution. The reparameterization trick solves this issue by isolating the stochasticity in the random variable $\epsilon$. $z$ now becomes a deterministic transformation of the random variable $\epsilon$, making $z$ differentiable with respect to $\phi$, through $\mu$ and $\Sigma$.
 ### Question 1.8
 
-
+> [!figure] 
+> ![[train_bpd.png | 400]] 
+> ![[val_bpd.png | 400]]
+> Figure 1: Tensorboard plots of training (top) and validation (bottom) bit per dimension curves.
 
 ### Question 1.9
 
@@ -74,14 +77,14 @@ The process of sampling from $z$ directly from a the distribution $\mathcal{N}(\
 > ![[epoch_0_samples_zdim20.png]] 
 > ![[epoch_10_samples_zdim20.png]] 
 > ![[epoch_80_samples_zdim20.png]]
-> *Figure 1: 64 samples from the VAE model trained on MNIST at 0 (top), 10 (middle), 80 (bottom) epochs.
+> *Figure 2: 64 samples from the VAE model trained on MNIST at 0 (top), 10 (middle), 80 (bottom) epochs.
 
 Some samples images generated from the VAE after 80 epochs appear to look like combinations of numbers or some are strokes that resembles numerics, but not actually numbers. This demonstrates the generative properties of the model, as number-like images are generated from the latent space.
 ### Question 1.10
 
 > [!figure] 
 > ![[vae_manifold.png | 400]] 
-> Figure 2: Visualized manifold of VAE with a 2-dimensional latent space.
+> Figure 3: Visualized manifold of VAE with a 2-dimensional latent space.
 
 
 ### Question 2.1
@@ -107,29 +110,29 @@ num_iter_pgd: 10
 | Experiment set | Pre-trained | Attack Strategy | Defense Strategy | Data Augmentations | Test Accuracy | Acc. Decrease (%) |
 | -------------- | ----------- | --------------- | ---------------- | ------------------ | ------------- | ----------------- |
 | Set 1          | True        | -               | -                | -                  | 0.92          | -                 |
-|                | True        | FGSM            | -                | -                  | 0.4188        | 54.48             |
+|                | True        | FGSM            | -                | -                  | 0.4188        | 54.5              |
 |                | True        | -               | FGSM             | -                  | 0.90          | 2.17              |
-|                | True        | FGSM            | FGSM             | -                  | 0.588         | 34.67             |
+|                | True        | FGSM            | FGSM             | -                  | 0.588         | 34.7              |
 |                | True        | -               | -                | True               | 0.93          | -                 |
-|                | True        | FGSM            | -                | True               | 0.4244        | 54.37             |
+|                | True        | FGSM            | -                | True               | 0.4244        | 54.4              |
 |                | True        | -               | FGSM             | True               | 0.88          | 5.38              |
-|                | True        | FGSM            | FGSM             | True               | 0.5504        | 37.45             |
-|                | -           | -               | -                | -                  | 0.67          |                   |
-|                | -           | FGSM            | -                | -                  | 0.1384        |                   |
-|                | -           | -               | FGSM             | -                  | 0.62          |                   |
-|                | -           | FGSM            | FGSM             | -                  | 0.2288        |                   |
-|                | -           | -               | -                | True               | 0.68          |                   |
-|                | -           | FGSM            | -                | True               | 0.1304        |                   |
-|                | -           | -               | FGSM             | True               | 0.58          |                   |
-|                | -           | FGSM            | FGSM             | True               | 0.1848        |                   |
+|                | True        | FGSM            | FGSM             | True               | 0.5504        | 37.5              |
+|                | -           | -               | -                | -                  | 0.67          | -                 |
+|                | -           | FGSM            | -                | -                  | 0.1384        | 79.3              |
+|                | -           | -               | FGSM             | -                  | 0.62          | 7.5               |
+|                | -           | FGSM            | FGSM             | -                  | 0.2288        | 63.1              |
+|                | -           | -               | -                | True               | 0.68          | -                 |
+|                | -           | FGSM            | -                | True               | 0.1304        | 80.8              |
+|                | -           | -               | FGSM             | True               | 0.58          | 14.7              |
+|                | -           | FGSM            | FGSM             | True               | 0.1848        | 68.1              |
 | Set 2          | True        | -               | -                | -                  | 0.92          | -                 |
-|                | True        | FGSM            | -                | -                  | 0.402         | 56.30             |
+|                | True        | FGSM            | -                | -                  | 0.402         | 56.3              |
 |                | True        | -               | FGSM             | -                  | 0.89          | 3.26              |
-|                | True        | FGSM            | FGSM             | -                  | 0.556         | 37.53             |
+|                | True        | FGSM            | FGSM             | -                  | 0.556         | 37.5              |
 |                | True        | -               | -                | True               | 0.92          | -                 |
-|                | True        | FGSM            | -                | True               | 0.4156        | 54.83             |
+|                | True        | FGSM            | -                | True               | 0.4156        | 54.8              |
 |                | True        | -               | FGSM             | True               | 0.89          | 3.26              |
-|                | True        | FGSM            | FGSM             | True               | 0.5588        | 37.21             |
+|                | True        | FGSM            | FGSM             | True               | 0.5588        | 37.2              |
 
 
 

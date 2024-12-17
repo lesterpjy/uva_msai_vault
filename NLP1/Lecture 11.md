@@ -1,5 +1,5 @@
 
-## Dialogue Modelling
+## Dialogue Modeling
 
 ### **Part 1: What is Dialogue Modeling?**
 
@@ -61,5 +61,3 @@
     - Explores how to ground gesture representations with co-occurring speech.
     - Investigates the similarity of gestures with the same referent across different speakers and dialogue contexts.
     - Uses probing analysis to decode interpretable features from learned gesture representations.
-
-This cheatsheet provides a structured overview of the key concepts covered in the slides. However, remember to review the original source material and your course notes for a comprehensive understanding of the topic.

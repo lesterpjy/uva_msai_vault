@@ -5,7 +5,7 @@
 - Deep grammars: model semantics alongside syntax, one semantic composition rule per syntax rule.
 
 Issues with semantic composition
-- similar syntactic structure with different meanings: pleonastic pronouns
+- similar syntactic structure with different meanings: pleonastic pronouns (it snows)
 - different syntactic structure similar meaning
 - not all phrases interpreted compositionally: idioms
 - additional meaning arise through composition: logical metonymy

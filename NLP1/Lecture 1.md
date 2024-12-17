@@ -4,7 +4,7 @@ Some applications: information retrieval, information extraction, Q&A, sentiment
 
 Linguistics
 1. Morphology - structure of words
-2. Syntax - way word from phrases 
+2. Syntax - way word form phrases 
 3. Semantics - lexical semantics, compositional semantics: meaning of words, phrases
 4. Pragmatics - meaning in context
 

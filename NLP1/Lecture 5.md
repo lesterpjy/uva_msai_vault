@@ -52,7 +52,7 @@ Context types
 - syntactic relations: context for a lexical item is the syntactic dependency structure it belongs to.
 
 Context weighting
-1. Binary model: if context c co-occurs with word w, value of vector w for dimension c is 1, 0 otherwise.
+1. Binary model: if context co-occurs with word w, value of vector w for dimension c is 1, 0 otherwise.
 2. Basic frequency model: the value of vector w for dimension c is the number of times that c co-occurs with w.
 3. Characteristic model: Weights given to the vector components express how characteristic a given context is for word w. Example, with pointwise mutual information (PMI)
 ![[pmi.png | 400]]

@@ -10,10 +10,8 @@ $$
 ### Intrinsic Evaluation
 #### Perplexity
 todo
-We assess the average surprisal (negative log probability) that our
-model assigns to heldout texts {x(1), . . . , x(S)}:
+We assess the average surprisal (negative log probability) that our model assigns to heldout texts {x(1), . . . , x(S)}:
 $$
 \frac{1}{S} \sum_{s=1}^S \log P_{X}(X^{(s)})
 $$
-For ease of interpretation, we re-express it in terms of perplexity
-per token, a measure of average confusion
+For ease of interpretation, we re-express it in terms of perplexity per token, a measure of average confusion

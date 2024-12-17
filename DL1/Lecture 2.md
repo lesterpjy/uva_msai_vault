@@ -1,7 +1,6 @@
 ## Forward and Backward Propagation
 
 Deep learning: A family of parametric, non-linear and hierarchical **representation learning functions**, which are massively optimized with stochastic gradient descent to encode domain knowledge, ie, domain invariances, stationarity.
-
 ### Deep feedforward networks
 - Also called multi-layer perceptrons
 - Approximates some function $f$ that defines the mapping: $y = f(x; \theta)$
@@ -140,7 +139,6 @@ $$
 - Output of example $i$: $p_{i} \in [0,1]$
 - Goal minimize $p_{i}$ if $y_{i}=0$, maximize if $y_{i}=1$
 - Maximize: $p_{i}^{y_{i}}(1-p_{i})^{(1-y_{i})}$
-
 ##### Multi-class classification
 - Softmax: $h(x_{i}) = \frac{e^{x_{i}}}{\sum_{j} e^{x_{j}}}$
 - Outputs probability distribution

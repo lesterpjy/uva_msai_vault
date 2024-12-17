@@ -23,6 +23,6 @@ Parent node for NLP1
 
 [[NLP1/Lecture 8]]
 
-[[Lecture 9]]
+[[NLP1/Lecture 9]]
 
-[[Lecture 10]]
+[[NLP1/Lecture 10]]

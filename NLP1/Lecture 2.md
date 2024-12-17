@@ -60,9 +60,7 @@ In method 1 of relative frequency, data sparsity is a problem. Think what happen
 $$
 P_{W|H}(w|h) \overset{MLE}{=} \frac{\text{count}_{HW}(h,w)}{\sum_{o\in\mathcal{W}} \text{count}_{HW}(h,o)}
 $$
-Unavoidable truth about empirical methods: not seeing something
-is not evidence of it not being possible.
-
+Unavoidable truth about empirical methods: not seeing something is not evidence of it not being possible.
 ### NGram LMs
 [[NGram LM]]
 NGram LMs: Markov assumption + tabular parameterization
