@@ -44,7 +44,7 @@ Saddle points are problematic in optimization because:
 - **Ambiguity of Direction**: In some directions, the saddle point behaves like a local minimum (positive curvature), and in others, it behaves like a local maximum (negative curvature). This ambiguity can confuse optimization algorithms, especially if second-order information like the Hessian is not explicitly utilized.
 - **Prevalence in High Dimensions**: In high-dimensional spaces, saddle points are exponentially more common than local minima or maxima. This means optimizers encounter saddle points frequently, hindering efficient convergence.
 - **Misleading Dynamics**: Near a saddle point, the gradient may still point toward the "center" of the saddle, causing optimization algorithms to oscillate or get stuck in loops rather than making consistent progress toward a better solution.
-- **Impact on Loss Surface Exploration**:Saddle points can trap optimization algorithms in regions of the loss surface that are suboptimal, delaying progress toward finding valleys of lower loss.
+- **Impact on Loss Surface Exploration**: Saddle points can trap optimization algorithms in regions of the loss surface that are suboptimal, delaying progress toward finding valleys of lower loss.
 When saddle points dominate, many eigenvalues of the Hessian may be close to zero, leading to numerical instabilities and further challenges in optimization.
 
 Condition number: ratio of the magnitude of the largest (i) and smallest eigenvalue (j) of the Hessian. With a poor (large) condition number, gradient descent performs poorly.

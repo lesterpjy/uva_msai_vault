@@ -148,8 +148,7 @@ $$
 
 #### Universal Approximation Theorem
 Feedforward networks with hidden layers provide a universal approximation framework.
-A large MLP with even a single hidden layer is able to represent any function provided
-that the network is given enough hidden units.
+A large MLP with even a single hidden layer is able to represent any function provided that the network is given enough hidden units.
 - No guarantee that the training algorithm will learn the function.
 - In worse case, shallow one hidden layer network requires an exponential number of hidden units to have same approximation power as a deep net.
 

@@ -1,6 +1,3 @@
-
-This is a summary of the "Deep Learning 1" lecture on "Attention", drawing on the provided sources and expanding on the slide content using the textbook excerpts where necessary.
-
 ### **Sequence2sequence Models**
 
 - Sequence2sequence models consist of two parts:
