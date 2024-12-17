@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "DL1/Lecture 2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "Lecture 2"
             }
           }
         ]
@@ -165,26 +165,26 @@
   },
   "active": "3ec8b6066860bc56",
   "lastOpenFiles": [
-    "DL1/Lecture 4.md",
-    "DL1/Sinusoidal Positional Encoding.md",
+    "README.md",
     "DL1/Lecture 2.md",
+    "DL1/Sinusoidal Positional Encoding.md",
+    "DL1/Lecture 12.md",
+    "DL1/Lecture 11.md",
+    "DL1/Lecture 10.md",
+    "DL1/Lecture 9.md",
+    "DL1/Lecture 8.md",
+    "DL1/Lecture 7.md",
+    "DL1/Lecture 6.md",
+    "DL1/Lecture 5.md",
+    "DL1/Lecture 4.md",
     "DL1/Lecture 3.md",
     "DL1/DL 1.md",
-    "DL1/Lecture 10.md",
-    "DL1/Lecture 6.md",
-    "DL1/Lecture 7.md",
-    "DL1/Lecture 8.md",
-    "DL1/Lecture 9.md",
     "Whiteboard.md",
     "Whiteboard 2.md",
-    "README.md",
     "Assignments.md",
     "DL1/assignments/Assignment 3.pdf",
     "DL1/assignments/Assignment 2.pdf",
     "DL1/assignments/Assignment 3.md",
-    "DL1/Lecture 12.md",
-    "DL1/Lecture 11.md",
-    "DL1/Lecture 5.md",
     "NLP1/Lecture 1.md",
     "NLP1/Lecture 4.md",
     "NLP1/Lecture 5.md",
