@@ -2,9 +2,7 @@
 
 
 Graphs are more common than one might think.
-
 Many structures can be represented as graphs.
-
 Graphs can be visualized as geometrical shapes, with nodes represented as points and edges as lines connecting those points. This visualization highlights the structural relationships within the graph.
 
 ### What are graph networks?

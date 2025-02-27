@@ -1,7 +1,7 @@
 
 Parent node for NLP1
 
-[[Lecture 1]]
+[[NLP1/Lecture 1]]
 - [[Naive Bayes]]
 - [[Model Evaluation#Classification task]]
 

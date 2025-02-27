@@ -2,12 +2,10 @@
 
 Bias-Variance tradeoff
 **Bias**
-“The difference between an estimator’s expected value and the true value of the parameter being estimated”.
-The bias error is an error from erroneous assumptions in the learning algorithm.
+“The difference between an estimator’s expected value and the true value of the parameter being estimated”. The bias error is an error from erroneous assumptions in the learning algorithm.
 
 **Variance**
-The amount that the estimate of the target function will change if different training data was used.
-The variance is an error from sensitivity to small fluctuations in the training set.
+The amount that the estimate of the target function will change if different training data was used. The variance is an error from sensitivity to small fluctuations in the training set.
 
 Overfitting
 Overfitted models perform poorly on new data from the same domain.
@@ -19,6 +17,7 @@ Why overfitting happens?
 3. Memorization (i.e., learning individual samples instead of their distribution).
 4. Silly things you might have missed in your data
 
+Double Descent: when model size > dataset size, error goes down again. 
 ## Regularization
 - Weight regularization needed to prevent overfitting
 - $l_{2}$-regularization: Introduce objective term for minimizing weights
@@ -37,7 +36,7 @@ $$
 $$
 w_{t+1} = w_{t} - \eta_{t}\left(\nabla_{\theta}\mathcal{L} + \lambda\frac{ w_{t}}{\text{sign}(w_{t})}\right)
 $$
-- $l_{1}$-regularization lead to sparse weights
+- $l_{1}$-regularization -> sparse weights
 
 **Early stopping**: stop the training when test error increases but training loss continues to decrease. Can be counted to regularization as training steps are reduced.
 
@@ -57,7 +56,6 @@ Other forms of data augmentations
 - Noise robustness: adding noise to weights (uncertainty), adding noise to outputs (label smoothing).
 - Semi or self-supervised learning: introducing a particular form of prior belief about the solution.
 - Multitask learning: Shared input and parameters – improve statistical strength. Requires statistical relationship between tasks.
-
 ## Normalization
 ![[normalization.png | 400]]
 Data pre-processing
@@ -82,7 +80,7 @@ $$
 3. Normalize feature to $\hat{x}_{ij}\sim\mathcal{N}(0,1)$
 4. Scale and shift input with trainable parameters $\gamma$ (variance) and $\beta$ (mean).
 
- - Helps the optimizer to control mean and variance of input distribution, and reduces effects of 2nd order between layers ) easier, faster learning
+ - Helps the optimizer to control mean and variance of input distribution, and reduces effects of 2nd order between layers -> easier, faster learning
  - Acts as regularizer as distribution depends on mini-batch and therefore introduces noise
  - During testing, take a moving average of the last training steps and use those for $\mu_{j}$ and $\sigma_{j}^2$
 Drawbacks of batchnorm

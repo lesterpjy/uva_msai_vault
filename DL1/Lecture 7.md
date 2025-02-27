@@ -1,11 +1,9 @@
 ### **Sequence2sequence Models**
 
 - Sequence2sequence models consist of two parts:
-    
     1. **Encoder:** Takes a variable-length sequence of elements as the input and transforms it into a fixed-size context representation.
     2. **Decoder:** Maps the encoded state of fixed size to a variable-length sequence of elements.
 - This model architecture was used to solve many problems, especially in **language processing**.
-    
 
 ### **Sequence2sequence Example**
 
@@ -23,72 +21,49 @@
 ### **Sequence2sequence Example: Decoder**
 
 - The decoder is trained to predict the next word $y_t$, given the context vector $c$ and all the previously predicted words ${y_1,...,y_{t-1}}$.
-    
 - It defines a probability over the translation $y$ by decomposing the joint probability into the conditionals:
-    
     $p(y) = \prod_{t=1}^{T_y}p(y_t | {y_1,...,y_{t-1}},c)$ where $y = (y_1,...,y_{T_y})$.
-    
 - With an RNN decoder, each conditional probability is modeled as: $p(y_t | {y_1,...,y_{t-1}},c)=g(y_{t-1},s_t,c)$, where
-    
     - $g$ is a nonlinear (multi-layered) function.
     - $s_t$ is the hidden state of the RNN.
 
 ### **Limitation of seq2seq Models**
-
 - The model needs to compress all necessary information from a source sequence into the fixed-length context vector $c$.
-    
     - The context vector $c$ is seen as a bottleneck.
 - When dealing with long sequences, it is challenging for the model to compress all information into a fixed-length context - due to **vanishing gradients**.
-    
     - The context is a vector of floats and its size is the number of hidden units in the encoder RNN.
 
-### **Attention**
+### **Overview of Attention**
+- **Problem Addressed**: Traditional encoder-decoder models bottleneck the input by compressing it into a single fixed-length vector, which can limit performance, especially for long or complex sequences.
+- **Solution**: Attention mitigates this issue by dynamically focusing on relevant parts of the input during decoding rather than relying on a fixed-length representation.
+### **Core Ideas**
+1. **Dynamic Input Representation**:
+    - The input is encoded into a sequence of vectors, rather than a single fixed vector.
+    - While decoding, the model adaptively selects a subset of these vectors as context, tailoring the focus to the current decoding step.
+    - This approach avoids "squashing" all input information into one representation.
+2. **Focus in Decoding**:
+    - At each step of decoding, the model determines which parts of the input are most relevant to the current output, inspired by tasks like neural machine translation.
 
-- **Attention** strives to overcome the bottleneck issue of the encoder-decoder.
-- It allows the model to focus on all relevant inputs when decoding the output.
-- Example from **neural machine translation**: For every new word to generate, the model searches for a set of positions in the input where the most relevant information is concentrated.
-- Attention was a huge breakthrough in **language processing** and later, in all other domains.
+### **Formalization of Attention**
 
-### **Attention**
-
-- Stop encoding the whole input in a fixed-length vector.
-- Instead, encode the input into a sequence of vectors.
-- Then choose a subset of these vectors adaptively while decoding the output.
-- Simply, stop squashing all information!
-
-### **Attention Formally**
-
-- Now each conditional probability of the decoder is defined as: $p(y_t | {y_1,...,y_{t-1}},x)=g(y_{t-1},s_t,c_i)$, where
-    - $s_t$ is a hidden state for time $i$, computed by: $s_i = f(s_{i-1}, y_{i-1}, c_i)$
-    - The probability is conditioned on a distinct context vector $c_i$ for each target word $y_i$ (unlike the conventional encoder-decoder).
-    - The context vector $c_i$ depends on a sequence of annotations $(h_1,...,h_{t-1})$ to which an encoder maps the input sentence.
-    - Each annotation $h_i$ contains information about the whole input, with a strong focus on the parts surrounding the $i$-th word of the input sequence.
-
-### **Attention Formally**
-
-- The context vector $c_i$ is computed as a weighted sum of these annotations $h_j$ : $c_i = \sum_{j=1}^{T_x}a_{ij}h_j$, where
-    
-    - The weight $a_{ij}$ of each annotation $h_j$ is computed by:
-    
-    $a_{ij} = \frac{exp(e_{ij})}{\sum_{k=1}^{T_x}exp(e{ik})}$, where
-    
-    - $e_{ij}=a(s_{i-1},h_j)$ is an **alignment model**.
-        - It scores how well the inputs around position $j$ and the output at position $i$ match.
-        - The alignment model $a$ is parameterized as a feedforward neural network and is jointly trained with all other components of the model.
-
-### **Attention Formally**
-
-- The weight $\alpha_{ij}$ reflects the importance of the annotation $h_j$, with respect to the previous hidden state $s_{i-1}$ when deciding the next state $s_i$ and generating $y_i$.
-- This implements a mechanism of attention in the decoder.
-- The decoder decides which parts of the source sentence to pay attention to.
-
-### **Visualizing Attention**
-
-- The x-axis and y-axis correspond to the words in the source sentence (English) and the generated translation (French).
-- Each pixel shows the weight $\alpha_{ij}$ of the annotation of the $j$-th source word for the $i$-th target word.
+1. **Decoder Conditional Probability**:
+    - The probability of generating a target word $y_t$ is conditioned on:
+        - The previous target word $y_{t-1}$,
+        - The decoder's previous state $s_{t-1}$,
+        - A **context vector** $c_i$ specific to the current target word.
+    - Formula:$$p(y_{t}∣y1,…,yt−1,x)=g(yt−1,st,ci)$$
+2. **Context Vector $c_i$**:
+    - Computed as a **weighted sum** of input annotations $h_j$: ci=∑j=1Txaijhjc_i = \sum_{j=1}^{T_x} a_{ij} h_jci​=j=1∑Tx​​aij​hj​
+        - $h_j$: Annotations representing encoded input, focusing on regions near the $j$-th input word.
+3. **Attention Weights $a_{ij}$**:
+    - Define how much importance each input annotation $h_j$ has for the current context. aij=exp⁡(eij)∑k=1Txexp⁡(eik)a_{ij} = \frac{\exp(e_{ij})}{\sum_{k=1}^{T_x} \exp(e_{ik})}aij​=∑k=1Tx​​exp(eik​)exp(eij​)​
+        - $e_{ij}$: An **alignment score** that measures the relevance between the $j$-th input position and the $i$-th output position.
+        - $e_{ij}$ is parameterized by a feedforward neural network, jointly trained with the entire model.
+4. **Attention in Action**:
+    - The alignment scores ($e_{ij}$) and weights ($a_{ij}$) ensure the decoder "pays attention" to relevant parts of the source input at each step.
+    - This attention mechanism dynamically guides the decoder to focus on different input parts, enhancing its ability to generate contextually appropriate outputs.
 
 ### **Self-attention**
-
 - **Self-attention** (or intra-attention) relates parts of a sequence with each other.
 - The result is a representation of the whole sequence.
 - In general terms, self-attention can be seen as an operation on sets of elements.
@@ -100,11 +75,8 @@
     - It does not use any recurrence or convolutions.
     - The introduction of the transformer is referred to as NLP's ImageNet moment.
 - The transformer completely changed the deep learning model landscape!
-    
 - It achieved **state-of-the-art performance in NLP tasks** and more recently, in other domains.
-    
 - The transformer is the **key concept behind LLMs**.
-    
 
 ### **Important Transformer Concepts:**
 
@@ -113,6 +85,7 @@
 - Multi-head (self-)attention
 
 ### **Transformers Step-by-Step**
+
 
 ### **Queries, Keys, and Values**
 
@@ -139,7 +112,6 @@
 For multi-head self-attention: the queries, keys, and values are equal to the input representation or from the previous (encoding/decoding) layer.
 
 ### **Transformer Encoder**
-
 - The encoder consists of $N=6$ identical layers.
     
 - Each encoder layer has 2 sub-layers:
@@ -170,19 +142,13 @@ For multi-head self-attention: the queries, keys, and values are equal to the in
     - $PE(pos,2i)=sin(pos/10000^{2i/d_{model}})$
     - $PE(pos,2i+1)=cos(pos/10000^{2i/d_{model}})$
 
-### **Positional Encoding in Code**
-
-- The code provides a class definition for positional encoding in PyTorch.
-- The forward method adds the positional encoding to the input tensor _x_.
 
 ### **Transformer Pros & Cons**
 
 - **Pros:**
-    
     - The transformer operates on data in parallel, which accelerates the learning process compared to RNNs that operate sequentially.
     - The transformer can deal with long-term dependencies in sequences.
 - **Cons:**
-    
     - The transformer scales quadratically with the number of inputs.
     - Transformers are memory-intense and require lots of data and long training.
 
@@ -223,7 +189,6 @@ For multi-head self-attention: the queries, keys, and values are equal to the in
     - Binary prediction whether the next sentences is a correct one.
     - When choosing the sentences A and B, 50% of the time B is the actual next sentence that follows A and 50% of the time it is a random sentence from the corpus.
 - Datasets: BooksCorpus (800M words) and Wikipedia (2,500M words).
-    
 
 ### **BERT Fine-tuning**
 
@@ -332,10 +297,6 @@ Input image patches
 - Attention and self-attention
 - Transformers
 - Language and vision transformers
-
-### **Next Lecture**
-
-- Self-supervised and vision-language learning
 
 
 

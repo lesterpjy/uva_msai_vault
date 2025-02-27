@@ -46,6 +46,9 @@ This lecture discusses **non-Euclidean deep learning**, focusing on **hyperbolic
     - **Hierarchical Learning**: Hyperbolic geometry is naturally suited for capturing hierarchical relationships, leading to improved performance in tasks involving hierarchies.
     - **Uncertainty Modeling**: The structure of hyperbolic space allows for representing uncertainty effectively, for instance, in action prediction where ambiguous actions can be represented by higher-level abstractions in the hierarchy.
     - **Low-Dimensional Learning**: Hyperbolic representations can achieve comparable performance to Euclidean counterparts with lower dimensionality, making them suitable for resource-constrained settings.
+- Disadvantages: 
+	- Computational challenge: numerical stability and speed of computation
+	- No learning at scale atm. 
 - **Open Research Questions**:
     - **Fully Hyperbolic Learning**: Exploring architectures where all layers operate in hyperbolic space, requiring adaptations of convolutions, attention mechanisms, and normalization techniques.
     - **Choice of Hyperbolic Models**: Determining the optimal hyperbolic model (Poincaré ball, Klein, Lorentz) for different tasks and operations.

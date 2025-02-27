@@ -185,6 +185,6 @@ Random Initialization
 - Depends on non-linearity and data normalization
 - To maintain data variance, the variance of the weights must be $\frac{1}{d}$ where $d$ is number of input neurons $\Rightarrow$ sample weight values from $w \sim \mathcal{N}\left( 0, \frac{1}{d} \right)$
 - **Kaiming initialization**: ReLU set half of the output neurons to 0 $\Rightarrow$ double the weight variance to compensate zero flat-area: $w \sim \mathcal{N}\left( 0, \frac{2}{d} \right)$
-- Xavier initialization (assumes linear activation, approx for tanh): initialize weights from $U\left[-\sqrt{ \frac{6}{d_{l-1+d_{l}}} }, \sqrt{ \frac{6}{d_{l-1}+d_{l}} }\right]$, where $d_{l-1}$ is no. of input, $d_{l}$ is no. of output.
-- For sigmoid, $U\left[-4\cdot\sqrt{ \frac{6}{d_{l-1+d_{l}}} }, 4\cdot\sqrt{ \frac{6}{d_{l-1}+d_{l}} }\right]$.
+- Xavier initialization (assumes linear activation, approx for tanh): initialize weights from $U\left[-\sqrt{ \frac{6}{d_{l-1}+d_{l}} }, \sqrt{ \frac{6}{d_{l-1}+d_{l}} }\right]$, where $d_{l-1}$ is no. of input, $d_{l}$ is no. of output.
+- For sigmoid, $U\left[-4\cdot\sqrt{ \frac{6}{d_{l-1}+d_{l}} }, 4\cdot\sqrt{ \frac{6}{d_{l-1}+d_{l}} }\right]$.
 

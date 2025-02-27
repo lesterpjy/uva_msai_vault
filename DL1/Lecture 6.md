@@ -3,7 +3,9 @@
 
 **Structure of latent representations**
 ![[latent_manifold.png]]
-
+**manifold assumption**: High-dimensional data (like images) often lies on a lower-dimensional manifold in latent space.
+- Each point on the grid (right image) corresponds to a slightly **transformed version** of a digit (e.g., rotated, scaled, or shifted).
+- This shows that the variations in digit appearance (e.g., different handwriting styles, sizes, and orientations) lie on a smooth manifold in the latent space.
 ### Classification Architectures
 #### VGGNet
 - All filter sizes are $3\times 3$, as this is the smallest filter size, and is more parameter efficient to build up large filters (receptive field increases over layers).

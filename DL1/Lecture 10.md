@@ -69,7 +69,7 @@ $$
 **The ELBO consists of two parts**:
 
 - **Reconstruction loss:**  $\mathbb{E}_{q(z|x)}[\log p(x|z)]$. Measures how well the decoder reconstructs the input data from the latent representation. This term encourages the decoder to reconstruct the input data accurately.
-- **KL divergence:** Measures the difference between the approximate posterior distribution $q_\theta (z|x)$ and the prior distribution $p(z)$. This term encourages the latent representation to follow the chosen prior, typically a standard normal distribution.
+- **Regularization loss:** Measures the difference between the approximate posterior distribution $q_\theta (z|x)$ and the prior distribution $p(z)$. This term encourages the latent representation to follow the chosen prior, typically a standard normal distribution.
 
 #### VAEs Summarized
 - **Extension of Autoencoders:** VAEs extend autoencoders by introducing a Gaussian constraint on the latent space.
