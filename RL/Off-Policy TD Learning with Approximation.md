@@ -1,7 +1,7 @@
 
 **Off-Policy TD Learning with Function Approximation**
 
-In standard _on-policy_ TD learning, the agent’s behavior policy is the same as the target policy. In _off-policy_ learning, we collect data (transitions) under a _behavior policy_ bb, while we want to learn about or improve a _target policy_ π\pi. This introduces a mismatch between the distribution of visited state-action pairs and the distribution under the target policy. **Importance sampling** weights ρt\rho_t compensate for this mismatch.
+In standard _on-policy_ TD learning, the agent’s behavior policy is the same as the target policy. In _off-policy_ learning, we collect data (transitions) under a _behavior policy_ $b$, while we want to learn about or improve a _target policy_ $\pi$. This introduces a mismatch between the distribution of visited state-action pairs and the distribution under the target policy. **Importance sampling** weights $\rho_t$ compensate for this mismatch.
 
 When we also use function approximation (e.g., linear or nonlinear), we combine these ideas into **off-policy TD learning with approximation**. Below is a more detailed treatment, starting from the fundamental concepts up to the known risks of divergence.
 
@@ -132,7 +132,7 @@ Off-policy + Bootstrapping + Function Approximation can lead to divergence.
 	- target policy only choose the solid action.
 	- Mismatch leads to a very large or very small _importance sampling ratio_ $\rho_{t}$
 - Reward is 0 on all transitions: true value of the function is 0 for all $s$, which is representable exactly with $\mathbf{w} = \mathbf{0}$. In fact there are many solutions since $\mathbf{w} \in \mathbb{R}^8 > \text{no. of states}$, and set of feature vectors is a linearly independent set. This is all to show that representation of the exact solution is in principle favorable. 
-- If semi-gradient TD(0) is applied to this problem, the weights diverge. Even for semi-gradient DP, the weights diverge.
+- If semi-gradient TD(0) is applied to this problem, the weights diverge. Even for semi-gradient DP, the weights diverge, ie, not caused by randomness of sampling.
 
 Does this mean off-policy learning with function approximation is always hopeless?  No. In many practical cases, it can work if:
 - The coverage of the behavior policy is not too drastically different from the target policy (as is the case for Q-learning with $\epsilon$-greedy policy)
@@ -143,35 +143,53 @@ Does this mean off-policy learning with function approximation is always hopeles
 
 ### The “Deadly Triad” and Risk of Divergence
 
-A well-known fact (Sutton & Barto, Chapter 11) is that **off-policy TD learning can diverge** when combined with:
+**off-policy TD learning can diverge** when combined with:
 
-5. **Function approximation** (especially linear or non-linear),
-6. **Bootstrapping** (like in TD(0), where we update from our own estimates v^(St+1,wt)\hat{v}(S_{t+1}, \mathbf{w}_t)),
-7. **Off-policy data** (i.e., ρt\rho_t can be large or unbounded).
+1. **Function approximation** (especially linear or non-linear),
+2. **Bootstrapping** (like in TD(0), where we update from our own estimates $\hat{v}(S_{t+1}, \mathbf{w}_t)$),
+3. **Off-policy data** (i.e., $\rho_t$ can be large or unbounded).
 
-These three together are sometimes called the **deadly triad**. Empirically, the parameter vector wt\mathbf{w}_t can blow up or oscillate because the updates do not necessarily converge to a fixed point in the off-policy distribution. This does _not_ happen in all problems, but it _can_ happen, especially if α\alpha (the step-size) is large and if ρt\rho_t occasionally becomes very large.
+These three together are called the **deadly triad**. The danger is not due to _control_ or _generalized policy iteration_ (instability arise in simpler prediction as well), nor is it due to _learning_ or _uncertainties about the environment_ (also arise in DP).
 
-**Strategies to mitigate divergence**:
+### Linear Value-function Geometry
 
-- **Truncating** large importance weights ρt\rho_t (though that can introduce bias),
-- Using **Emphatic TD** or **Gradient-TD** algorithms, which modify the update to guarantee convergence under certain assumptions,
-- Ensuring feature representations and step-sizes are chosen carefully.
+![[linear-value-func-geometry.png]]
 
----
+Policy evaluation adds the Bellman error to the previous function, represented by:
+- $B_{\pi}v_{\mathbf{w}}$, where the Bellman operator is applied to the value func $v_{\mathbf{w}}$
+- TD(0) on average follows the same path (gray arrows)
+- However, this brings the value function out of the representable subspace (above plane parameterized by $w_{1}$ abd $w_{2}$).
 
-### 8. Practical Algorithmic Steps
+
+### Gradient Descent in the Bellman Error
+
+SGD: updates are made that in expectation are equal to the negative gradient of an objective function. Monte Carlo methods are true SGD methods, converge robustly for:
+- on-policy, off-policy, nonlinear (differentiable) function approximators
+- slower than semi-gradient methods with bootstrapping (not SGD methods), which may diverge.
+
+
+### Bellman Error is not Learnable
+
+![[objectives-distributions-mdps.png]]
+
+
+### Gradient TD Methods
+
+
+
+### Practical Algorithmic Steps
 
 A typical algorithmic loop for semi-gradient off-policy TD(0) with state-values is:
 
-8. Initialize parameters w\mathbf{w} (e.g., all zeros or small random values).
-9. **For each time step** tt:
+2. Initialize parameters w\mathbf{w} (e.g., all zeros or small random values).
+3. **For each time step** tt:
     - Observe current state StS_t.
     - Choose action AtA_t according to the behavior policy b( ⋅∣St)b(\,\cdot\mid S_t).
     - Execute AtA_t, observe next state St+1S_{t+1} and reward Rt+1R_{t+1}.
     - Compute importance sampling ratio: ρt  =  π(At ∣ St)b(At ∣ St).\rho_t \;=\; \frac{\pi(A_t \,\mid\, S_t)} {b(A_t \,\mid\, S_t)}.
     - Compute TD error: δt  =  Rt+1  +  γ v^(St+1,w)  −  v^(St,w).\delta_t \;=\; R_{t+1} \;+\; \gamma\,\hat{v}(S_{t+1}, \mathbf{w}) \;-\; \hat{v}(S_t, \mathbf{w}).
     - Update parameters (semi-gradient): w  ←  w  +  α  ρt  δt  ∇wv^(St,w).\mathbf{w} \;\leftarrow\; \mathbf{w} \;+\; \alpha\;\rho_t\;\delta_t\;\nabla_{\mathbf{w}}\hat{v}(S_t,\mathbf{w}).
-10. Continue until convergence or for a predetermined number of episodes.
+4. Continue until convergence or for a predetermined number of episodes.
 
 If we are dealing with action-values q^(s,a,w)\hat{q}(s,a,\mathbf{w}), we replace v^(St,w)\hat{v}(S_t,\mathbf{w}) with q^(St,At,w)\hat{q}(S_t,A_t,\mathbf{w}) and similarly for the next state-action pair.
 
