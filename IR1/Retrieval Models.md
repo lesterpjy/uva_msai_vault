@@ -199,66 +199,147 @@ Where tf(w; d) is the frequency of word w in document d, and |d| is the document
 A major challenge with language models is that if a query term never appears in a document, the entire query gets a probability of zero (log(0) = -∞). This is known as the zero-probability problem.
 
 Smoothing techniques address this by allocating some probability mass to unseen words. Several smoothing methods exist:
+**Additive (Laplace) Smoothing**: Add a small count to every term $$p_{\epsilon}(q_i|\theta_d) = \frac{\text{tf}(q_i; d) + \epsilon}{|d| + \epsilon|V|}$$
+where |V| is the vocabulary size and ε is a small constant.
+#### Limitations of Basic Additive Smoothing
+The basic additive (Laplace) smoothing assigns the same small probability to all unseen words, which is not ideal because:
 
-1. **Additive (Laplace) Smoothing**: Add a small count to every term $$p_{\epsilon}(q_i|\theta_d) = \frac{\text{tf}(q_i; d) + \epsilon}{|d| + \epsilon|V|}$$
-    where |V| is the vocabulary size and ε is a small constant.
-2. **Jelinek-Mercer Smoothing**: Linear interpolation with a background model $$\hat{P}_{\lambda}(w|d) = \lambda\frac{\text{tf}(w; d)}{|d|} + (1 - \lambda)\frac{\text{tf}(w; C)}{|C|}$$
-    
-3. **Dirichlet Prior Smoothing**: Bayesian smoothing using a Dirichlet prior $$p(w|\hat{\theta}_d) = \frac{\text{tf}(w; d) + \mu p(w|C)}{|d| + \mu}$$
-    
-    This can be rewritten as:
-    
-    $$p_{\mu}(w|\hat{\theta}_d) = \frac{|d|}{|d| + \mu}\frac{\text{tf}(w; d)}{|d|} + \frac{\mu}{\mu + |d|}p(w|C)$$
-    
-    Where μ is a parameter controlling the amount of smoothing.
-    
+1. Not all unseen words should have equal probability of appearing
+2. The probability distribution should be informed by a reference or background model
+3. Some words are inherently more likely to occur than others, even if unseen in a particular document
+#### Background Probability Estimation
+A key improvement is incorporating a background language model. This involves estimating $p(w|C)$ where $C$ represents the entire collection. There are several approaches to estimating this background probability:
+##### Words Contributing Equally
+This approach treats all word occurrences in the collection equally:
+- Each word instance contributes the same amount to the probability
+- $p(w|C) = count(w,C) / |C|$ (where $|C|$ is the total number of words in the collection)
+##### Documents Contributing Equally
+This approach normalizes by document first, then combines document probabilities:
+- Each document contributes equally regardless of length
+- Calculates $p(w|d)$ for each document $d$, then averages these probabilities
+##### Document Frequency Approach
+This focuses on how many documents contain the word:
+- $p(w|C)$ proportional to the number of documents containing w
+- Similar to the IDF concept in traditional IR models
+- Gives higher probability to words that appear in many documents
+### Jelinek-Mercer Smoothing
+This approach directly uses linear interpolation between the document model and the background model:
+$$\hat{P}_\lambda(w|d) = \lambda \frac{\text{tf}(w;d)}{|d|} + (1-\lambda)p(w|C)$$
+Where:
+- $λ$ is the interpolation parameter (typically between 0 and 1)
+- $tf(w;d)$ is the term frequency of word $w$ in document $d$
+- $|d|$ is the document length
+- $p(w|C)$ is the background language model probability
 
-Dirichlet prior smoothing typically performs best because it dynamically adjusts the amount of smoothing based on document length (shorter documents get more smoothing).
+The key benefit of Jelinek-Mercer smoothing is that it explicitly balances:
+- The maximum likelihood estimate from the document $tf(w;d)/|d|$
+- The collection statistics represented by $p(w|C)$
+
+The parameter $λ$ controls this balance and can be tuned empirically (typically around 0.1-0.7 depending on queries and collection).
+
+### Dirichlet Prior Smoothing
+Dirichlet prior smoothing represents a more theoretically grounded approach based on Bayesian statistics. It uses Maximum A Posteriori (MAP) estimation rather than maximum likelihood.
+#### Mathematical Framework
+1. **Distribution of Evidence (Likelihood)**: The document generation process is modeled as a multinomial distribution:
+
+$$p(d|\theta_d) = \frac{\Gamma(\sum_{w\in V} \text{tf}(w;d) + 1)}{\prod_{w\in V} \Gamma(\text{tf}(w;d) + 1)}$$
+
+Where $Γ$ is the gamma function, an extension of the factorial function.
+
+2. **Prior Distribution**: The parameters follow a Dirichlet prior distribution:
+
+$$p(\theta_d) = \frac{\Gamma(\sum_{w\in V} \alpha_w)}{\prod_{w\in V} \Gamma(\alpha_w)} \prod_{w\in V} p(w|\theta_d)^{\alpha_w-1}$$
+
+Where:
+- $α_w$ represents the prior count for word $w$
+- The expected value $E[p(w|θ_d)] = α_w / Σ_w' α_w'$
+
+3. **Posterior Distribution**: Using Bayes' rule:
+
+$$p(\theta_d|d) \propto p(d|\theta_d)p(\theta_d) \propto \prod_{w\in V} p(w|\theta_d)^{\text{tf}(w;d)} \prod_{w\in V} p(w|\theta_d)^{\alpha_w-1}$$
+Which simplifies to:
+
+$$p(\theta_d|d) = \prod_{w\in V} p(w|\theta_d)^{\text{tf}(w;d)+\alpha_w-1}$$
+#### MAP Estimation with Lagrange Multipliers
+To find the maximum of this posterior distribution subject to the constraint that probabilities sum to 1, we apply Lagrange multipliers, which gives us:
+
+$$p(w|\hat{\theta}_d) = \frac{\text{tf}(w;d) + \alpha_w-1}{|d| + \sum_{w\in V} \alpha_w-|V|}$$
+For computational simplicity, we can set $α_w = μp(w|C) + 1$, which yields:
+
+$$p(w|\hat{\theta}_d) = \frac{\text{tf}(w;d) + \mu p(w|C)}{|d| + \mu}$$
+#### Special Cases of Parameter Settings
+The choice of $α_w$ values creates different smoothing behaviors:
+1. If $α_w = 1$ for all $w$: This becomes equivalent to Maximum Likelihood Estimation
+2. If $α_w = 2$ for all $w$: This becomes equivalent to Laplace (add-one) smoothing
+3. If $α_w = μp(w|C) + 1$ : This creates a background-model-informed smoothing where:
+    - μ controls the overall amount of smoothing
+    - The distribution of probability mass to unseen words is proportional to their background probabilities
+
+#### Dirichlet Prior as Interpolation
+The Dirichlet prior smoothing can be rewritten as:
+
+$$p_\mu(w|\hat{\theta}_d) = \frac{|d|}{|d|+\mu}\frac{\text{tf}(w;d)}{|d|} + \frac{\mu}{|d|+\mu}p(w|C)$$
+
+This reveals that it's also a form of interpolation between the document model and background model, but with a document-length-dependent interpolation weight. Longer documents need less smoothing (rely more on document statistics), while shorter documents need more smoothing (rely more on background statistics).
+
+### Variants of Basic Language Models in Information Retrieval
+
+Beyond the core smoothing techniques, language modeling approaches in IR have been extended in several directions:
+#### Different Event Models
+1. **Multinomial**: The standard approach where each word position is a sampling event
+2. **Multiple Bernoulli**: Models presence/absence of words rather than counts
+3. **Poisson**: Models word occurrences as Poisson processes
+#### Diverse Smoothing Strategies
+1. **Hidden Markov Models**: Using state transitions to capture context
+2. **IDF-like Reference Models**: Incorporating inverse document frequency intuitions
+3. **Chen & Goodman Techniques**: Including Katz backoff, Witten-Bell smoothing, etc.
+#### Different Priors
+1. **Link Information**: Using hyperlink structure as prior belief
+2. **Temporal Information**: Incorporating document recency as a prior
+3. **PageRank**: Using web graph authority as a prior for document importance
+#### Capturing Term Dependencies
+1. **N-grams**: Using bigrams/trigrams to capture local word patterns
+2. **Grammatical Dependencies**: Modeling syntactic relationships between terms
+3. **Positional Language Models**: Incorporating word proximity information
+4. **Markov Random Fields**: Modeling arbitrary dependencies between query terms
+
+### Practical Considerations
+When implementing language model approaches for IR:
+1. **Parameter Tuning**: The smoothing parameters (λ in Jelinek-Mercer, μ in Dirichlet) significantly affect performance and should be tuned for specific collections and query types.
+2. **Document Length Normalization**: Dirichlet smoothing inherently addresses document length issues, making it often preferred for heterogeneous collections.
+3. **Query Formulation**: Language models can treat queries differently (as samples from relevant documents or as generative specifications).
+4. **Computational Efficiency**: Many smoothing techniques increase computational requirements, requiring efficient implementations for large-scale retrieval.
 
 ## Positional Language Models
-
 Positional language models introduce the concept of term position and proximity:
-
-4. For each word position in a document, define a language model that captures the document content at that position.
-    
-5. Each position defines a "fuzzy passage" centered at that position but potentially covering all words in the document with decreasing weights as distance increases.
-    
-6. Terms propagate their occurrence to nearby positions based on proximity kernels:
-    
+1. For each word position in a document, define a language model that captures the document content at that position.
+2. Each position defines a "fuzzy passage" centered at that position but potentially covering all words in the document with decreasing weights as distance increases.
+3. Terms propagate their occurrence to nearby positions based on proximity kernels:
     - Gaussian kernel
     - Triangle kernel
     - Cosine kernel
     - Circle kernel
 
 This produces a position-specific term frequency:
-
 $$\text{tf}'(w, j; d) = \sum_{i=1}^{|d|} \text{tf}(w, i; d) \cdot k(j, i)$$
 
-Where k(j, i) is the kernel function determining how much influence position i has on position j.
-
-The language model for each position is then:
+Where $k(j, i)$ is the kernel function determining how much influence position i has on position j. The language model for each position is then:
 
 $$p(w|D, i) = \frac{\text{tf}'(w, i; d)}{\sum_{w' \in V} \text{tf}'(w', i; d)}$$
 
 For ranking documents, two strategies can be used:
+1. **Best position strategy**: Score document by the position with the maximum score
+2. **Average top-k position strategy**: Use the average of the top k positions
 
-7. **Best position strategy**: Score document by the position with the maximum score
-8. **Average top-k position strategy**: Use the average of the top k positions
-
-The intution is that documents where query terms appear close together should be ranked higher, as proximity often indicates stronger topical relevance.
+The intuition is that documents where query terms appear close together should be ranked higher, as proximity often indicates stronger topical relevance.
 
 ## Summary and Take-aways
 
 In information retrieval, we've covered several important retrieval models:
-
-9. **TF-IDF**: A vector space model that balances term frequency with inverse document frequency to determine term importance.
-    
-10. **BM25**: A probabilistic model that extends TF-IDF with better term frequency saturation and document length normalization.
-    
-11. **Language Models**: Probabilistic models that score documents based on the likelihood of generating the query, with various smoothing techniques to handle unseen terms.
-    
-12. **Positional Language Models**: Extensions that incorporate term proximity to improve retrieval quality.
-    
+1. **TF-IDF**: A vector space model that balances term frequency with inverse document frequency to determine term importance.
+2. **BM25**: A probabilistic model that extends TF-IDF with better term frequency saturation and document length normalization.
+3. **Language Models**: Probabilistic models that score documents based on the likelihood of generating the query, with various smoothing techniques to handle unseen terms.
+4. **Positional Language Models**: Extensions that incorporate term proximity to improve retrieval quality.
 
 BM25 and Language Models remain the dominant traditional retrieval models used in search engines and IR systems today, although they are increasingly being enhanced or replaced by neural approaches in some applications.
 

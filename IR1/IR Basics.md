@@ -96,7 +96,6 @@
     - Visual words (for image retrieval): pixels, patches, etc.
 
 ### Text Processing Pipeline
-
 1. **Tokenization**: Forming words from character sequences
     - Surprisingly complex process with many edge cases
     - Issues include: word boundaries, hyphenation, apostrophes, special characters, numbers

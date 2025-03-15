@@ -65,9 +65,15 @@ In dense retrieval:
 
 This approach can handle lexical mismatch by learning that "air conditioner" and "AC" refer to the same concept, placing their vectors close together in the embedding space.
 
-## Approximate Nearest Neighbor Search
+### Brute-force search
 
+![[brute-force-search.png]]
+
+Brute force won't scale as we're often searching for billions of texts.
 When using dense representations, finding the most relevant documents for a query requires finding the nearest vectors in the embedding space. With large document collections (billions of documents), a brute-force approach that compares the query vector to every document vector becomes impractical.
+### Approximate Nearest Neighbor Search
+
+![[approximate_nearest_neighbor_search.png]]
 
 Approximate Nearest Neighbor (ANN) search trades some accuracy for speed:
 
@@ -84,15 +90,14 @@ Distance-based approaches use simple similarity functions between query and docu
 - Inner (dot) product: $\phi(u, v) = \eta(u) \cdot \eta(v)$
 - Cosine similarity: measures the angle between vectors
 
-Several important distance-based approaches are covered:
-
+Several important distance-based approaches:
 ### SentenceBERT
 
 SentenceBERT uses siamese BERT networks to create sentence embeddings. It can represent text in several ways:
 
-- Using the CLS token representation
-- Taking the mean of token embeddings
-- Taking the max of token embeddings
+- CLS token representation
+- mean of token embeddings
+- max of token embeddings
 
 SentenceBERT can be trained using classification (with a softmax classifier) or regression (using cosine similarity) objectives.
 
@@ -116,13 +121,17 @@ The effectiveness of contrastive learning depends significantly on the quality o
 
 For example, with a query about "Black Bear Attacks", potential negative examples might include:
 
-4. A document about black bears being poached (contains both "black" and "bear" but not about attacks)
-5. A document using "bear" in a different context ("does not bear on the safety...")
-6. A document in German about black bear attacks (topically relevant but in a different language)
+1. A document about black bears being poached (contains both "black" and "bear" but not about attacks)
+2. A document using "bear" in a different context ("does not bear on the safety...")
+3. A document in German about black bear attacks (topically relevant but in a different language)
 
 The best hard negatives are topically related but not relevant to the specific information need.
 
 ### ANCE (Approximate Nearest Neighbor Negative Contrastive Learning)
+
+![[ance.png | 400]]
+
+![[ance_training.png | 500]]
 
 ANCE improves on DPR by using better hard negatives:
 
@@ -151,6 +160,8 @@ Comparison-based approaches use more sophisticated interaction patterns between 
 
 ### ColBERT
 
+![[colbert.png | 350]]
+
 ColBERT uses a "late interaction" mechanism:
 
 - Encodes each token in the query and document separately
@@ -161,10 +172,12 @@ $$s_{q,d} = \sum_{i \in \eta(q)} \max_{j \in \eta(d)} \eta(q)_i \cdot \eta(d)_j^
 
 For example, with a query "green ocean turtle" and a document containing "reptiles such as sea turtles spend most of...", ColBERT would:
 
-7. Find the maximum similarity of "green" with any document token
-8. Find the maximum similarity of "ocean" with any document token
-9. Find the maximum similarity of "turtle" with any document token
-10. Sum these maximal similarities
+1. Find the maximum similarity of "green" with any document token
+2. Find the maximum similarity of "ocean" with any document token
+3. Find the maximum similarity of "turtle" with any document token
+4. Sum these maximal similarities
+
+![[colbert_score.png | 500]]
 
 ColBERT is:
 
@@ -173,9 +186,8 @@ ColBERT is:
 - However, it's not immediately compatible with standard ANN indices
 
 In practice, ColBERT uses a two-stage retrieval pipeline:
-
-11. Identify candidates using ANN with query token embeddings
-12. Rerank these candidates using the MaxSim mechanism
+1. Identify candidates using ANN with query token embeddings
+2. Rerank these candidates using the MaxSim mechanism
 
 ## Robustness & Out-of-domain Evaluation
 
