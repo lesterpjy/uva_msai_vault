@@ -1,10 +1,4 @@
-
-This lecture covers how to extend temporal difference (TD) learning to use function approximation, which is crucial for handling large or continuous state spaces in reinforcement learning. I'll walk through the key concepts covered in the slides.
-
 ## Function Approximation in Reinforcement Learning
-
-In previous lectures, you learned about tabular methods where we store a separate value for each state or state-action pair. However, this becomes impractical when dealing with large state spaces. Function approximation allows us to generalize across states by using parametrized functions.
-
 ### Linear Function Approximation
 
 A linear function approximator represents the value function as:
@@ -78,24 +72,13 @@ This is called a "semi-gradient" method because it ignores that the target $\hat
 For linear function approximation with semi-gradient TD, the parameters converge to what's called the "TD fixed point" $\mathbf{w}_{\text{TD}}$. To find this fixed point analytically:
 
 1. Rewrite the TD update as an expected update: $$E[\mathbf{w}_{t+1}|\mathbf{w}_t] = \mathbf{w}_t + \alpha\left(E[R_{t+1}\mathbf{x}_t] - E[\mathbf{x}_t(\mathbf{x}_t - \gamma\mathbf{x}_{t+1})^T]\mathbf{w}_t\right)$$
-    
 2. At convergence, $E[\mathbf{w}_{t+1}|\mathbf{w}_t] = \mathbf{w}_t$, which gives: $$E[R_{t+1}\mathbf{x}_t] - E[\mathbf{x}_t(\mathbf{x}_t - \gamma\mathbf{x}_{t+1})^T]\mathbf{w}_{\text{TD}} = 0$$
-    
 3. If we define:
-    
     - $\mathbf{b} = E[R_{t+1}\mathbf{x}_t]$
     - $\mathbf{A} = E[\mathbf{x}_t(\mathbf{x}_t - \gamma\mathbf{x}_{t+1})^T]$
 4. Then $\mathbf{w}_{\text{TD}} = \mathbf{A}^{-1}\mathbf{b}$
-    
 
 Importantly, the TD fixed point is generally not the same as the minimum of the value error that gradient MC would find. However, semi-gradient TD tends to learn faster than gradient MC due to its lower variance, making it often preferred in practice despite not finding the global optimum.
-
-### Convergence Guarantees
-
-- Gradient Monte Carlo with linear function approximation converges to a global minimum of the value error
-- Semi-gradient TD with linear function approximation converges to the TD fixed point
-- With non-linear function approximation, gradient MC converges to a local minimum of value error
-- With non-linear function approximation, semi-gradient TD may diverge (no convergence guarantee)
 
 ## Least-Squares Temporal-Difference (LSTD)
 
@@ -105,6 +88,8 @@ $$\hat{\mathbf{A}}_t = \sum_{k=0}^{t-1} \mathbf{x}_k(\mathbf{x}_k - \gamma\mathb
 
 The $\varepsilon\mathbf{I}$ term is a regularization term to ensure $\hat{\mathbf{A}}_t$ is invertible.
 
+![[lstd.png | 400]]
+
 LSTD has several properties:
 
 - More sample efficient than semi-gradient TD
@@ -112,6 +97,14 @@ LSTD has several properties:
 - No step size parameter needed (though ε is still a hyperparameter)
 - Never "forgets" data, which is good for stationary problems but problematic if the environment changes
 
+## Convergence Guarantees
+
+![[convergence_properties.png | 400]]
+
+- Gradient Monte Carlo with linear function approximation converges to a global minimum of the value error
+- Semi-gradient TD with linear function approximation converges to the TD fixed point
+- With non-linear function approximation, gradient MC converges to a local minimum of value error
+- With non-linear function approximation, semi-gradient TD may diverge (no convergence guarantee)
 ## Control with Function Approximation
 
 The principles of function approximation can also be applied to action-value functions for control. For semi-gradient SARSA, the update rule becomes:
@@ -119,6 +112,8 @@ The principles of function approximation can also be applied to action-value fun
 $$\mathbf{w}_{t+1} \leftarrow \mathbf{w}_t + \alpha [R_t + \gamma\hat{q}(S_{t+1}, A_{t+1}, \mathbf{w}_t) - \hat{q}(S_t, A_t, \mathbf{w}_t)]\nabla\hat{q}(S_t, A_t, \mathbf{w}_t)$$
 
 Using an ε-greedy policy derived from the current approximation of q, we can learn control policies for large state spaces.
+
+![[semi-gradient-sarsa.png | 450]]
 
 ## Summary of Covered Material
 
@@ -129,6 +124,10 @@ Using an ε-greedy policy derived from the current approximation of q, we can le
 - Least-squares TD: directly computes the TD fixed point
 - Semi-gradient SARSA: extends function approximation to control
 
-The next lectures will cover off-policy TD learning with function approximation, which introduces additional challenges not present in the on-policy case.
+## Need to know
 
-Function approximation is a critical component of modern reinforcement learning that allows these methods to scale to real-world problems with large or continuous state spaces.
+What are linear and non-linear function approximators?
+What are semi-gradient TD and LSTD, and how do they relate
+to gradient MC? What is the TD fix point?
+To what type of solution do these methods converge?
+How can we do on-policy control using semi-gradient SARSA?

@@ -9,15 +9,14 @@ In a POMDP, the agent doesn't directly observe the true underlying state of the 
 There are several common ways in which partial observability manifests:
 
 1. **Aliasing**: Different states may appear identical to the agent. For example, an agent might observe "I am in front of a door" but not know which specific door it is facing. In games like Pong, just seeing the current frame doesn't tell you the ball's direction or velocity.
-    
 2. **Noise**: Sensors might provide imprecise readings. For instance, GPS signals might tell you approximately where you are, but with some error margin.
-    
 3. **Missing information**: Some aspects of the environment state might be entirely hidden from the agent.
-    
 
 In these situations, the single current observation is insufficient for optimal decision-making. The agent needs to somehow accumulate and process information from its history of interactions with the environment.
 
 ## The Formal POMDP Framework
+
+![[pomdp_variables.png | 350]]
 
 In a POMDP setting, we distinguish between:
 
@@ -35,6 +34,8 @@ The environment now has three key components:
 The agent must now make decisions based on observations rather than the true state.
 
 ## Approaches to Handling Partial Observability
+
+![[pomdp_approaches.png | 400]]
 
 When dealing with partially observable environments, we need a way to represent the agent's internal belief or knowledge about the environment. This internal representation, often denoted as **s**, serves as input to the policy and value functions.
 
@@ -65,12 +66,9 @@ $s = p(x|h)$ for all possible x
 
 When new actions are taken and observations received, the belief state can be updated using Bayes' rule:
 
-$p(x'|h') = p(x'|o',a,h) = \frac{p(o'|x',a,h)p(x'|a,h)}{p(o'|a,h)}$
-
+$$p(x'|h') = p(x'|o',a,h) = \frac{p(o'|x',a,h)p(x'|a,h)}{p(o'|a,h)}$$
 This can be expanded to:
-
-$p(x'|h') = \frac{p(o'|x',a)\sum_x p(x'|x,a)p(x|h)}{\sum_{x'} p(o'|x',a)\sum_x p(x'|x,a)p(x|h)}$
-
+$$p(x'|h') = \frac{p(o'|x',a)\sum_x p(x'|x,a)p(x|h)}{\sum_{x'} p(o'|x',a)\sum_x p(x'|x,a)p(x|h)}$$
 Where:
 
 - $p(o'|x',a)$ is the observation model
@@ -106,12 +104,13 @@ Planning in belief space yields an optimal policy: listen until the belief becom
 ### 3. Predictive State Representations (PSRs)
 
 Instead of tracking beliefs over latent states, PSRs focus on predictions about future observations:
-
-$f(h) = f_{oa}(h) := Pr{O_{t+1} = o|H_t = h, A_t = a}$
+$$f(h) = f_{oa}(h) := Pr\{O_{t+1} = o|H_t = h, A_t = a\}$$
 
 Or more generally, we can consider "tests" (sequences of actions and observations): $\tau = a_1o_1a_2o_2a_3o_3$
 
-And define the probability that a test "succeeds" given history: $p(\tau|h) = Pr{O_{t+1} = o_1, O_{t+2} = o_2, O_{t+3} = o_3|H_t = h, A_t = a_1, A_{t+1} = a_2, A_{t+2} = a_3}$
+And define the probability that a test "succeeds" given history: 
+
+$$p(\tau|h) = Pr\{O_{t+1} = o_1, O_{t+2} = o_2, O_{t+3} = o_3|H_t = h, A_t = a_1, A_{t+1} = a_2, A_{t+2} = a_3\}$$
 
 For certain sets of "core tests," the vector of their probabilities forms a Markov state.
 
@@ -165,17 +164,15 @@ Example: Deep Recurrent Q-Learning (Hausknecht & Stone, 2015) combines convoluti
 ## Trade-offs and Practical Considerations
 
 When choosing an approach to handle partial observability, consider these trade-offs:
-
-4. **Compactness**: How efficiently does the representation scale with history length?
-5. **Markov property**: Does the representation capture all relevant information?
-6. **Interpretability**: Is the representation meaningful to humans?
-7. **Computational complexity**: How expensive are updates and learning?
-8. **Ease of implementation**: How difficult is it to implement and debug?
+1. **Compactness**: How efficiently does the representation scale with history length?
+2. **Markov property**: Does the representation capture all relevant information?
+3. **Interpretability**: Is the representation meaningful to humans?
+4. **Computational complexity**: How expensive are updates and learning?
+5. **Ease of implementation**: How difficult is it to implement and debug?
 
 In practice, approximate methods like frame stacking or recurrent networks are often preferred for complex environments, even though they don't theoretically guarantee optimal performance.
 
-As the lecturer notes, even when using function approximation, there's typically no guarantee that features define a perfect Markov state. The key is finding a representation that's "close enough" to Markov to enable effective learning and decision-making.
-
+Even when using function approximation, there's typically no guarantee that features define a perfect Markov state. The key is finding a representation that's "close enough" to Markov to enable effective learning and decision-making.
 ## Conclusion
 
 Partial observability introduces significant challenges to reinforcement learning. The agent must maintain some internal representation that summarizes relevant aspects of history to make good decisions.
@@ -183,3 +180,15 @@ Partial observability introduces significant challenges to reinforcement learnin
 While exact methods like belief states and PSRs provide theoretical guarantees, they often have practical limitations. Approximate methods like frame stacking and recurrent networks offer pragmatic alternatives that work well in many applications.
 
 The choice of approach depends on the specific requirements of the task, available computational resources, and whether known models are available or must be learned from data.
+
+Partial observable MDP’s do not have all relevant information from history in the observations. Thus, an internal state has to be extracted from the history.
+Trade-off between various factors:
+• Compactness
+• Markov property
+• Interpretability
+• Computational complexity of updates, learning
+• Ease of implementation
+
+## Need to know
+- What is a state update function and why do we need it?
+- What are the advantages and disadvantages of the discussed state update functions?

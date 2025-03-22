@@ -1,6 +1,3 @@
-
-The lecture focuses on the transition from tabular methods to function approximation in reinforcement learning. Let me explain the key concepts in detail.
-
 ## The Big Picture of Reinforcement Learning Methods
 
 Reinforcement learning algorithms can be broadly categorized based on whether they have access to the underlying MDP dynamics or only to sampled data:
@@ -42,7 +39,6 @@ Key characteristics:
 An interesting question arises: why doesn't Q-learning use importance sampling weights like off-policy Monte Carlo methods?
 
 To understand this, let's revisit off-policy Monte Carlo learning: $$Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \rho_{t+1:T-1}[G_t - Q(S_t, A_t)]$$
-
 In Monte Carlo methods:
 
 - The (S,A) pairs don't change the function being learned
@@ -51,9 +47,11 @@ In Monte Carlo methods:
 
 In Q-learning:
 
+![[q-learning_no-importance-weights.png]]
+
 - We still don't care which policy generated the (S,A) pairs
 - What matters is that the target is appropriate for the Q-function we want to learn
-- The target depends on the next state-action pair
+- The target depends on the next state-action pair (red)
 - Instead of taking an action from the behavior policy and correcting with importance weights, Q-learning takes actions directly from the target policy (the greedy policy)
 - This is easier and possible because we can calculate the target for any alternative action
 
@@ -87,6 +85,13 @@ Both TD(0) and Monte Carlo methods have advantages:
 
 An intermediate approach called n-step TD can balance these advantages.
 
+Main difference between methods:
+- prediction (estimate V) vs. control (estimate Q)
+- off-policy vs. on-policy
+- "wide" vs. "narrow" updates
+- "deep" vs. "shallow" updates
+
+![[methods_comparison.png | 400]]
 ## The Problem with Tabular Methods and Need for Approximation
 
 Tabular methods face several limitations:
@@ -109,15 +114,11 @@ This is similar to supervised learning:
 
 ## Value Function Approximation
 
-Instead of storing a separate value for each state, we can represent the value function as a parameterized function: $$\hat{v}(s, \mathbf{w}) = \mathbf{w}^T \phi(s) = \sum_i w_i \cdot \phi_i(s)$$
-
-Where:
-
+Instead of storing a separate value for each state, we can represent the value function as a parameterized function: $$\hat{v}(s, \mathbf{w}) = \mathbf{w}^T \phi(s) = \sum_i w_i \cdot \phi_i(s)$$Where:
 - $\mathbf{w}$ is a vector of parameters
 - $\phi(s)$ is a feature vector representing state $s$
 
 A simple example is to divide states into groups (buckets) and use a one-hot encoding:
-
 - $\phi_1(s) = 1$ if $s$ is in group one, 0 otherwise
 - $\phi_2(s) = 1$ if $s$ is in group two, 0 otherwise, etc.
 
@@ -129,20 +130,23 @@ $$VE(\mathbf{w}) = \sum_{s \in \mathcal{S}} \mu(s) [v_\pi(s) - \hat{v}(s, \mathb
 
 Where $\mu(s)$ is a state distribution that weights the importance of different states. For on-policy learning, $\mu$ is the fraction of time spent in each state when following policy $\pi$.
 
-For continuing tasks, this is the stationary distribution: $$\mu_\pi(s) = \sum_{\bar{s}}\sum_a p(s|\bar{s},a)\pi(a|\bar{s})\mu_\pi(\bar{s})$$
-
-For episodic tasks, we first find the average number of visits to each state per episode: $$\eta_\pi(s) = h(s) + \gamma \sum_{\bar{s}} \eta_\pi(\bar{s})\sum_a \pi(a|\bar{s})p(s|\bar{s},a)$$
-
-Then normalize to get the fraction: $$\mu_\pi(s) = \frac{\eta_\pi(s)}{\sum_{s'} \eta_\pi(s')}$$
-
+For continuing tasks, this is the stationary distribution: $$\mu_\pi(s) = \sum_{\bar{s}}\sum_a p(s|\bar{s},a)\pi(a|\bar{s})\mu_\pi(\bar{s})$$For episodic tasks, we first find the average number of visits to each state per episode: $$\eta_\pi(s) = h(s) + \gamma \sum_{\bar{s}} \eta_\pi(\bar{s})\sum_a \pi(a|\bar{s})p(s|\bar{s},a)$$Then normalize to get the fraction: $$\mu_\pi(s) = \frac{\eta_\pi(s)}{\sum_{s'} \eta_\pi(s')}$$
 ## Gradient Monte Carlo Algorithm
 
 To find the optimal parameters $\mathbf{w}$, we can use stochastic gradient descent:
 
 $$\nabla_\mathbf{w} VE(\mathbf{w}) = \nabla_\mathbf{w} \sum_{s \in \mathcal{S}} \mu(s) [v_\pi(s) - \hat{v}(s, \mathbf{w})]^2$$
-
+But how to approximate?
+- As $\mu$ is on-policy distribution, simple pick random visited state to sample from $\mu(s)$
+- Use the return $G$ to generate unbiased estimate of target $v_{\pi}$
+$$
+\begin{equation}
+\begin{aligned}
+\nabla_\mathbf{w} VE(\mathbf{w}) &\approx \nabla_\mathbf{w} \frac{1}{T}\sum_{t=1}^T (G_{t} - \hat{v}(s_{t}, \mathbf{w}))^2 \\&= -\frac{2}{T}\sum_{t=1}^T (G_{t} - \hat{v}(s_{t}, \mathbf{w}))\nabla_\mathbf{w}\hat{v}(s_{t}, \mathbf{w})
+\end{aligned}
+\end{equation}
+$$
 This leads to the update rule: $$\mathbf{w}_{t+1} = \mathbf{w}_t + \alpha [G_t - \hat{v}(S_t, \mathbf{w}_t)] \nabla_\mathbf{w}\hat{v}(S_t, \mathbf{w}_t)$$
-
 Where:
 
 - $G_t$ is the return from state $S_t$, serving as an unbiased estimate of $v_\pi(S_t)$
@@ -151,30 +155,27 @@ Where:
 
 The complete Gradient Monte Carlo algorithm:
 
-4. Initialize value-function weights $\mathbf{w}$ (e.g., $\mathbf{w} = \mathbf{0}$)
-5. Loop for each episode: a. Generate an episode using policy $\pi$ b. For each step of the episode, update: $\mathbf{w} \leftarrow \mathbf{w} + \alpha[G_t - \hat{v}(S_t,\mathbf{w})]\nabla_\mathbf{w}\hat{v}(S_t,\mathbf{w})$
-
-## Future Directions
-
-The lecture concludes by mentioning upcoming topics:
-
-- Stochastic gradient descent with bootstrapping (TD learning with function approximation)
-- Off-policy learning with function approximation
+![[gradient-mc.png | 500]]
 
 ## Worked Example: Steady State Distribution
 
-The lecture includes a worked example of calculating the steady-state distribution for a simple 3-state system. This involves:
+A worked example of calculating the steady-state distribution for a simple 3-state system. 
 
-6. Finding the values $\eta$ (number of visits to each state)
-7. Solving a system of linear equations using matrix inverse
-8. Normalizing to find the distribution $\mu$
+![[steady-state-example.png | 500]]
 
-For the specific example in the slides, the solution yields: $$\mu = \left(\frac{1}{7}, \frac{3}{7}, \frac{3}{7}\right)$$
+1. Finding the values $\eta$ (number of visits to each state)
+2. Solving a system of linear equations using matrix inverse
+3. Normalizing to find the distribution $\mu$
 
 ## Key Takeaways
-
-9. Understand the advantages of TD(0) and Monte Carlo methods
-10. Know how tabular value-based methods can be categorized
-11. Understand Gradient Monte Carlo and why function approximation is useful for handling large state spaces
+1. Understand the advantages of TD(0) and Monte Carlo methods
+2. Know how tabular value-based methods can be categorized
+3. Understand Gradient Monte Carlo and why function approximation is useful for handling large state spaces
 
 The transition from tabular methods to function approximation is essential for tackling real-world reinforcement learning problems with continuous or high-dimensional state spaces.
+
+## Need to know
+
+What are advantages of TD(0) and Monte-Carlo
+How can tabular value-based methods be categorized?
+What is gradient MC and why is it useful?

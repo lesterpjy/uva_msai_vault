@@ -78,6 +78,8 @@ $$\theta_{t+1} = \theta_t + \alpha (R_{t+1} + \gamma\hat{v}(s_{t+1}, w) - \hat{v
 
 The term $(R_{t+1} + \gamma\hat{v}(s_{t+1}, w) - \hat{v}(s_t, w))$ is the TD error $\delta$, which serves as an unbiased estimate of the advantage function.
 
+![[pgt-actor-critic.png | 500]]
+
 ## Deterministic Policy Gradients (DPG)
 
 All the policy gradients discussed so far work with stochastic policies. However, in some cases (particularly with continuous action spaces), deterministic policies might be more efficient.
@@ -111,11 +113,10 @@ Note that $\beta$ only appears in the sampling distribution, not in the gradient
 ### Deep Deterministic Policy Gradient (DDPG)
 
 DDPG applies DPG with neural network function approximators. It addresses several challenges:
-
-4. **Correlated samples**: Uses experience replay to break correlations
-5. **Unstable Q-learning**: Uses target networks for both actor and critic
-6. **Input scaling issues**: Applies batch normalization
-7. **Exploration**: Uses correlated noise (like Ornstein-Uhlenbeck process) instead of independent noise
+1. **Correlated samples**: Uses experience replay to break correlations
+2. **Unstable Q-learning**: Uses target networks for both actor and critic
+3. **Input scaling issues**: Applies batch normalization
+4. **Exploration**: Uses correlated noise (like Ornstein-Uhlenbeck process) instead of independent noise
 
 DDPG combines insights from DQN (experience replay, target networks) with deterministic policy gradients, making it effective for continuous control tasks.
 
@@ -160,10 +161,10 @@ Debugging complex RL systems presents unique challenges:
 
 Policy search methods are preferable in several scenarios:
 
-8. Problems with continuous action spaces
-9. When stochastic policies are needed
-10. When prior knowledge about policies is available
-11. When small, controlled policy updates are important
+5. Problems with continuous action spaces
+6. When stochastic policies are needed
+7. When prior knowledge about policies is available
+8. When small, controlled policy updates are important
 
 Many of these aspects are particularly relevant for physical systems like robots, explaining why policy-based methods are popular in robotics.
 

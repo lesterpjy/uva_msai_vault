@@ -1,6 +1,3 @@
-
-The lecture covers advanced policy search methods in reinforcement learning, with a focus on Natural Policy Gradient (NPG) and Trust Region Policy Optimization (TRPO). Let me walk you through the key concepts and mathematical foundations.
-
 ## Why Stay Close to Previous Policies?
 
 A fundamental idea in modern policy optimization is taking small, controlled steps when updating policies. This approach leads to more stable learning for several reasons:
@@ -129,9 +126,14 @@ The key advantages of TRPO over NPG:
 Both NPG and TRPO represent significant advances in policy optimization by addressing the fundamental question: how can we take large improvement steps while ensuring stability?
 
 The key insights are:
-
-7. Policy distances should be measured in behavior space (using KL), not parameter space
-8. Policy updates should account for parameter sensitivities and correlations
-9. Trust regions or constraints provide a principled way to determine step sizes
+1. Policy distances should be measured in behavior space (using KL), not parameter space
+2. Policy updates should account for parameter sensitivities and correlations
+3. Trust regions or constraints provide a principled way to determine step sizes
 
 These methods form the foundation for many modern deep reinforcement learning algorithms and have been crucial for applying RL to complex control problems.
+
+## Need to know
+
+- Advantage of covariant representation of distances?
+- Advantage of specifying constraint instead of stepsize?
+- Why do we need a constraint / penalty / stepsize?

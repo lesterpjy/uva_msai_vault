@@ -1,1 +1,4 @@
 .DS_Store
+
+RL/quiz/*
+.obsidian/plugins/quiz-generator/data.json
