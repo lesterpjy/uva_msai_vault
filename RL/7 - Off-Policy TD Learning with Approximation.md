@@ -206,12 +206,10 @@ The term "semi-gradient" indicates that these methods only partially account for
 
 ## Off-Policy Learning with Importance Sampling
 
-The lecture then asks if semi-gradient TD methods can be extended to off-policy learning, where we learn about one policy (the target policy) while following a different policy (the behavior policy).
+Can semi-gradient TD methods can be extended to off-policy learning, where we learn about one policy (the target policy) while following a different policy (the behavior policy)?
 
 Off-policy learning uses importance sampling with a ratio:
-
 $$\rho_t = \frac{\pi(A_t|S_t)}{b(A_t|S_t)}$$
-
 Where:
 
 - $\pi$ is the target policy (the policy we want to learn)
@@ -240,7 +238,7 @@ This demonstrates that the off-policy semi-gradient TD method can diverge, parti
 
 ## The Deadly Triad
 
-The lecture emphasizes that this divergence is not due to:
+This divergence is not due to:
 
 - The value function being unrepresentable
 - Random effects
@@ -263,7 +261,7 @@ In this geometric view:
 - Our function approximation creates a subspace of representable functions
 - TD methods try to move within this subspace to minimize some form of error
 
-![[linear-value-func-geometry.png | 400]]
+![[linear-value-func-geometry.png | 500]]
 
 ## Different Types of Errors
 
@@ -280,20 +278,16 @@ Note that at $v_{\pi}$, TDE $\delta$ is not zero (small green vectors), but they
 
 
 1. **Projected Bellman Error (PBE)** - The Bellman error projected onto the space of representable functions: $$\text{PBE}(w) = \sum_{s \in S} \mu(s) (\Pi\mathbb{E}[\delta_t | S_t = s, A_t \sim \pi])^2$$ where $\Pi$ is the projection operator onto the space of representable functions
-    
 
 ## Issues with These Error Measures
 
 The lecture examines problems with minimizing each error type:
-
-2. **TD Error (TDE)**: Using the A-split example (a simple MDP with states A, B, C), the lecture shows that minimizing TDE can lead to poor value approximations. The optimal value at state A would be the average of the optimal values at B and C, which might not be desirable.
-    
-3. **Bellman Error (BE)**: While minimizing BE seems reasonable, it can't be done directly from samples. The lecture demonstrates this with examples of MDPs that generate the same sample transitions but have different optimal values, making it impossible to determine the correct BE from samples alone.
-    
+1. **TD Error (TDE)**: Using the A-split example (a simple MDP with states A, B, C), the lecture shows that minimizing TDE can lead to poor value approximations. The optimal value at state A would be the average of the optimal values at B and C, which might not be desirable.
+2. **Bellman Error (BE)**: While minimizing BE seems reasonable, it can't be done directly from samples. The lecture demonstrates this with examples of MDPs that generate the same sample transitions but have different optimal values, making it impossible to determine the correct BE from samples alone.
 
 ## Gradient TD Methods
 
-The lecture then presents gradient TD methods that can safely perform off-policy learning with function approximation. These methods minimize the Projected Bellman Error (PBE) and include:
+The lecture then presents gradient TD methods that can safely perform off-policy learning with function approximation. These methods minimize the Projected Bellman Error (PBE), converge to the TD fixed point, and include:
 1. **GTD2**: A true gradient-descent method with update rules:
     - For a secondary weight vector $v$: $v_{t+1} = v_t + \beta\rho_t (\delta_t - v_t^T x_t) x_t$
     - For the main weight vector: $w_{t+1} = w_t + \alpha\rho_t (x_t - \gamma x_{t+1}) x_t^T v_t$
@@ -302,6 +296,12 @@ The lecture then presents gradient TD methods that can safely perform off-policy
 2. **TDC** (Temporal Difference with Correction): An improved version of GTD2
 
 These methods are stable because they perform true gradient descent on the PBE, unlike semi-gradient methods.
+
+Cons:
+- Additional step size parameter for learning v (‘larger’ than α)
+- Need to store and update two parameter vectors
+- Extension needed to apply it to non-linear approximators
+- If semi-gradient TD converges, often does so faster than GTD2
 
 ## Convergence Properties
 
@@ -334,9 +334,6 @@ These methods are stable because they perform true gradient descent on the PBE, 
 ## Need to know
 
 What is the deadly triad?
-What are the VE, TDE, BE, PBE and how can we think of them
-in terms of value function geometry?
-Which of these errors should be minimized by a gradient TD
-method and why?
-How do the properties of GMC, semi-gradient TD, gradient TD,
-and LSTD compare?
+What are the VE, TDE, BE, PBE and how can we think of them in terms of value function geometry?
+Which of these errors should be minimized by a gradient TD method and why?
+How do the properties of GMC, semi-gradient TD, gradient TD, and LSTD compare?

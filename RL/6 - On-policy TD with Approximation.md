@@ -83,7 +83,6 @@ Importantly, the TD fixed point is generally not the same as the minimum of the 
 ## Least-Squares Temporal-Difference (LSTD)
 
 LSTD is a method that directly computes the TD fixed point without iterative updates. Since $\mathbf{w}_{\text{TD}} = \mathbf{A}^{-1}\mathbf{b}$, LSTD estimates $\mathbf{A}$ and $\mathbf{b}$ from data and then computes $\mathbf{w}_{\text{TD}}$ directly:
-
 $$\hat{\mathbf{A}}_t = \sum_{k=0}^{t-1} \mathbf{x}_k(\mathbf{x}_k - \gamma\mathbf{x}_{k+1})^T + \varepsilon\mathbf{I}$$ $$\hat{\mathbf{b}}_t = \sum_{k=0}^{t-1} R_{k+1}\mathbf{x}_k$$ $$\mathbf{w}_t = \hat{\mathbf{A}}_t^{-1}\hat{\mathbf{b}}_t$$
 
 The $\varepsilon\mathbf{I}$ term is a regularization term to ensure $\hat{\mathbf{A}}_t$ is invertible.
@@ -127,7 +126,7 @@ Using an ε-greedy policy derived from the current approximation of q, we can le
 ## Need to know
 
 What are linear and non-linear function approximators?
-What are semi-gradient TD and LSTD, and how do they relate
-to gradient MC? What is the TD fix point?
+What are semi-gradient TD and LSTD, and how do they relate to gradient MC?
+What is the TD fix point?
 To what type of solution do these methods converge?
 How can we do on-policy control using semi-gradient SARSA?

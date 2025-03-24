@@ -4,7 +4,7 @@ DQN was a groundbreaking algorithm developed by DeepMind (published in Nature, 2
 
 ### Q-Function Approximation Architectures
 
-The lecture discusses two main approaches to approximating the Q-function:
+Two main approaches to approximating the Q-function:
 1. **State to value mapping**: $s \rightarrow \hat{v}(s)$
     - One network that outputs the value of a state
 2. **State-action to Q-value mapping**: Two possibilities:
@@ -82,9 +82,7 @@ Conservative Q-Learning (CQL) is an approach to offline RL that addresses the ov
 The core idea is to lower-bound the true Q-values to prevent harmful overestimation, making the agent "conservative" in its predictions.
 
 Mathematically, if we denote the behavior policy as $\beta$ and the target policy as $\pi$, CQL adds a penalty term:
-
 $$-\alpha \frac{\pi(a|s) - \beta(a|s)}{\beta(a|s)}$$
-
 This penalizes the agent for choosing actions that deviate too much from the behavior policy.
 
 The resulting Q-value update has the form:
@@ -110,7 +108,6 @@ CQL is particularly effective with small datasets, where the risk of overestimat
 
 The lecture concludes by noting some limitations of value-based approaches:
 1. **Handling continuous or large action spaces**: Value-based methods like Q-learning require finding $\arg\max_a Q(s,a)$, which is problematic when the action space is continuous or very large.
-    
 2. **Fixed policy randomness**: Value-based methods typically use deterministic policies or simple exploration strategies like ε-greedy, which cannot learn the optimal degree of randomness required in some tasks (particularly those with perceptual aliasing).
 
 ## Summary
@@ -118,3 +115,13 @@ The lecture concludes by noting some limitations of value-based approaches:
 Deep Q Networks combine deep neural networks with Q-learning, enabling reinforcement learning directly from high-dimensional inputs like images. Key innovations like experience replay and target networks stabilize training.
 
 Conservative Q-Learning extends these ideas to offline RL by introducing a penalty that ensures conservative Q-value estimates, preventing the exploitation of erroneously high values for out-of-distribution actions.
+
+Deep Q networks (DQN)
+- Semi-gradient version of Q learning
+- Deep neural networks to learn directly from ‘raw’ data
+- Good empirical performance
+
+Conservative Q learning
+- Off-line RL setting
+- Theoretical guarantee of lower bound
+- Improved performance on Atari & other domains, especially with small datasets

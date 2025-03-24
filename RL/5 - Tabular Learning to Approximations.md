@@ -14,9 +14,7 @@ All these methods aim to learn the value function directly without learning the 
 
 ### Q-learning (Off-policy TD Control)
 
-Q-learning follows this update rule: $$Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha[r_t + \gamma \max_{a'} Q(s_{t+1}, a') - Q(s_t, a_t)]$$
-
-Key characteristics:
+Q-learning follows this update rule: $$Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha[r_t + \gamma \max_{a'} Q(s_{t+1}, a') - Q(s_t, a_t)]$$Key characteristics:
 
 - It's an off-policy algorithm (the behavior policy can differ from the target policy)
 - The behavior policy doesn't need to converge to greedy
@@ -27,7 +25,6 @@ Key characteristics:
 ### SARSA (On-policy TD Control)
 
 SARSA follows this update rule: $$Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha[r_t + \gamma Q(s_{t+1}, a_{t+1}) - Q(s_t, a_t)]$$
-
 Key characteristics:
 
 - It's an on-policy algorithm (learns about the policy being followed)

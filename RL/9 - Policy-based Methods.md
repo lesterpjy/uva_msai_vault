@@ -34,8 +34,6 @@ Value-based methods have several significant limitations:
         - In partially observable environments
         - For exploration
 
-The lecture illustrates a problem where states with the same features appear differently in the environment. In such cases, a purely deterministic policy would get stuck oscillating in a suboptimal pattern, while a stochastic policy (choosing actions with 50% probability) would perform better.
-
 ## Policy Representation
 
 In policy-based methods, we directly parameterize a policy function $\pi_\theta(a|s)$ with parameters $\theta$. Desirable properties for policy representations include:
@@ -134,8 +132,7 @@ A good baseline is the expected return (e.g., observed average) or a state-depen
 
 In the basic REINFORCE, all actions get credit for all rewards in a trajectory. This introduces unnecessary variance.
 
-A better approach is to assign credit more carefully: $\nabla_\theta J = \mathbb{E}_\tau \left[ \sum_{t=1}^T \nabla_\theta \log \pi_\theta(a_t|s_t) \sum_{t'=t+1:T} r_{t'} \right]$
-
+A better approach is to assign credit more carefully: $$\nabla_\theta J = \mathbb{E}_\tau \left[ \sum_{t=1}^T \nabla_\theta \log \pi_\theta(a_t|s_t) \sum_{t'=t+1:T} r_{t'} \right]$$
 That is, multiply the policy gradient at time $t$ only with the sum of rewards received after time $t$: $\sum_{t'=t+1}^T r_{t'} = G_t$
 
 This cuts out variance from rewards received earlier in the trajectory.
@@ -171,3 +168,4 @@ The lecture presents a comparison framework:
 - REINFORCE v2 uses step-based evaluation
 
 Each approach makes different tradeoffs in terms of variance, bias, and computational efficiency.
+

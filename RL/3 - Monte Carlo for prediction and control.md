@@ -203,9 +203,6 @@ The algorithm stops updating the weight once it encounters an action that wouldn
 Each approach has its strengths and weaknesses, and the choice depends on the specific problem and constraints at hand.
 
 ## Need to know
-How do Monte Carlo methods learn value functions and what
-are their properties?
-Why do we need ‘exploring starts’, non-greedy policies, or
-offline learning, and what are the advantages of each?
-What are ordinary and weighted importance sampling and
-when are they used?
+How do Monte Carlo methods learn value functions and what are their properties?
+Why do we need ‘exploring starts’, non-greedy policies, or offline learning, and what are the advantages of each?
+What are ordinary and weighted importance sampling and when are they used?

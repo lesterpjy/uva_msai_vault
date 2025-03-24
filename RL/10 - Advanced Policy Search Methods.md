@@ -1,6 +1,3 @@
-
-I'll cover the key concepts from the lecture on advanced policy search methods, focusing on actor-critic methods, deterministic policy gradients, and considerations for empirical evaluation.
-
 ## Overview of Policy Learning Approaches
 
 Reinforcement learning methods can be broadly categorized based on their approach to learning policies:
@@ -160,12 +157,16 @@ Debugging complex RL systems presents unique challenges:
 ## Advantages of Policy-Based Methods
 
 Policy search methods are preferable in several scenarios:
-
-5. Problems with continuous action spaces
-6. When stochastic policies are needed
-7. When prior knowledge about policies is available
-8. When small, controlled policy updates are important
+1. Problems with continuous action spaces
+2. When stochastic policies are needed
+3. When prior knowledge about policies is available
+4. When small, controlled policy updates are important
 
 Many of these aspects are particularly relevant for physical systems like robots, explaining why policy-based methods are popular in robotics.
 
-This lecture provides an overview of advanced policy search methods that build upon basic policy gradient approaches, with a particular focus on actor-critic methods and deterministic policy gradients. These methods address various limitations of simpler approaches and have been successfully applied to complex control problems with continuous action spaces.
+## Need to know
+
+- What are actor-critic method and how are they different from actor-only methods with baseline?
+- What is the main concept behind PGT actor critic and DPG?
+- What are some challenges when tackling reinforcement learning problems using deep neural networks?
+- Which factors to consider for de-bugging and evaluating deep reinforcement learning methods?

@@ -73,6 +73,7 @@ The natural gradient $\tilde{\nabla}_\theta J(\theta) = F^{-1}\nabla_\theta J(\t
 - It accounts for parameter correlations
 - It never points more than 90° away from the steepest ascent direction, ensuring improvement
 
+![[npg.png | 400]]
 ### Example: Bernoulli Policy
 
 Consider a Bernoulli policy with a single parameter $\theta$: $p(A=1) = \theta, p(A=0) = 1-\theta$
@@ -89,9 +90,9 @@ TRPO, developed by Schulman et al. (2015), builds on the natural gradient concep
 
 The theoretical foundation of TRPO comes from maximizing a lower bound on policy improvement while constraining the policy change:
 
-4. Approximate the return function
-5. Apply a KL-based penalty term to yield a lower bound
-6. Maximize this lower bound within a constraint
+1. Approximate the return function
+2. Apply a KL-based penalty term to yield a lower bound
+3. Maximize this lower bound within a constraint
 
 In practice, TRPO maximizes a linearized approximation of the objective under a KL constraint:
 
@@ -132,6 +133,7 @@ The key insights are:
 
 These methods form the foundation for many modern deep reinforcement learning algorithms and have been crucial for applying RL to complex control problems.
 
+![[methods_summary.png | 500]]
 ## Need to know
 
 - Advantage of covariant representation of distances?

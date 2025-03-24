@@ -94,7 +94,7 @@ Key properties of Q-learning:
 - **Target policy**: Always uses the greedy policy in its update
 - **Convergence**: Converges to $Q^*$ with probability 1 under standard conditions
 
-![[q-learning.png]]
+![[q-learning.png | 400]]
 
 ## Comparing SARSA and Q-Learning
 
@@ -140,7 +140,5 @@ TD learning fits into the value-based, model-free category and represents an imp
 
 ## Need to know
 
-How do temporal difference (TD) methods compare to dynamic
-programming (DP) and Monte Carlo (MC) methods?
-What are SARSA, and Q-learning and what are their
-properties?
+How do temporal difference (TD) methods compare to dynamic programming (DP) and Monte Carlo (MC) methods?
+What are SARSA, and Q-learning and what are their properties?

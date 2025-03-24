@@ -101,9 +101,8 @@ If we find an action that has higher expected return than what our current polic
 ![[policy_iteration.png]]
 
 Policy iteration alternates between policy evaluation and policy improvement:
-
-4. Start with an initial policy $\pi_0$
-5. Repeat until convergence:
+1. Start with an initial policy $\pi_0$
+2. Repeat until convergence:
     - Policy Evaluation: Compute $v_{\pi_i}$
     - Policy Improvement: Derive $\pi_{i+1}$ by acting greedily with respect to $v_{\pi_i}$
 
@@ -123,18 +122,18 @@ Both are examples of **Generalized Policy Iteration** (GPI), which describes the
 Dynamic programming requires complete knowledge of the MDP, including all transition probabilities. In reinforcement learning, we typically don't have this knowledge and must learn from experience.
 
 This leads to three main approaches in RL:
-6. **Model-free, value-based methods**: Learn value functions directly (lectures 3-7)
-7. **Model-free, policy-based methods**: Learn policies directly (lectures 8-10)
-8. **Model-based methods**: Learn a model of the environment (lecture 11)
+1. **Model-free, value-based methods**: Learn value functions directly (lectures 3-7)
+2. **Model-free, policy-based methods**: Learn policies directly (lectures 8-10)
+3. **Model-based methods**: Learn a model of the environment (lecture 11)
 
 ## Key Takeaways
-9. **Optimal policy and value function**: The optimal policy achieves the maximum expected return; the optimal value function gives the expected return when following the optimal policy.
-10. **Algorithms**:
+1. **Optimal policy and value function**: The optimal policy achieves the maximum expected return; the optimal value function gives the expected return when following the optimal policy.
+2. **Algorithms**:
     - Value Iteration: Compute the optimal value function directly
     - Policy Evaluation: Compute the value function for a given policy
     - Policy Iteration: Alternate between evaluation and improvement
-11. **Time horizons**: Each iteration in value iteration effectively computes values for a longer time horizon.
-12. **Terminal states**: States from which no further transitions occur; they terminate an episode and have zero value for all future time steps.
+3. **Time horizons**: Each iteration in value iteration effectively computes values for a longer time horizon.
+4. **Terminal states**: States from which no further transitions occur; they terminate an episode and have zero value for all future time steps.
 
 These dynamic programming methods form the conceptual foundation for many reinforcement learning algorithms, even those that don't require explicit knowledge of the environment's dynamics.
 
