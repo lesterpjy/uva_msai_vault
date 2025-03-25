@@ -183,11 +183,11 @@ The choice of approach depends on the specific requirements of the task, availab
 
 Partial observable MDP’s do not have all relevant information from history in the observations. Thus, an internal state has to be extracted from the history.
 Trade-off between various factors:
-• Compactness
-• Markov property
-• Interpretability
-• Computational complexity of updates, learning
-• Ease of implementation
+- Compactness
+- Markov property
+- Interpretability
+- Computational complexity of updates, learning
+- Ease of implementation
 
 ## Need to know
 - What is a state update function and why do we need it?

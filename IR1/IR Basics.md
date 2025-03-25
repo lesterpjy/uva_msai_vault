@@ -1,173 +1,230 @@
-## 1. Historical Development of Information Retrieval
+## Brief History of IR
 
-### Evolution of Information Storage
+Information Retrieval (IR) has evolved from traditional library systems to modern search engines. The historical progression shows how information organization has changed to accommodate growing volumes of knowledge:
 
-- Libraries have served as knowledge repositories throughout human civilization
-- Notable examples show exponential growth in document collections:
-    - Library of Alexandria (280 BC): 700,000 scrolls
-    - Vatican Library (1500): 3,600 codices
-    - Library of Congress (1990): 100,000,000 documents
-- This growth created the need for effective organization systems
+### Libraries as Knowledge Repositories
 
-### Early Library Organization
+Libraries have served as civilization's knowledge repositories for millennia, with notable examples showing the growth of information volume:
 
-- Traditional libraries used subject catalogues with cards sorted by:
-    - Author
-    - Title
-    - Subject
-- Librarians debated the optimal subject cataloguing methodology
-- As information volume increased, managing these systems became increasingly difficult
+- Library of Alexandria (280 BC): 700,000 scrolls
+- Vatican Library (1500): 3,600 codices
+- Herzog-August-Bibliothek (1661): 116,000 books
+- British Museum (1845): 240,000 books
+- Library of Congress (1990): 100,000,000 documents
 
-### Early Concepts of Modern Information Retrieval
+Early librarians organized information using subject catalogs with various sorting methods:
 
-- Vannevar Bush's "Memex" (1945) - conceptual precursor to modern information systems
-    - Described as "a device in which an individual stores all his books, records, and communications"
-    - Envisioned as a "mechanized private file and library" with "exceeding speed and flexibility"
-    - Represented one of the first concepts of personal information management systems
+- By author
+- By title
+- By subject
 
-## 2. Core IR Models and Their Evolution
+This organizational challenge intensified as collections grew, leading to debates about the best cataloging systems.
 
-### Vector Space Model (G. Salton, 1989)
+### The Memex Concept
 
-- Represents documents and queries as high-dimensional vectors in a word vector space
-- Each word in the vocabulary becomes a dimension in the vector space
-- Words are associated with weights (e.g., term frequency)
-- Relevance is modeled as cosine similarity between query and document vectors
-- Allows ranking of documents based on similarity scores
+A pivotal moment in IR history came with Vannevar Bush's 1945 article "As We May Think" in The Atlantic Monthly. Bush proposed the "memex," a theoretical device for individuals to store all their books, records, and communications. Bush described it as "an enlarged intimate supplement to memory" that could be consulted "with exceeding speed and flexibility." This concept anticipated many features of modern information systems.
 
-### Probabilistic Relevance Model (Robertson & Spärck Jones, 1972)
+### Evolution of IR Models
 
-- Views documents and queries as probability distributions over an underlying word space
-- Models relevance as similarity between these distributions
-- Incorporates statistical properties of term occurrence
-- Pioneered by Karen Spärck Jones who established fundamental concepts for search engines
+Several key models emerged as computing technology advanced:
 
-### Non-textual Signals
+#### Vector Space Model (G. Salton, 1989)
 
-- PageRank (Page, Brin, et al., 1999) - exploits web link structure
-    - Relevance affected by page authority
-    - Pages with many incoming links from authoritative sources rank higher
-- Usage data as a relevance signal
-    - User behavior (clicks, dwell time) indicates document relevance
-    - "Relevance is what other users believe"
+- Represents queries and documents as high-dimensional vectors in word space
+- Associates weights (e.g., frequency) with each word
+- Models relevance as cosine similarity between vectors
 
-### Semantic Search
+#### Probabilistic Relevance Model (Robertson & Spärck Jones, 1972)
 
-- Focuses on entities and their relationships rather than just keywords
-- Incorporates semantic understanding beyond simple term matching
-- Aims to understand the meaning behind queries
+- Views documents and queries as probability distributions over a word space
+- Models relevance as similarity between distributions
+- Karen Spärck Jones made foundational contributions that established the basis for search engines
 
-### Digital Assistants
+#### Non-textual Signals (PageRank, 1999)
 
-- Dialogue-based information access systems
-- Provide natural interaction for accessing/storing knowledge
-- Incorporate personalization based on user history and preferences
+- Exploit link structure of the web to determine page authority
+- Leverage usage data to determine what other users find relevant
+- Page, Brin, Motwani, and Winograd's work on "bringing order to the web"
 
-## 3. How Search Works: The Big Picture
+#### Semantic Search
 
-### Search System Architecture
+- Focuses on entities and their relationships
+- Recognizes that we're surrounded by entities connected by relations
+- Enables more conceptual rather than just keyword-based searching
 
-- Divided into offline and online components
+#### Digital Assistants
 
-#### Offline Components:
+- Implements dialogue systems for natural interaction
+- Provides a more natural way of accessing and storing knowledge
+- Enables personalization of search results
 
-- **Crawling**: Discovering and fetching content
-- **Quality/Freshness Assessment**: Evaluating document quality and recency
-- **Pre-processing & Indexing**: Preparing documents for efficient retrieval
+### The Future of IR (as predicted in 2019)
 
-#### Online Components:
+- Making systems more intelligent through comprehension and combination of information
+- Improving machine reading and text understanding
+- Integrating statistics with semantics
+- Understanding and anticipating user intention
+- Using queries, context, and user preferences for better results
 
-- **Query Understanding**: Interpreting user intent
-- **Ranking Algorithm**: Combining signals to determine document order
-- **Logging**: Recording user interactions for system improvement
-- **Context & Personalization**: Adapting results to user context
+## How Search Works
 
-## 4. Text Representation and Processing
+### Big Picture: Offline vs Online Processing
 
-### Text Representation Forms
+Search systems operate in two main phases:
 
-- **Bag of Words**: Traditional model that ignores word order
-    - "dog bites man" = "man bites dog" in this representation
-    - Simple but loses semantic relationships
-- **Modern Approaches**: Preserve order information in various ways
-- **Representation Units**:
-    - Words, stems, terms, phrases, entities
-    - N-grams (unigrams, bigrams, etc.)
-    - Visual words (for image retrieval): pixels, patches, etc.
+**Offline Processing:**
+- Crawling: Discovering and fetching documents
+- Quality/Freshness assessment: Determining document value and recency
+- Pre-processing and Indexing: Preparing documents for efficient retrieval
 
-### Text Processing Pipeline
-1. **Tokenization**: Forming words from character sequences
-    - Surprisingly complex process with many edge cases
-    - Issues include: word boundaries, hyphenation, apostrophes, special characters, numbers
-2. **Case Normalization**: Converting terms to lowercase
-    - May cause issues with proper nouns (e.g., "Apple" vs "apple")
-3. **Stopword Removal**: Eliminating common words
-    - Frequency-based approach: remove words above frequency threshold
-    - Dictionary-based approach: remove words from a predefined list
-    - Improves efficiency by reducing index size
-4. **Stemming**: Reducing words to their stems
-    - Helps address lexical mismatch problem
+**Online Processing:**
+- Query understanding: Interpreting what the user wants
+- Context analysis: Incorporating user context and preferences
+- Logging: Recording user interactions for system improvement
+- Ranking: Ordering results by relevance
+
+### Text Representation and Processing
+
+#### Text Representation Approaches
+
+Text can be represented in various ways:
+
+- **Syntactic structure**: How words relate grammatically
+- **Semantic structure**: The meaning relationships between terms
+- **Bag of words model**: Historically, text was modeled without considering word order (e.g., "dog bites man" = "man bites dog")
+- **Modern approaches**: Preserve order information in some way
+
+Text can be broken down into different units:
+
+- Stems (root forms of words)
+- Terms (meaningful units)
+- Phrases (word combinations)
+- Entities (named objects, people, places)
+- N-grams (sequences of n consecutive words)
+- Visual words (for image retrieval)
+
+#### Text Processing Pipeline
+
+1. **Tokenization**: Dividing text into separate words/tokens
+    
+    - Surprisingly complex in English and even more challenging in other languages
+    - Challenges include handling:
+        - Multi-word combinations (e.g., "ben e king", "world war II")
+        - Hyphenations (e.g., "e-bay", "winston-salem")
+        - Special characters in tags, URLs, and code
+        - Capitalization (e.g., "Bush" vs "bush", "Apple" vs "apple")
+        - Apostrophes (e.g., "o'donnell", "can't", "80's")
+        - Numbers (e.g., "quicktime 6.5 pro")
+        - Periods (e.g., "Ph.D.", "cs.umass.edu")
+2. **Case normalization**: Converting terms to lowercase
+    
+3. **Stopword removal**:
+    - Frequency-based: Remove words with frequency higher than a threshold
+    - Dictionary-based: Remove words from a predefined list
+    - Example: In "to be or not to be," all words would typically be stopwords
+4. **Stemming**: Reducing words to their root forms
+    - Morphological variations include:
+        - Inflectional (plurals, tenses)
+        - Derivational (verbs to nouns, etc.)
+    - Example: "fishing", "fished", "fisher" → "fish"
     - Types:
-        - Dictionary-based: uses lists of related words
-        - Algorithmic: uses rules to determine related words (e.g., Porter Stemmer)
-    - Example: "running," "runs," "runner" → "run"
-    - Can produce errors: both false positives and false negatives
-    - Generally provides modest but significant effectiveness improvement
-5. **Phrase Detection**:
-    - Methods include:
-        - Using part-of-speech taggers to identify noun phrases
-        - Finding frequent n-grams
-        - Query-time phrase detection with position-aware indexes
+        - Dictionary-based: Uses lists of related words
+        - Algorithmic: Uses rules to determine related words
+    - Porter Stemmer:
+        - Classic algorithm from the 1970s
+        - Applies a series of rules to remove suffixes
+        - Produces stems, not necessarily valid words
+        - Has known errors (false positives like "organization"→"organ" and false negatives like "european"→"europe")
+5. **Phrase detection**:
+    
+    - Noun phrase detection using part-of-speech tagging
+    - N-gram identification (bigrams, trigrams)
+    - Query-time phrase processing using positional information
 
-## 5. Boolean Search and Indexing
+### Boolean Search and Indexing
 
-### Boolean Search Model
+#### Boolean Search Model
 
 - Documents represented as sets of words
-- Queries are Boolean expressions with AND, OR, NOT operators
-- Returns exact matches (no ranking)
+- Queries expressed as Boolean expressions (AND, OR, NOT with brackets)
+- Example: "[[Rio & Brazil] | [Hilo & Hawaii]] & hotel & !Hilton]"
+- Output is an unranked set of matching documents
 
-#### Pros:
+**Pros:**
 
 - Easy to understand for simple queries
-- Clean formalism with precise semantics
-- Very rigid: AND means all; OR means any
+- Clean formalism with rigid logic (AND means all, OR means any)
 
-#### Cons:
+**Cons:**
 
-- Difficult to express complex information needs
-- Hard to control result set size
-- No ranking of results (all matches satisfy query equally)
+- Difficult to express complex user requests
+- Hard to control the number of retrieved documents
+- No inherent way to rank results (all matches satisfy the query equally)
+
+#### Inverted Index
+
+The inverted index is a crucial data structure for efficient retrieval:
+
+- For each term, stores a list of documents containing that term
+- Each document is identified by a numeric ID
+- Structure:
+    
+    ```
+    <term, number of docs containing term;doc1: position1, position2 ... ;doc2: position1, position2 ... ;etc.>
+    ```
+    
+
+**Processing AND queries:**
+
+- Locate each term in the dictionary
+- Retrieve their postings (document lists)
+- "Merge" the postings by taking their intersection
+- For positional queries (phrases like "to be or not to be"), the merge algorithm works recursively at the document level
+
+**Constructing the inverted index:**
+1. In-memory approach:
+    
+    - Simple but limited by available memory
+    - Not easily parallelizable
+2. Merge-based approach:
+    
+    - Build partial indexes until memory runs out
+    - Write partial indexes to disk
+    - Merge them into a complete index
+    - Maintain alphabetical order for efficient lookup
+3. Distributed indexing:
+    
+    - Uses frameworks like MapReduce
+    - Mappers process individual documents
+    - Reducers combine and sort term occurrences
+
+## Key Challenges in IR
+
+Throughout the slides, several core challenges are highlighted:
+
+4. **Scalability and efficiency (C1)**: Handling massive document collections and query volumes
+    
+    - Text processing reduces dimensionality
+    - Inverted indexes enable efficient retrieval
+    - Distributed processing handles scale
+5. **Lexical mismatch (C3)**: Bridging the gap between query and document vocabulary
+    
+    - Stemming helps connect word variations
+    - Stopword removal focuses on meaningful terms
+    - Phrase detection captures multi-word concepts
+
+## Takeaways
+
+### Text Processing
+
+- Critical for both scalability and addressing lexical mismatch
+- Involves complex tradeoffs between effectiveness and efficiency
+- Must be carefully tuned for the specific retrieval task
 
 ### Inverted Index
 
-- Fundamental data structure for efficient retrieval
-- For each term, store a list of documents containing it
-- Postings: lists of document IDs associated with each term
-- Efficient for retrieval but computationally expensive to build
+- Fundamental data structure enabling efficient retrieval
+- Stores all information needed for document retrieval
+- Construction is computationally expensive but essential for search performance
 
-#### Query Processing with Inverted Index:
-
-- For AND queries: intersect document sets
-- For OR queries: union document sets
-- For NOT queries: complement document sets
-- Process uses merge algorithms on sorted lists for efficiency
-- Time complexity: O(x+y) for merging lists of length x and y
-
-#### Positional Indexes:
-
-- Enhanced inverted index that stores word positions
-- Enables phrase queries like "stanford university"
-- Format: `<term, doc_count; doc1: pos1, pos2...; doc2: pos1, pos2...>`
-- Larger but more powerful than basic inverted indexes
-
-### Inverted Index Construction
-
-- **In-memory indexing**: Simple but limited by memory capacity
-- **Merge-based indexing**: Build partial indexes and merge them
-    - Build index until memory is full
-    - Write partial index to disk
-    - Merge partial indexes
-- **Distributed indexing**: Using frameworks like MapReduce
-    - Mappers process documents and emit (term, docID) pairs
-    - Reducers aggregate postings for each term
+Modern search systems build upon these foundations, incorporating additional signals (like link structure and user behavior) to improve relevance and meet evolving user expectations.
