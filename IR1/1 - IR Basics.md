@@ -72,11 +72,11 @@ Several key models emerged as computing technology advanced:
 
 Search systems operate in two main phases:
 
+<span style="color:rgb(172, 96, 230)">CHEATSHEET</span>
 **Offline Processing:**
 - Crawling: Discovering and fetching documents
 - Quality/Freshness assessment: Determining document value and recency
 - Pre-processing and Indexing: Preparing documents for efficient retrieval
-
 **Online Processing:**
 - Query understanding: Interpreting what the user wants
 - Context analysis: Incorporating user context and preferences
@@ -88,14 +88,14 @@ Search systems operate in two main phases:
 #### Text Representation Approaches
 
 Text can be represented in various ways:
-
+<span style="color:rgb(172, 96, 230)">CHEATSHEET</span>
 - **Syntactic structure**: How words relate grammatically
 - **Semantic structure**: The meaning relationships between terms
 - **Bag of words model**: Historically, text was modeled without considering word order (e.g., "dog bites man" = "man bites dog")
 - **Modern approaches**: Preserve order information in some way
 
 Text can be broken down into different units:
-
+<span style="color:rgb(172, 96, 230)">CHEATSHEET</span>
 - Stems (root forms of words)
 - Terms (meaningful units)
 - Phrases (word combinations)
@@ -104,11 +104,10 @@ Text can be broken down into different units:
 - Visual words (for image retrieval)
 
 #### Text Processing Pipeline
-
+<span style="color:rgb(172, 96, 230)">CHEATSHEET</span>
 1. **Tokenization**: Dividing text into separate words/tokens
-    
     - Surprisingly complex in English and even more challenging in other languages
-    - Challenges include handling:
+    - <span style="color:rgb(172, 96, 230)">Challenges</span> include handling:
         - Multi-word combinations (e.g., "ben e king", "world war II")
         - Hyphenations (e.g., "e-bay", "winston-salem")
         - Special characters in tags, URLs, and code
@@ -136,64 +135,67 @@ Text can be broken down into different units:
         - Produces stems, not necessarily valid words
         - Has known errors (false positives like "organization"→"organ" and false negatives like "european"→"europe")
 5. **Phrase detection**:
-    
-    - Noun phrase detection using part-of-speech tagging
+    - Noun phrase detection using part-of-speech tagging (sequence of nouns/ adjectives followed by nouns)
     - N-gram identification (bigrams, trigrams)
-    - Query-time phrase processing using positional information
+    - Query-time phrase detection using index with word positions
 
 ### Boolean Search and Indexing
 
 #### Boolean Search Model
 
+![[bool_search_model.png | 450]]
+
 - Documents represented as sets of words
-- Queries expressed as Boolean expressions (AND, OR, NOT with brackets)
+- <span style="color:rgb(172, 96, 230)">Queries expressed as Boolean expressions (AND, OR, NOT with brackets)</span>
 - Example: "[[Rio & Brazil] | [Hilo & Hawaii]] & hotel & !Hilton]"
 - Output is an unranked set of matching documents
 
-**Pros:**
-
+**<span style="color:rgb(172, 96, 230)">Pros</span>:**
 - Easy to understand for simple queries
 - Clean formalism with rigid logic (AND means all, OR means any)
 
-**Cons:**
-
+**<span style="color:rgb(172, 96, 230)">Cons</span>:**
 - Difficult to express complex user requests
 - Hard to control the number of retrieved documents
 - No inherent way to rank results (all matches satisfy the query equally)
+- Cannot build matrix on bigger collections.
 
 #### Inverted Index
 
-The inverted index is a crucial data structure for efficient retrieval:
+The <span style="color:rgb(172, 96, 230)">inverted index</span> is a crucial data structure for efficient retrieval:
 
 - For each term, stores a list of documents containing that term
 - Each document is identified by a numeric ID
 - Structure:
-    
-    ```
-    <term, number of docs containing term;doc1: position1, position2 ... ;doc2: position1, position2 ... ;etc.>
-    ```
-    
+
+![[inverted_index.png | 400]]
 
 **Processing AND queries:**
 
 - Locate each term in the dictionary
 - Retrieve their postings (document lists)
-- "Merge" the postings by taking their intersection
-- For positional queries (phrases like "to be or not to be"), the merge algorithm works recursively at the document level
+- "Merge" the postings by taking their <span style="color:rgb(172, 96, 230)">intersection</span> (Merge takes $O(x+y)$ for posting sizes of $x$ and $y$)
+- For positional queries (phrases like "to be or not to be"):
+	- $<term:docs>$ no longer sufficient.
+	- Use <span style="color:rgb(172, 96, 230)">positional indexes</span>:
+		- ![[positional_indexes.png | 300]]
+		- ![[positional_index_example.png | 400]]
+	- Use merge algorithm recursively at the document level
 
 **Constructing the inverted index:**
+
+![[inverted_index_construction.png | 400]]
+
+<span style="color:rgb(172, 96, 230)">CHEATSHEET</span>
 1. In-memory approach:
-    
     - Simple but limited by available memory
     - Not easily parallelizable
 2. Merge-based approach:
-    
     - Build partial indexes until memory runs out
     - Write partial indexes to disk
     - Merge them into a complete index
     - Maintain alphabetical order for efficient lookup
 3. Distributed indexing:
-    
     - Uses frameworks like MapReduce
     - Mappers process individual documents
     - Reducers combine and sort term occurrences
@@ -202,13 +204,12 @@ The inverted index is a crucial data structure for efficient retrieval:
 
 Throughout the slides, several core challenges are highlighted:
 
-4. **Scalability and efficiency (C1)**: Handling massive document collections and query volumes
-    
+<span style="color:rgb(172, 96, 230)">CHEATSHEET</span>
+1. **Scalability and efficiency (C1)**: Handling massive document collections and query volumes
     - Text processing reduces dimensionality
     - Inverted indexes enable efficient retrieval
     - Distributed processing handles scale
-5. **Lexical mismatch (C3)**: Bridging the gap between query and document vocabulary
-    
+2. **Lexical mismatch (C3)**: Bridging the gap between query and document vocabulary
     - Stemming helps connect word variations
     - Stopword removal focuses on meaningful terms
     - Phrase detection captures multi-word concepts
@@ -220,7 +221,6 @@ Throughout the slides, several core challenges are highlighted:
 - Critical for both scalability and addressing lexical mismatch
 - Involves complex tradeoffs between effectiveness and efficiency
 - Must be carefully tuned for the specific retrieval task
-
 ### Inverted Index
 
 - Fundamental data structure enabling efficient retrieval

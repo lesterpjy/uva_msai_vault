@@ -18,7 +18,7 @@ The slides identify two main types of encoders:
 
 ### 1. Cross-encoders
 
-Cross-encoders process the query and document together in a single pass through a neural network. This allows the model to directly capture interactions between query and document terms at every layer of the network. While this approach generally achieves higher accuracy, it comes with a significant computational cost since each query-document pair must be processed separately.
+Cross-encoders process the query and document together in a single pass through a neural network. This allows the model to directly capture interactions between query and document terms at every layer of the network. While this approach generally <span style="color:rgb(172, 96, 230)">achieves higher accuracy</span>, it comes with a <span style="color:rgb(172, 96, 230)">significant computational cost since each query-document pair must be processed separately</span>.
 
 ### 2. Bi-encoders
 
@@ -28,7 +28,7 @@ Bi-encoders use separate encoding processes for the query and document:
 - Another encoder (or the same one) processes the document to create a document representation: $\eta(d)$
 - A similarity function $\phi$ then computes a relevance score between these representations: $\phi(\eta(q), \eta(d))$
 
-The key advantage of bi-encoders is that document representations can be pre-computed and indexed, making retrieval much more efficient at query time.
+The key advantage of bi-encoders is that <span style="color:rgb(172, 96, 230)">document representations can be pre-computed and indexed, making retrieval much more efficient at query time.</span>
 
 ## Sparse vs. Dense Representations
 
@@ -44,10 +44,10 @@ $$\text{BM25}(q, d) = \sum_{t \in q \cap d} \log \frac{N - \text{df}(t) + 0.5}{\
 
 **Advantages of sparse representations:**
 
-1. Fast retrieval using inverted indices, as queries are typically short
-2. Fast computation because the intersection of query and document terms is usually small
+1. <span style="color:rgb(172, 96, 230)">Fast retrieval using inverted indices</span>, as queries are typically short
+2. <span style="color:rgb(172, 96, 230)">Fast computation because the intersection of query and document</span> terms is usually small
 
-**Main disadvantage:** Terms must match exactly, leading to the "lexical mismatch" problem. For example, a query about "fix my air conditioner" might not match a relevant document about "AC repair" because different terms are used to express the same concept.
+**Main disadvantage:** <span style="color:rgb(172, 96, 230)">Terms must match exactly</span>, leading to the "lexical mismatch" problem. For example, a query about "fix my air conditioner" might not match a relevant document about "AC repair" because different terms are used to express the same concept.
 
 ### Dense Representations
 
@@ -69,17 +69,17 @@ This approach can handle lexical mismatch by learning that "air conditioner" and
 
 ![[brute-force-search.png]]
 
-Brute force won't scale as we're often searching for billions of texts.
+<span style="color:rgb(172, 96, 230)">Brute force won't scale</span> as we're often searching for billions of texts.
 When using dense representations, finding the most relevant documents for a query requires finding the nearest vectors in the embedding space. With large document collections (billions of documents), a brute-force approach that compares the query vector to every document vector becomes impractical.
 ### Approximate Nearest Neighbor Search
 
 ![[approximate_nearest_neighbor_search.png]]
 
-Approximate Nearest Neighbor (ANN) search trades some accuracy for speed:
+<span style="color:rgb(172, 96, 230)">Approximate Nearest Neighbor</span> (ANN) search <span style="color:rgb(172, 96, 230)">trades some accuracy for speed</span>:
 
 - Methods like k-means clustering partition the vector space
-- At query time, the system first identifies which partition(s) the query is closest to
-- Then, it only compares the query to documents within those partitions
+- At query time, the system first <span style="color:rgb(172, 96, 230)">identifies which partition(s) the query is closest to</span>
+- Then, it <span style="color:rgb(172, 96, 230)">only compares the query to documents within those partitions</span>
 
 Popular ANN libraries include Faiss, Annoy, and ScaNN. These methods address IR Challenge 1: Scalability and efficiency.
 
@@ -93,31 +93,34 @@ Distance-based approaches use simple similarity functions between query and docu
 Several important distance-based approaches:
 ### SentenceBERT
 
-SentenceBERT uses siamese BERT networks to create sentence embeddings. It can represent text in several ways:
+<span style="color:rgb(172, 96, 230)">SentenceBERT</span> uses siamese BERT networks to create sentence embeddings. It can represent text in several ways:
 
 - CLS token representation
 - mean of token embeddings
 - max of token embeddings
 
-SentenceBERT can be trained using classification (with a softmax classifier) or regression (using cosine similarity) objectives.
+SentenceBERT can be trained using classification (with a <span style="color:rgb(172, 96, 230)">softmax classifier</span>) or regression (using <span style="color:rgb(172, 96, 230)">cosine similarity</span>) <span style="color:rgb(172, 96, 230)">objectives</span>.
 
 ### Dense Passage Retrieval (DPR)
 
-DPR is similar to SentenceBERT but uses:
+<span style="color:rgb(172, 96, 230)">DPR</span> is similar to SentenceBERT but uses:
 
-- Inner product as the similarity function (rather than cosine similarity)
-- CLS token representation (rather than mean or max pooling)
-- Contrastive learning with InfoNCE loss
+- <span style="color:rgb(172, 96, 230)">Inner product as the similarity function</span> (rather than cosine similarity)
+- <span style="color:rgb(172, 96, 230)">CLS token representation</span> (rather than mean or max pooling)
+- <span style="color:rgb(172, 96, 230)">Contrastive learning with InfoNCE loss</span>
 
 The InfoNCE loss formula is:
 
 $$L(q_i, p_i^+, p_{i,1}^-, \ldots, p_{i,n}^-) = -\log \frac{e^{\text{sim}(q_i, p_i^+)}}{e^{\text{sim}(q_i, p_i^+)} + \sum_{j=1}^n e^{\text{sim}(q_i, p_{i,j}^-)}}$$
 
 where $q_i$ is the query, $p_i^+$ is a positive (relevant) passage, and $p_{i,j}^-$ are negative (non-relevant) passages.
-
+<span style="color:rgb(172, 96, 230)">Selection of negatives</span>:
+- random
+- non-relevant docs by BM25
+- In batch examples
 ### Hard Negatives
 
-The effectiveness of contrastive learning depends significantly on the quality of negative examples. "Hard negatives" are non-relevant documents that are difficult to distinguish from relevant ones.
+The effectiveness of contrastive learning depends significantly on the <span style="color:rgb(172, 96, 230)">quality of negative examples</span>. "Hard negatives" are <span style="color:rgb(172, 96, 230)">non-relevant documents that are difficult to distinguish from relevant ones</span>.
 
 For example, with a query about "Black Bear Attacks", potential negative examples might include:
 
@@ -133,49 +136,49 @@ The best hard negatives are topically related but not relevant to the specific i
 
 ![[ance_training.png | 500]]
 
-ANCE improves on DPR by using better hard negatives:
+<span style="color:rgb(172, 96, 230)">ANCE</span> improves on DPR by using better hard negatives:
 
 - It regularly checkpoints the model during training
-- Uses the model from the previous checkpoint to identify hard negatives for the current training iteration
-- Alternatively, a more efficient approach caches negative representations and slowly updates the cache
+- <span style="color:rgb(172, 96, 230)">Uses the model from the previous checkpoint to identify hard negatives</span> for the current training iteration
+- Alternatively, a more efficient approach <span style="color:rgb(172, 96, 230)">caches negative representations and slowly updates the cache</span>
 
 This approach significantly outperforms basic DPR in experiments.
 
 ### Topic-Aware Sampling
 
-Another approach composes training batches such that in-batch negatives are hard (from similar topics). This is competitive with ANCE but simpler to implement.
+Another approach <span style="color:rgb(172, 96, 230)">composes training batches such that in-batch negatives are hard</span> (from similar topics). This is competitive with ANCE but simpler to implement.
 
 ### CLEAR (Complementing LEexical Approaches with Semantic Residual embedding)
 
-CLEAR is designed to complement traditional lexical matching (like BM25):
+<span style="color:rgb(172, 96, 230)">CLEAR</span> is designed to complement traditional lexical matching (like BM25):
 
 - It prepends special tokens to queries and documents (QRY or DOC)
-- Uses an exact matching component alongside the dense embeddings
+- Uses an exact matching component (<span style="color:rgb(172, 96, 230)">lexical features</span>) alongside the <span style="color:rgb(172, 96, 230)">dense embeddings features</span>
 - Focuses on "matching errors" as negatives
-- Uses a dynamic hinge loss margin
+- Uses a <span style="color:rgb(172, 96, 230)">dynamic hinge loss margin</span>
 
 ## Comparison-based Approaches
 
-Comparison-based approaches use more sophisticated interaction patterns between query and document terms, rather than just comparing global representations.
+Comparison-based approaches use more sophisticated <span style="color:rgb(172, 96, 230)">interaction patterns</span> between query and document terms, <span style="color:rgb(172, 96, 230)">rather than just comparing global representations</span>.
 
 ### ColBERT
 
 ![[colbert.png | 350]]
 
-ColBERT uses a "late interaction" mechanism:
+<span style="color:rgb(172, 96, 230)">ColBERT</span> uses a "late interaction" mechanism:
 
 - Encodes each token in the query and document separately
-- Computes a "MaxSim" operator that finds the maximum similarity for each query token with any document token
-- Sums these maximum similarities to get the final score:
+- Computes a "MaxSim" operator that <span style="color:rgb(172, 96, 230)">finds the maximum similarity for each query token with any document token</span>
+- <span style="color:rgb(172, 96, 230)">Sums these maximum similarities</span> to get the final score:
 
 $$s_{q,d} = \sum_{i \in \eta(q)} \max_{j \in \eta(d)} \eta(q)_i \cdot \eta(d)_j^T$$
 
 For example, with a query "green ocean turtle" and a document containing "reptiles such as sea turtles spend most of...", ColBERT would:
 
-1. Find the maximum similarity of "green" with any document token
-2. Find the maximum similarity of "ocean" with any document token
-3. Find the maximum similarity of "turtle" with any document token
-4. Sum these maximal similarities
+4. Find the maximum similarity of "green" with any document token
+5. Find the maximum similarity of "ocean" with any document token
+6. Find the maximum similarity of "turtle" with any document token
+7. Sum these maximal similarities
 
 ![[colbert_score.png | 500]]
 
@@ -185,19 +188,19 @@ ColBERT is:
 - Achieves strong performance (MRR@10 of 0.360)
 - However, it's not immediately compatible with standard ANN indices
 
-In practice, ColBERT uses a two-stage retrieval pipeline:
+In practice, <span style="color:rgb(172, 96, 230)">ColBERT uses the reranking pipeline</span>:
 1. Identify candidates using ANN with query token embeddings
 2. Rerank these candidates using the MaxSim mechanism
 
 ## Robustness & Out-of-domain Evaluation
 
-An important challenge for neural IR methods is robustness across different domains and tasks. The BEIR benchmark evaluates retrieval models on diverse datasets outside their training domain.
+An important challenge for neural IR methods is robustness across different domains and tasks. The <span style="color:rgb(172, 96, 230)">BEIR benchmark evaluates retrieval models on diverse datasets outside their training domain</span>.
 
 Key findings:
 
-- Neural IR methods are generally less robust than traditional statistical methods when applied to new domains
+- <span style="color:rgb(172, 96, 230)">Neural IR methods are generally less robust than traditional statistical methods</span> when applied to new domains
 - Single-vector dense retrieval methods (like DPR) are the least robust
-- Methods that use token-level interactions (like ColBERT) or combine dense and sparse approaches show better cross-domain performance
+- Methods that use token-level interactions (like ColBERT) or <span style="color:rgb(172, 96, 230)">combine dense and sparse approaches show better cross-domain performance</span>
 - Approaches are improving gradually (e.g., newer methods like DRAGON show better robustness)
 
 ## Conclusion
