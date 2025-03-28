@@ -130,6 +130,7 @@ BERT's input is the sum of:
 	- Learned sparse retrieval
 
 #### Approaches
+<span style="color:rgb(172, 96, 230)">CHEATSHEET</span>
 ##### Cross Encoder
 
 ![[cross-encoder.png | 400]]

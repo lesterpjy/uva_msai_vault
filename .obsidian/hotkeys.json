@@ -60,5 +60,14 @@
       ],
       "key": "ArrowUp"
     }
+  ],
+  "colored-text:remove-color": [
+    {
+      "modifiers": [
+        "Alt",
+        "Shift"
+      ],
+      "key": "V"
+    }
   ]
 }

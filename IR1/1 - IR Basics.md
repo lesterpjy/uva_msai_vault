@@ -22,7 +22,7 @@ This organizational challenge intensified as collections grew, leading to debate
 
 ### The Memex Concept
 
-A pivotal moment in IR history came with Vannevar Bush's 1945 article "As We May Think" in The Atlantic Monthly. Bush proposed the "memex," a theoretical device for individuals to store all their books, records, and communications. Bush described it as "an enlarged intimate supplement to memory" that could be consulted "with exceeding speed and flexibility." This concept anticipated many features of modern information systems.
+A pivotal moment in IR history came with Vannevar Bush's 1945 article "As We May Think" in The Atlantic Monthly. Bush proposed the "<span style="color:rgb(172, 96, 230)">memex</span>," a <span style="color:rgb(172, 96, 230)">theoretical device for individuals to store all their books</span>, records, and communications. Bush described it as "an enlarged intimate supplement to memory" that could be consulted "with exceeding speed and flexibility." This concept anticipated many features of modern information systems.
 
 ### Evolution of IR Models
 

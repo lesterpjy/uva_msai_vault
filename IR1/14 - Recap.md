@@ -271,14 +271,3 @@ The course concludes by highlighting active research areas:
 13. Robust retrieval against adversarial attacks and bias
 14. Interpretability and manipulations of retrieval systems
 15. Agentic information access with user and knowledge agents
-
-## Exam Information
-
-From the slides, the exam will be:
-
-- In-person on a provided computer
-- You may bring a cheat sheet (requirements specified on Canvas)
-- A simple calculator is permitted
-- Location and time available on DataNose
-
-Is there any specific area from this overview that you'd like me to explain in more detail for your exam preparation?

@@ -93,6 +93,8 @@ Distance-based approaches use simple similarity functions between query and docu
 Several important distance-based approaches:
 ### SentenceBERT
 
+![[sentence-bert.png | 400]]
+
 <span style="color:rgb(172, 96, 230)">SentenceBERT</span> uses siamese BERT networks to create sentence embeddings. It can represent text in several ways:
 
 - CLS token representation
@@ -175,10 +177,10 @@ $$s_{q,d} = \sum_{i \in \eta(q)} \max_{j \in \eta(d)} \eta(q)_i \cdot \eta(d)_j^
 
 For example, with a query "green ocean turtle" and a document containing "reptiles such as sea turtles spend most of...", ColBERT would:
 
-4. Find the maximum similarity of "green" with any document token
-5. Find the maximum similarity of "ocean" with any document token
-6. Find the maximum similarity of "turtle" with any document token
-7. Sum these maximal similarities
+1. Find the maximum similarity of "green" with any document token
+2. Find the maximum similarity of "ocean" with any document token
+3. Find the maximum similarity of "turtle" with any document token
+4. Sum these maximal similarities
 
 ![[colbert_score.png | 500]]
 

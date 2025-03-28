@@ -301,29 +301,29 @@ This reveals that it's also a form of <span style="color:rgb(172, 96, 230)">inte
 
 Beyond the core smoothing techniques, language modeling approaches in IR have been extended in several directions:
 #### Different Event Models
-4. **Multinomial**: The standard approach where each word position is a sampling event
-5. **Multiple Bernoulli**: Models presence/absence of words rather than counts
-6. **Poisson**: Models word occurrences as Poisson processes
+1. **Multinomial**: The standard approach where each word position is a sampling event
+2. **Multiple Bernoulli**: Models presence/absence of words rather than counts
+3. **Poisson**: Models word occurrences as Poisson processes
 #### Diverse Smoothing Strategies
-7. **Hidden Markov Models**: Using state transitions to capture context
-8. **IDF-like Reference Models**: Incorporating inverse document frequency intuitions
-9. **Chen & Goodman Techniques**: Including Katz backoff, Witten-Bell smoothing, etc.
+1. **Hidden Markov Models**: Using state transitions to capture context
+2. **IDF-like Reference Models**: Incorporating inverse document frequency intuitions
+3. **Chen & Goodman Techniques**: Including Katz backoff, Witten-Bell smoothing, etc.
 #### Different Priors
-10. **Link Information**: Using hyperlink structure as prior belief
-11. **Temporal Information**: Incorporating document recency as a prior
-12. **PageRank**: Using web graph authority as a prior for document importance
+1. **Link Information**: Using hyperlink structure as prior belief
+2. **Temporal Information**: Incorporating document recency as a prior
+3. **PageRank**: Using web graph authority as a prior for document importance
 #### Capturing Term Dependencies
-13. **N-grams**: Using bigrams/trigrams to capture local word patterns
-14. **Grammatical Dependencies**: Modeling syntactic relationships between terms
-15. **Positional Language Models**: Incorporating word proximity information
-16. **Markov Random Fields**: Modeling arbitrary dependencies between query terms
+1. **N-grams**: Using bigrams/trigrams to capture local word patterns
+2. **Grammatical Dependencies**: Modeling syntactic relationships between terms
+3. **Positional Language Models**: Incorporating word proximity information
+4. **Markov Random Fields**: Modeling arbitrary dependencies between query terms
 
 ### Practical Considerations
 When implementing language model approaches for IR:
-17. **Parameter Tuning**: The smoothing parameters (λ in Jelinek-Mercer, μ in Dirichlet) significantly affect performance and should be tuned for specific collections and query types.
-18. **Document Length Normalization**: Dirichlet smoothing inherently addresses document length issues, making it often preferred for heterogeneous collections.
-19. **Query Formulation**: Language models can treat queries differently (as samples from relevant documents or as generative specifications).
-20. **Computational Efficiency**: Many smoothing techniques increase computational requirements, requiring efficient implementations for large-scale retrieval.
+1. **Parameter Tuning**: The smoothing parameters (λ in Jelinek-Mercer, μ in Dirichlet) significantly affect performance and should be tuned for specific collections and query types.
+2. **Document Length Normalization**: Dirichlet smoothing inherently addresses document length issues, making it often preferred for heterogeneous collections.
+3. **Query Formulation**: Language models can treat queries differently (as samples from relevant documents or as generative specifications).
+4. **Computational Efficiency**: Many smoothing techniques increase computational requirements, requiring efficient implementations for large-scale retrieval.
 
 ## Positional Language Models
 Positional language models introduce the concept of term position and proximity:
@@ -343,6 +343,7 @@ Where $k(j, i)$ is the kernel function determining how much influence position i
 $$p(w|D, i) = \frac{\text{tf}'(w, i; d)}{\sum_{w' \in V} \text{tf}'(w', i; d)}$$
 
 For ranking documents, two strategies can be used:
+
 1. **Best position strategy**: Score document by the position with the maximum score
 2. **Average top-k position strategy**: Use the average of the top k positions
 
@@ -351,10 +352,11 @@ The intuition is that <span style="color:rgb(172, 96, 230)">documents where quer
 ## Summary and Take-aways
 
 In information retrieval, we've covered several important retrieval models:
-3. **TF-IDF**: A vector space model that balances term frequency with inverse document frequency to determine term importance.
-4. **BM25**: A probabilistic model that extends TF-IDF with better term frequency saturation and document length normalization.
-5. **Language Models**: Probabilistic models that score documents based on the likelihood of generating the query, with various smoothing techniques to handle unseen terms.
-6. **Positional Language Models**: Extensions that incorporate term proximity to improve retrieval quality.
+
+1. **TF-IDF**: A vector space model that balances term frequency with inverse document frequency to determine term importance.
+2. **BM25**: A probabilistic model that extends TF-IDF with better term frequency saturation and document length normalization.
+3. **Language Models**: Probabilistic models that score documents based on the likelihood of generating the query, with various smoothing techniques to handle unseen terms.
+4. **Positional Language Models**: Extensions that incorporate term proximity to improve retrieval quality.
 
 BM25 and Language Models remain the dominant traditional retrieval models used in search engines and IR systems today, although they are increasingly being enhanced or replaced by neural approaches in some applications.
 

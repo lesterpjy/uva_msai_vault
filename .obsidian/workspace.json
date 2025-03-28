@@ -4,48 +4,67 @@
     "type": "split",
     "children": [
       {
-        "id": "46fe2fdf9c8dc54a",
+        "id": "59afd0537e079c19",
         "type": "tabs",
         "children": [
           {
-            "id": "68570a8bafd003bb",
+            "id": "a8a3a8cb9d8870cc",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IR1/Neural Information Retrieval/6 - Learned Sparse Retrieval.md",
+                "file": "IR1/12 - Conversational Search.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "6 - Learned Sparse Retrieval"
+              "title": "12 - Conversational Search"
             }
           },
           {
-            "id": "d99f173f71a5b486",
+            "id": "c003065578a3443e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IR1/Neural Information Retrieval/4 - Intro & Reranking Methods.md",
+                "file": "IR1/14 - Recap.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "4 - Intro & Reranking Methods"
+              "title": "14 - Recap"
             }
           },
           {
-            "id": "151dfd1dff84d439",
+            "id": "00f45dffef2692c4",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "IR1/10 - Counterfactual Learning to Rank.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "10 - Counterfactual Learning to Rank"
+            }
+          },
+          {
+            "id": "1df643c68a3bb6de",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "IR1/11 - Introduction to Adversarial Machine Learning.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "11 - Introduction to Adversarial Machine Learning"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -202,34 +221,36 @@
       "quiz-generator:Open generator": false
     }
   },
-  "active": "68570a8bafd003bb",
+  "active": "c003065578a3443e",
   "lastOpenFiles": [
-    "IR1/Neural Information Retrieval/4 - Intro & Reranking Methods.md",
-    "IR1/Neural Information Retrieval/5 - Dense Retrieval.md",
+    "IR1/11 - Introduction to Adversarial Machine Learning.md",
+    "IR1/14 - Recap.md",
+    "IR1/10 - Counterfactual Learning to Rank.md",
+    "IR1/12 - Conversational Search.md",
+    "IR1/3 - Evaluation.md",
+    "IR1/9 - Learning to Rank.md",
     "IR1/Neural Information Retrieval/6 - Learned Sparse Retrieval.md",
+    "IR1/Neural Information Retrieval/5 - Dense Retrieval.md",
+    "IR1/8 - Generative Information Retrieval.md",
     "IR1/7 - Retrieval-Augmented Generation.md",
+    "IR1/Neural Information Retrieval/4 - Intro & Reranking Methods.md",
+    "IR1/2 - Retrieval Models.md",
+    "IR1/1 - IR Basics.md",
+    "IR1/images/conversational_search_workflow.png",
+    "IR1/images/greedy-adversarial-search.png",
+    "IR1/images/perturbation_types.png",
+    "IR1/images/target-oriented-attack.png",
+    "IR1/images/paired_attack.png",
+    "IR1/13 - Explainability and Interpretability in Information Retrieval.md",
+    "IR1/images/sentence-bert.png",
+    "IR1/images/rag-core-challenges.png",
     "IR1/images/learned-sparse-retrieval.png",
     "IR1/images/dense-retrieval.png",
     "IR1/images/cross-encoder.png",
-    "IR1/images/basic_embedding_ranking.png",
-    "IR1/3 - Evaluation.md",
-    "IR1/images/nugget_all_score.png",
-    "IR1/2 - Retrieval Models.md",
-    "IR1/images/estimation_theta_d.png",
-    "IR1/1 - IR Basics.md",
-    "IR1/Counterfactual Learning to Rank.md",
-    "IR1/Explainability and Interpretability in Information Retrieval.md",
-    "IR1/Recap.md",
-    "IR1/images/inverted_index_construction.png",
-    "IR1/images/positional_index_example.png",
-    "IR1/images/positional_indexes.png",
-    "IR1/images/inverted_index.png",
     "Assignments.md",
     "Prompt Whiteboard.md",
     "README.md",
     "Whiteboard.md",
-    "IR1/Generative Information Retrieval.md",
-    "IR1/Learning to Rank.md",
     "RL/13 - Partial Observability.md",
     "RL/12 - Model-based Reinforcement Learning.md",
     "RL/11 - Policy Search Methods.md",
@@ -237,9 +258,6 @@
     "RL/5 - Tabular Learning to Approximations.md",
     "RL/4 - Temporal Difference Learning.md",
     "RL/10 - Advanced Policy Search Methods.md",
-    "RL/9 - Policy-based Methods.md",
-    "RL/8 - Deep Reinforcement Learning (Value based Methods).md",
-    "RL/6 - On-policy TD with Approximation.md",
     "RL/quiz",
     "Untitled 1.canvas",
     "Untitled.canvas",
